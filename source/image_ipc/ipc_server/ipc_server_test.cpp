@@ -1,4 +1,4 @@
-#include "rpc_image/rpc_server/rpc_server.h"
+#include "image_ipc/ipc_server/ipc_server.h"
 
 #include <iostream>
 #include <fstream>
@@ -6,26 +6,26 @@
 #include "google_test/testing_def.h"
 #include "external_libraries/googletest/include/gtest/gtest.h"
 
-namespace rpc_server {
+namespace ipc_server {
 
 namespace {
 
 
 }  // namespace
 
-class RpcServerTest : public testing::Test {
+class IpcServerTest : public testing::Test {
 public:
-  RpcServerTest() {}
+  IpcServerTest() {}
 
 protected:
-    RpcServer rpc_server_;
+    IpcServer ipc_server_;
 
 };
 
-TEST_F(RpcServerTest, ConstructDestruct) {
+TEST_F(IpcServerTest, ConstructDestruct) {
 }
 
-TEST_F(RpcServerTest, SendImageTest) {
+TEST_F(IpcServerTest, SendImageTest) {
 
 }
 

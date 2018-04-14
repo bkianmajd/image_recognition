@@ -10,6 +10,6 @@ INCLUDEPATH +=  $${WORKSPACE}/external_libraries/googletest/include
 LIBS += $${WORKSPACE}/external_libraries/googletest/lib/libgtest.a
 
 SOURCES += $${WORKSPACE}/google_test/main.cpp \
-           $${WORKSPACE}/rpc_image/rpc_server/rpc_server_test.cpp
+           $${WORKSPACE}/image_ipc/ipc_server/ipc_server_test.cpp
 
-include(rpc_server.pri)
+include(ipc_server.pri)
