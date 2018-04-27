@@ -9,7 +9,7 @@ INCLUDEPATH += $${WORKSPACE}/external_libraries/googletest/include
 
 LIBS += $${WORKSPACE}/external_libraries/googletest/lib/libgtest.a
 
-SOURCES += $${WORKSPACE}/google_test/main.cpp \
-           $${WORKSPACE}/com_layer/tcp_server_test.cpp
+SOURCES += $${WORKSPACE}/com_layer/integration_test.cpp
 
 include(tcp_server.pri)
+include(tcp_client.pri)
