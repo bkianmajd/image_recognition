@@ -1,5 +1,5 @@
 QT += core
-QT -= gui
+QT += network
 
 CONFIG += c++11
 
@@ -9,7 +9,7 @@ INCLUDEPATH += $${WORKSPACE}/external_libraries/googletest/include
 
 LIBS += $${WORKSPACE}/external_libraries/googletest/lib/libgtest.a
 
-SOURCES += $${WORKSPACE}/google_test/main.cpp
-SOURCES += $${WORKSPACE}com_layer/com_layer_test.cpp
+SOURCES += $${WORKSPACE}/com_layer/main.cpp
 
-include(com_layer.pri)
+include(tcp_server.pri)
+include(tcp_client.pri)

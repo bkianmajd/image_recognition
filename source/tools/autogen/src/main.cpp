@@ -42,6 +42,10 @@ public:
     return ret;
   }
 
+  std::string GetLastFolderName() const {
+    return *(string_paths_.end() -1);
+  }
+
   int GetSize() const {
     return string_paths_.size();
   }
@@ -143,11 +147,11 @@ std::string CreateTestPro(const DirectoryFinder& directory_finder,
 std::string CreatePri(const DirectoryFinder& directory_finder,
                       const std::string& file_input) {
   std::stringstream stream;
-  stream << "HEADERS += " << directory_finder.GetBackSlashWorkspace() <<
-         file_input << "/" << file_input << ".h" << std::endl;
+  stream << "HEADERS += " <<  "$${WORKSPACE}/" << directory_finder.GetAfterWorkspace()  <<
+         file_input << ".h" << std::endl;
   stream << std::endl;
-  stream << "SOURCES += " << directory_finder.GetBackSlashWorkspace() <<
-            file_input << "/" << file_input << ".cpp" << std::endl;
+  stream << "SOURCES += " <<  "$${WORKSPACE}/" << directory_finder.GetAfterWorkspace()  <<
+         file_input << ".cpp" << std::endl;
   return stream.str();
 }
 
@@ -191,17 +195,17 @@ std::string CreateHeader(const DirectoryFinder& directory_finder,
   stream << "#define " << GetCap(file_input) << "_H_" << std::endl;
   stream << std::endl;
 
-  stream << "namespace " << file_input << " {" << std::endl;
+  stream << "namespace " << directory_finder.GetLastFolderName() << " {" << std::endl;
   stream << std::endl;
   stream << "class " << GetClassName(file_input) << " {" << std::endl;
   stream << "public:" << std::endl;
-  stream << "  " << GetClassName(file_input) << "() {}" << std::endl;
+  stream << "  " << GetClassName(file_input) << "();" << std::endl;
   stream << std::endl;
   stream << "private:" << std::endl;
   stream << std::endl;
   stream << "};" << std::endl;
   stream << std::endl;
-  stream << "}  // namespace " << file_input << std::endl;
+  stream << "}  // namespace " << directory_finder.GetLastFolderName() << std::endl;
   stream << std::endl;
   stream << "#endif  // " << GetCap(file_input) << "_H_" << std::endl;
 
@@ -212,11 +216,14 @@ std::string CreateSource(const DirectoryFinder& directory_finder,
                    const std::string& file_input) {
   std::stringstream stream;
   stream << "#include \"" << directory_finder.GetAfterWorkspace() <<
-            file_input << ".h\"";
+            file_input << ".h\"" << std::endl;
   stream << std::endl;
-  stream << "namespace " << file_input << " {" << std::endl;
+  stream << "namespace " << directory_finder.GetLastFolderName() << " {" << std::endl;
   stream << std::endl;
-  stream << "}  // namespace " << file_input << std::endl;
+  stream << GetClassName(file_input) << "::" << GetClassName(file_input) <<
+            "() {}" << std::endl;
+  stream << std::endl;
+  stream << "}  // namespace " << directory_finder.GetLastFolderName() << std::endl;
 
   return stream.str();
 }
@@ -233,7 +240,7 @@ std::string CreateTestCC(const DirectoryFinder& directory_finder,
   stream << std::endl;
   stream << "#include \"gtest/gtest.h\"" << std::endl;
   stream << std::endl;
-  stream << "namespace " << file_input << " {" << std::endl;
+  stream << "namespace " << directory_finder.GetLastFolderName() << " {" << std::endl;
   stream << std::endl;
   stream << "class " << GetClassName(file_input) << "Test : " <<
             "public testing::Test {" << std::endl;
@@ -245,7 +252,7 @@ std::string CreateTestCC(const DirectoryFinder& directory_finder,
   stream << "};" << std::endl;
   stream << "TEST_F(" << GetClassName(file_input) << "Test, ConstructDestruct) {}" << std::endl;
   stream << std::endl;
-  stream << "}  // namespace " << file_input << std::endl;
+  stream << "}  // namespace " << directory_finder.GetLastFolderName() << std::endl;
   stream << std::endl;
 
   return stream.str();
@@ -324,7 +331,7 @@ int main(int argc, char* argv[]) {
   WriteToFile(file_name + "_test.cpp",
               output::CreateTestCC(directory_finder, file_name));
 
-  //std::cout << output::CreatePri(directory_finder, "test_class");
+  std::cout << output::CreatePri(directory_finder, "test_class");
   WriteToFile(file_name + ".pri",
               output::CreatePri(directory_finder, file_name));
 
