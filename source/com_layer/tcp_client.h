@@ -3,17 +3,24 @@
 
 #include <QTcpSocket>
 #include <QtGlobal>
-#include <mutex>
+#include <atomic>
 #include <memory>
+#include <mutex>
+
+#include "gtest/gtest_prod.h"
 
 namespace com_layer {
 
 class TcpClient : public QObject {
   Q_OBJECT
  public:
-  explicit TcpClient(QObject *parent = 0);
+  explicit TcpClient(QObject* parent = 0);
 
-  void SetSocket(int Descriptor);
+  void SetAndConnectSocket(int descriptor);
+
+  void SwapByteArray(QByteArray* byte_array);
+
+  bool Connected();
 
  public slots:
   void OnConnected();
@@ -23,7 +30,13 @@ class TcpClient : public QObject {
  signals:
 
  private:
+  FRIEND_TEST(TcpClientTest, SwapByteArrayTest);
+
   std::unique_ptr<QTcpSocket> socket_;
+  std::unique_ptr<QByteArray> byte_array_;
+  std::atomic_bool connected_;
+
+  std::mutex byte_read_mutex_;
 };
 
 }  // namespace tcp_client

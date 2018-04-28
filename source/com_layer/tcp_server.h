@@ -5,6 +5,9 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <mutex>
+#include <memory>
+
+#include "gtest/gtest_prod.h"
 
 namespace com_layer {
 
@@ -15,6 +18,8 @@ public:
 
   void StartListening();
 
+  bool TcpIsOpen() const;
+
 private slots:
   void OnNewConnection();
 
@@ -22,12 +27,17 @@ private slots:
   // and the tcp socket is ready to read data from the socket.
   void OnReadyRead();
 
+  // Swap the |byte_array_|
+  void SwapByteArray(QByteArray* byte_array);
+
 private:
+  FRIEND_TEST(TcpServerTest, SwapByteArrayTest);
+
   QTcpServer tcp_server_;
   QTcpSocket* tcp_socket_;
-  QByteArray byte_array_;
+  std::unique_ptr<QByteArray> byte_array_;
 
-  std::mutex mutex;
+  std::mutex byte_read_mutex_;
 };
 
 }  // namespace com_layer

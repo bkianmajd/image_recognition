@@ -5,6 +5,7 @@ namespace com_layer {
 
 constexpr quint16 kPort = 8080;
 const QString kLocalHostAddress = "127.0.0.1";
+const QString kConnectAddress = kLocalHostAddress;
 
 }  // namespace com_layer
 

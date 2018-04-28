@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
   tcp_server_.StartListening();
 
   qDebug() << "starting to connect\n";
-  tcp_client_.SetSocket(kPort);
+  tcp_client_.SetAndConnectSocket(kPort);
 
   return a.exec();
 }
