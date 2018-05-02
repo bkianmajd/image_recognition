@@ -1,6 +1,6 @@
-#include "com_layer/tcp_server.h"
-#include "com_layer/com_defs.h"
-#include "com_layer/tcp_client.h"
+#include "postal_service/com_layer/tcp_server.h"
+#include "postal_service/com_layer/com_defs.h"
+#include "postal_service/com_layer/tcp_client.h"
 
 #include <stdlib.h>
 #include <QCoreApplication>

@@ -8,17 +8,22 @@
 #include <mutex>
 
 #include "gtest/gtest_prod.h"
+#include "postal_service/com_layer/icarrier.h"
 
 namespace com_layer {
 
-class TcpClient : public QObject {
+class TcpClient : public QObject, public ICarrier {
   Q_OBJECT
  public:
   explicit TcpClient(QObject* parent = 0);
 
+  ~TcpClient() override;
+
   void SetAndConnectSocket(int descriptor);
 
-  void SwapByteArray(QByteArray* byte_array);
+  void SendData(const char* byte_array, int ln) const override;
+
+  void SwapReceivedByteArray(std::string& byte_array) override;
 
   bool Connected();
 
@@ -33,9 +38,9 @@ class TcpClient : public QObject {
   FRIEND_TEST(TcpClientTest, SwapByteArrayTest);
 
   std::unique_ptr<QTcpSocket> socket_;
-  std::unique_ptr<QByteArray> byte_array_;
   std::atomic_bool connected_;
 
+  std::string byte_array_;
   std::mutex byte_read_mutex_;
 };
 

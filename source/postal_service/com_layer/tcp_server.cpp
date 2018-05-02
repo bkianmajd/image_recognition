@@ -1,9 +1,9 @@
-#include "com_layer/tcp_server.h"
+#include "postal_service/com_layer/tcp_server.h"
 
 #include <QHostAddress>
 #include <iostream>
 
-#include "com_layer/com_defs.h"
+#include "postal_service/com_layer/com_defs.h"
 
 namespace com_layer {
 
@@ -11,8 +11,7 @@ namespace {
 constexpr int kMaxAcceptedData = 8192;
 }  // namespace
 
-TcpServer::TcpServer()
-    : byte_array_(std::unique_ptr<QByteArray>(new QByteArray)) {
+TcpServer::TcpServer() {
   tcp_server_.setMaxPendingConnections(1);
   connect(&tcp_server_, SIGNAL(newConnection()), this, SLOT(OnNewConnection()));
 }
@@ -39,12 +38,16 @@ bool TcpServer::TcpIsOpen() const { return tcp_socket_->isOpen(); }
 
 void TcpServer::OnReadyRead() {
   std::lock_guard<std::mutex> lock(byte_read_mutex_);
-  byte_array_->append(tcp_socket_->readAll());
+  byte_array_.append(tcp_socket_->readAll().toStdString());
 }
 
-void TcpServer::SwapByteArray(QByteArray* byte_array) {
+void TcpServer::SwapReceivedByteArray(std::string& byte_array) {
   std::lock_guard<std::mutex> lock(byte_read_mutex_);
-  std::swap(*byte_array_, *byte_array);
+  std::swap(byte_array_, byte_array);
+}
+
+void TcpServer::SendData(const char* byte_array, int ln) const {
+  tcp_socket_->write(byte_array, ln);
 }
 
 }  // namespace com_layer

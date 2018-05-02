@@ -1,15 +1,12 @@
-#include "com_layer/tcp_client.h"
+#include "postal_service/com_layer/tcp_client.h"
 
 #include <QHostAddress>
 
-#include "com_layer/com_defs.h"
+#include "postal_service/com_layer/com_defs.h"
 
 namespace com_layer {
 
-TcpClient::TcpClient(QObject* parent)
-    : QObject(parent),
-      byte_array_(std::unique_ptr<QByteArray>(new QByteArray)),
-      connected_(false) {
+TcpClient::TcpClient(QObject* parent) : QObject(parent), connected_(false) {
   // make a new socket
   socket_ = std::unique_ptr<QTcpSocket>(new QTcpSocket(this));
 
@@ -17,6 +14,8 @@ TcpClient::TcpClient(QObject* parent)
   connect(socket_.get(), SIGNAL(disconnected()), this, SLOT(OnDisconnected()));
   connect(socket_.get(), SIGNAL(readyRead()), this, SLOT(OnReadyRead()));
 }
+
+TcpClient::~TcpClient() {}
 
 void TcpClient::SetAndConnectSocket(int descriptor) {
   socket_->setSocketDescriptor(descriptor);
@@ -32,12 +31,16 @@ void TcpClient::OnDisconnected() { connected_.store(false); }
 
 void TcpClient::OnReadyRead() {
   std::lock_guard<std::mutex> lock(byte_read_mutex_);
-  byte_array_->append(socket_->readAll());
+  byte_array_.append(socket_->readAll());
 }
 
-void TcpClient::SwapByteArray(QByteArray* byte_array) {
+void TcpClient::SwapReceivedByteArray(std::string& byte_array) {
   std::lock_guard<std::mutex> lock(byte_read_mutex_);
-  std::swap(*byte_array_, *byte_array);
+  std::swap(byte_array_, byte_array);
+}
+
+void TcpClient::SendData(const char *byte_array, int ln) const {
+  socket_->write(byte_array, ln);
 }
 
 bool TcpClient::Connected() { return connected_.load(); }
