@@ -19,10 +19,10 @@ int main(int argc, char *argv[]) {
   TcpServer tcp_server_;
   TcpClient tcp_client_;
 
-  tcp_server_.StartListening();
+  tcp_server_.Init();
 
   qDebug() << "starting to connect\n";
-  tcp_client_.SetAndConnectSocket(kPort);
+  tcp_client_.Init();
 
   return a.exec();
 }

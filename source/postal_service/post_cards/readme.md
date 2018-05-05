@@ -1,0 +1,2 @@
+- post cards are header only.
+- usually the struct definition will not be in the header but for this test, it is.

@@ -15,10 +15,13 @@ TcpClient::TcpClient(QObject* parent) : QObject(parent), connected_(false) {
   connect(socket_.get(), SIGNAL(readyRead()), this, SLOT(OnReadyRead()));
 }
 
-TcpClient::~TcpClient() {}
+TcpClient::~TcpClient() {
+  socket_->close();
+}
 
-void TcpClient::SetAndConnectSocket(int descriptor) {
-  socket_->setSocketDescriptor(descriptor);
+void TcpClient::Init() {
+  qDebug() << "Attempting to connect to host";
+  socket_->setSocketDescriptor(kPort);
   socket_->connectToHost(QHostAddress(kConnectAddress), kPort);
 }
 
@@ -39,7 +42,7 @@ void TcpClient::SwapReceivedByteArray(std::string& byte_array) {
   std::swap(byte_array_, byte_array);
 }
 
-void TcpClient::SendData(const char *byte_array, int ln) const {
+void TcpClient::SendData(const char* byte_array, int ln) const {
   socket_->write(byte_array, ln);
 }
 

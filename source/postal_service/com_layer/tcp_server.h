@@ -17,7 +17,9 @@ class TcpServer : public QObject, public ICarrier {
  public:
   TcpServer();
 
-  void StartListening();
+  ~TcpServer();
+
+  void Init() override;
 
   bool TcpIsOpen() const;
 

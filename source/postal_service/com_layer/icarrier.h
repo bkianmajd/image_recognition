@@ -10,6 +10,7 @@ public:
   virtual ~ICarrier() {}
   virtual void SendData(const char* byte_array, int ln) const = 0;
   virtual void SwapReceivedByteArray(std::string& byte_array) = 0;
+  virtual void Init() = 0;
 };
 
 }  // namespace com_laer

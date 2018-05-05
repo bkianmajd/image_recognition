@@ -1,28 +1,27 @@
 #include "postal_service/postal_service.h"
 
-#include <iostream>
+#include <QCoreApplication>
 #include <fstream>
+#include <iostream>
 
-#include "google_test/testing_def.h"
-#include "external_libraries/googletest/include/gtest/gtest.h"
+#include "postal_service/post_cards/test_post_card.h"
 
-namespace postal_service {
+int main(int argc, char *argv[]) {
+  QCoreApplication a(argc, argv);
 
-namespace {
-}  // namespace
+  postal_service::PostalService server(postal_service::server);
+  postal_service::PostalService client(postal_service::client);
 
+  server.Init();
+  client.Init();
 
+  postal_service::Test test;
+  test.value = true;
+  test.x = 123;
+  postal_service::TestPostCard test_post_card(test);
 
-class PostalServiceTest : public testing::Test {
-public:
-  PostalServiceTest() {}
+  client.SendPostCard(test_post_card);
 
-protected:
-    PostalService postal_service_;
-
-};
-
-TEST_F(PostalServiceTest, ConstructDestruct) {}
-
-
-}  // namespace postal_service
+  return a.exec();
+  return 0;
+}

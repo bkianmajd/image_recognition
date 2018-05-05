@@ -11,7 +11,7 @@ class IPostCard {
 public:
     virtual ~IPostCard() {}
 
-    virtual google::protobuf::Any* CreateProtobuf() = 0;
+    virtual google::protobuf::Any CreateProtobuf() = 0;
 };
 
 }  // namespace postal_service

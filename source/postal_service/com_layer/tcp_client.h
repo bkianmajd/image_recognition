@@ -19,7 +19,7 @@ class TcpClient : public QObject, public ICarrier {
 
   ~TcpClient() override;
 
-  void SetAndConnectSocket(int descriptor);
+  void Init() override;
 
   void SendData(const char* byte_array, int ln) const override;
 

@@ -21,6 +21,8 @@ class PostalService {
  public:
   PostalService(Type type = Type::client);
 
+  void Init();
+
   void SendPostCard(IPostCard& post_card) const;
 
   void GetMail(IMailDistributor& mail_distributor);

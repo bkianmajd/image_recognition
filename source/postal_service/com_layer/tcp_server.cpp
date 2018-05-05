@@ -16,7 +16,14 @@ TcpServer::TcpServer() {
   connect(&tcp_server_, SIGNAL(newConnection()), this, SLOT(OnNewConnection()));
 }
 
-void TcpServer::StartListening() {
+TcpServer::~TcpServer() {
+  tcp_server_.disconnect();
+  if(tcp_socket_->isOpen()) {
+    tcp_socket_->close();
+  }
+}
+
+void TcpServer::Init() {
   if (!tcp_server_.listen(QHostAddress::Any, kPort)) {
     qDebug() << "Cannot listen";
     return;
@@ -37,6 +44,7 @@ void TcpServer::OnNewConnection() {
 bool TcpServer::TcpIsOpen() const { return tcp_socket_->isOpen(); }
 
 void TcpServer::OnReadyRead() {
+  //qDebug() << "Incoming message!";
   std::lock_guard<std::mutex> lock(byte_read_mutex_);
   byte_array_.append(tcp_socket_->readAll().toStdString());
 }
