@@ -14,6 +14,6 @@ public:
   virtual void Distribute(std::string& string) = 0;
 };
 
-}  // postal_service
+}  // mail_distributor
 
 #endif // POSTAL_SERVICE_IMAIL_DISTRIBUTOR_H_

@@ -11,14 +11,17 @@ namespace {
 constexpr int kMaxAcceptedData = 8192;
 }  // namespace
 
-TcpServer::TcpServer() {
+TcpServer::TcpServer() : tcp_socket_(nullptr), byte_array_() {
   tcp_server_.setMaxPendingConnections(1);
   connect(&tcp_server_, SIGNAL(newConnection()), this, SLOT(OnNewConnection()));
 }
 
 TcpServer::~TcpServer() {
   tcp_server_.disconnect();
-  if(tcp_socket_->isOpen()) {
+  if (tcp_socket_ == nullptr) {
+    return;
+  }
+  if (tcp_socket_->isOpen()) {
     tcp_socket_->close();
   }
 }
@@ -31,6 +34,12 @@ void TcpServer::Init() {
   qDebug() << "starting to listen!";
 }
 
+bool TcpServer::IsConnected() const {
+  if(tcp_socket_ == nullptr) {
+    return false;
+  }
+  return tcp_socket_->isOpen(); }
+
 void TcpServer::OnNewConnection() {
   qDebug() << "Tcp Server received new connection!\n";
 
@@ -41,12 +50,10 @@ void TcpServer::OnNewConnection() {
   }
 }
 
-bool TcpServer::TcpIsOpen() const { return tcp_socket_->isOpen(); }
-
 void TcpServer::OnReadyRead() {
-  //qDebug() << "Incoming message!";
   std::lock_guard<std::mutex> lock(byte_read_mutex_);
   byte_array_.append(tcp_socket_->readAll().toStdString());
+  qDebug() << "Incoming message!";
 }
 
 void TcpServer::SwapReceivedByteArray(std::string& byte_array) {

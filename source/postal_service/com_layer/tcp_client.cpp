@@ -25,6 +25,10 @@ void TcpClient::Init() {
   socket_->connectToHost(QHostAddress(kConnectAddress), kPort);
 }
 
+bool TcpClient::IsConnected() const {
+  return connected_.load();
+}
+
 void TcpClient::OnConnected() {
   qDebug() << "TCP CLient Connected!";
   connected_.store(true);
@@ -45,7 +49,5 @@ void TcpClient::SwapReceivedByteArray(std::string& byte_array) {
 void TcpClient::SendData(const char* byte_array, int ln) const {
   socket_->write(byte_array, ln);
 }
-
-bool TcpClient::Connected() { return connected_.load(); }
 
 }  // namespace tcp_client

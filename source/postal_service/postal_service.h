@@ -5,7 +5,7 @@
 
 #include "gtest/gtest_prod.h"
 #include "postal_service/com_layer/icarrier.h"
-#include "postal_service/imail_distributor.h"
+#include "postal_service/mail_distributor_simple/imail_distributor.h"
 #include "postal_service/ipost_card.h"
 
 namespace postal_service {

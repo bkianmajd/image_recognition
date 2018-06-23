@@ -8,6 +8,7 @@ namespace com_layer {
 class ICarrier {
 public:
   virtual ~ICarrier() {}
+  virtual bool IsConnected() const = 0;
   virtual void SendData(const char* byte_array, int ln) const = 0;
   virtual void SwapReceivedByteArray(std::string& byte_array) = 0;
   virtual void Init() = 0;

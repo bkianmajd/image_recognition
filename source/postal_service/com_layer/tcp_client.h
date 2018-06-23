@@ -21,11 +21,11 @@ class TcpClient : public QObject, public ICarrier {
 
   void Init() override;
 
+  bool IsConnected() const override;
+
   void SendData(const char* byte_array, int ln) const override;
 
   void SwapReceivedByteArray(std::string& byte_array) override;
-
-  bool Connected();
 
  public slots:
   void OnConnected();

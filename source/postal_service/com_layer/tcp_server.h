@@ -21,7 +21,8 @@ class TcpServer : public QObject, public ICarrier {
 
   void Init() override;
 
-  bool TcpIsOpen() const;
+  // TcpIsOpen
+  bool IsConnected() const override;
 
   // Send the byte array
   void SendData(const char* byte_array, int ln) const override;
