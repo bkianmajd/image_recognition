@@ -3,7 +3,7 @@ QT -= gui
 
 CONFIG += c++11
 
-WORKSPACE = ../../../source/
+WORKSPACE = ../../../source
 INCLUDEPATH +=  $${WORKSPACE}
 INCLUDEPATH +=  $${WORKSPACE}/external_libraries/googletest/include
 

@@ -1,7 +1,7 @@
 #ifndef MAIL_DISTRIBUTOR_SIMPLE_H_
 #define MAIL_DISTRIBUTOR_SIMPLE_H_
 
-#include "postal_service/mail_distributor_simple/imail_distributor.h"
+#include "postal_service/imail_distributor.h"
 
 namespace postal_service {
 

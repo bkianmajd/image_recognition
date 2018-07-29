@@ -1,13 +1,7 @@
-#include path
-INCLUDEPATH +=  $${WORKSPACE}
+HEADERS += $${WORKSPACE}/image_ipc/ipc_server/image_command_distributor.h
+HEADERS += $${WORKSPACE}/image_ipc/ipc_server/command_queue.h
 
-# IPC Server
-HEADERS += $${WORKSPACE}/image_ipc/ipc_server/ipc_server.h
+SOURCES += $${WORKSPACE}/image_ipc/ipc_server/image_command_distributor.cpp
+SOURCES += $${WORKSPACE}/image_ipc/ipc_server/command_queue.cpp
 
-SOURCES += $${WORKSPACE}/image_ipc/ipc_server/ipc_server.cpp
-
-LIBS += /usr/local/lib/libprotobuf.a \
-/usr/local/lib/libprotoc.a \
-/usr/local/lib/libprotobuf-lite.a
-
-include($${WORKSPACE}/com_layer/tcp_server.pri);
+include($${WORKSPACE}/schema/proto_schema.pri)
