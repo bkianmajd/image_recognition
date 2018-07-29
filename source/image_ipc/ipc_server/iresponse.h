@@ -5,6 +5,7 @@
 #include "postal_service/ipost_card.h"
 
 namespace ipc {
+namespace ipc_server {
 
 // class IResponse is a simple wrapper around IPostCard
 class IResponse : public postal_service::IPostCard {
@@ -14,6 +15,7 @@ class IResponse : public postal_service::IPostCard {
   virtual google::protobuf::Any CreateProtobuf() = 0;
 };
 
+}  // namespace ipc_server
 }  // namespace ipc
 
 #endif  // IRESPONSE_H_

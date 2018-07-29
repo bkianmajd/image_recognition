@@ -1,6 +1,3 @@
-QT += core
-QT += network
-
 HEADERS += $${WORKSPACE}/schema/compiled_files/*.h
 
 SOURCES += $${WORKSPACE}/schema/compiled_files/*.cc

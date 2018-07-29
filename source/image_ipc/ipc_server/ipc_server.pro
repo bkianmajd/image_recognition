@@ -15,3 +15,5 @@ SOURCES += $${WORKSPACE}image_ipc/ipc_server/command_queue_test.cpp
 
 
 include(ipc_server.pri)
+include(commands/commands.pri)
+include(responses/responses.pri)

@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "image_ipc/icommand.h"
+#include "image_ipc/ipc_server/icommand.h"
 #include "postal_service/imail_distributor.h"
 
 namespace ipc {

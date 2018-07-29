@@ -1,10 +1,11 @@
 #ifndef ACK_RESPONSE_H_
 #define ACK_RESPONSE_H_
 
-#include "image_ipc/iresponse.h"
+#include "image_ipc/ipc_server/iresponse.h"
 #include "schema/compiled_files/responses.pb.h"
 
 namespace ipc {
+namespace ipc_server {
 
 class AckResponse : public IResponse {
  public:
@@ -25,6 +26,7 @@ class AckResponse : public IResponse {
   bool success_;
 };
 
+}  // ipc_server
 }  // namespace ipc
 
 #endif  // ACK_RESPONSE_H_

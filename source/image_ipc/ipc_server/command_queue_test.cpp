@@ -1,7 +1,7 @@
 #include "image_ipc/ipc_server/command_queue.h"
 
 #include "gtest/gtest.h"
-#include "image_ipc/commands/test_command.h"
+#include "image_ipc/ipc_server/commands/test_command.h"
 
 namespace ipc {
 namespace ipc_server {
