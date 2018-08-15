@@ -1,13 +1,14 @@
 syntax = "proto3";
 
 // The request message containing the user's name.
-message ImageRequest {
+message StoreImageRequest {
   string image_name = 1;
   bytes image = 2;
+  // Assume the format for now
 }
 
 // The response contains an acknowledgement
-message ImageResponse {
+message StoreImageResponse {
   bool success = 1;
   string str_message = 2;
 }

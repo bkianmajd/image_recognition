@@ -45,39 +45,39 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_template_5fmatch_2eproto
-class ImageRequest;
-class ImageRequestDefaultTypeInternal;
-extern ImageRequestDefaultTypeInternal _ImageRequest_default_instance_;
-class ImageResponse;
-class ImageResponseDefaultTypeInternal;
-extern ImageResponseDefaultTypeInternal _ImageResponse_default_instance_;
+class StoreImageRequest;
+class StoreImageRequestDefaultTypeInternal;
+extern StoreImageRequestDefaultTypeInternal _StoreImageRequest_default_instance_;
+class StoreImageResponse;
+class StoreImageResponseDefaultTypeInternal;
+extern StoreImageResponseDefaultTypeInternal _StoreImageResponse_default_instance_;
 namespace google {
 namespace protobuf {
-template<> ::ImageRequest* Arena::CreateMaybeMessage<::ImageRequest>(Arena*);
-template<> ::ImageResponse* Arena::CreateMaybeMessage<::ImageResponse>(Arena*);
+template<> ::StoreImageRequest* Arena::CreateMaybeMessage<::StoreImageRequest>(Arena*);
+template<> ::StoreImageResponse* Arena::CreateMaybeMessage<::StoreImageResponse>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 
 // ===================================================================
 
-class ImageRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ImageRequest) */ {
+class StoreImageRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:StoreImageRequest) */ {
  public:
-  ImageRequest();
-  virtual ~ImageRequest();
+  StoreImageRequest();
+  virtual ~StoreImageRequest();
 
-  ImageRequest(const ImageRequest& from);
+  StoreImageRequest(const StoreImageRequest& from);
 
-  inline ImageRequest& operator=(const ImageRequest& from) {
+  inline StoreImageRequest& operator=(const StoreImageRequest& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  ImageRequest(ImageRequest&& from) noexcept
-    : ImageRequest() {
+  StoreImageRequest(StoreImageRequest&& from) noexcept
+    : StoreImageRequest() {
     *this = ::std::move(from);
   }
 
-  inline ImageRequest& operator=(ImageRequest&& from) noexcept {
+  inline StoreImageRequest& operator=(StoreImageRequest&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -87,34 +87,34 @@ class ImageRequest : public ::google::protobuf::Message /* @@protoc_insertion_po
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const ImageRequest& default_instance();
+  static const StoreImageRequest& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ImageRequest* internal_default_instance() {
-    return reinterpret_cast<const ImageRequest*>(
-               &_ImageRequest_default_instance_);
+  static inline const StoreImageRequest* internal_default_instance() {
+    return reinterpret_cast<const StoreImageRequest*>(
+               &_StoreImageRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  void Swap(ImageRequest* other);
-  friend void swap(ImageRequest& a, ImageRequest& b) {
+  void Swap(StoreImageRequest* other);
+  friend void swap(StoreImageRequest& a, StoreImageRequest& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline ImageRequest* New() const final {
-    return CreateMaybeMessage<ImageRequest>(NULL);
+  inline StoreImageRequest* New() const final {
+    return CreateMaybeMessage<StoreImageRequest>(NULL);
   }
 
-  ImageRequest* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<ImageRequest>(arena);
+  StoreImageRequest* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<StoreImageRequest>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const ImageRequest& from);
-  void MergeFrom(const ImageRequest& from);
+  void CopyFrom(const StoreImageRequest& from);
+  void MergeFrom(const StoreImageRequest& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -131,7 +131,7 @@ class ImageRequest : public ::google::protobuf::Message /* @@protoc_insertion_po
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(ImageRequest* other);
+  void InternalSwap(StoreImageRequest* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -175,35 +175,42 @@ class ImageRequest : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::std::string* release_image();
   void set_allocated_image(::std::string* image);
 
-  // @@protoc_insertion_point(class_scope:ImageRequest)
+  // int32 size = 3;
+  void clear_size();
+  static const int kSizeFieldNumber = 3;
+  ::google::protobuf::int32 size() const;
+  void set_size(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:StoreImageRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr image_name_;
   ::google::protobuf::internal::ArenaStringPtr image_;
+  ::google::protobuf::int32 size_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_template_5fmatch_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class ImageResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ImageResponse) */ {
+class StoreImageResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:StoreImageResponse) */ {
  public:
-  ImageResponse();
-  virtual ~ImageResponse();
+  StoreImageResponse();
+  virtual ~StoreImageResponse();
 
-  ImageResponse(const ImageResponse& from);
+  StoreImageResponse(const StoreImageResponse& from);
 
-  inline ImageResponse& operator=(const ImageResponse& from) {
+  inline StoreImageResponse& operator=(const StoreImageResponse& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  ImageResponse(ImageResponse&& from) noexcept
-    : ImageResponse() {
+  StoreImageResponse(StoreImageResponse&& from) noexcept
+    : StoreImageResponse() {
     *this = ::std::move(from);
   }
 
-  inline ImageResponse& operator=(ImageResponse&& from) noexcept {
+  inline StoreImageResponse& operator=(StoreImageResponse&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -213,34 +220,34 @@ class ImageResponse : public ::google::protobuf::Message /* @@protoc_insertion_p
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const ImageResponse& default_instance();
+  static const StoreImageResponse& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ImageResponse* internal_default_instance() {
-    return reinterpret_cast<const ImageResponse*>(
-               &_ImageResponse_default_instance_);
+  static inline const StoreImageResponse* internal_default_instance() {
+    return reinterpret_cast<const StoreImageResponse*>(
+               &_StoreImageResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     1;
 
-  void Swap(ImageResponse* other);
-  friend void swap(ImageResponse& a, ImageResponse& b) {
+  void Swap(StoreImageResponse* other);
+  friend void swap(StoreImageResponse& a, StoreImageResponse& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline ImageResponse* New() const final {
-    return CreateMaybeMessage<ImageResponse>(NULL);
+  inline StoreImageResponse* New() const final {
+    return CreateMaybeMessage<StoreImageResponse>(NULL);
   }
 
-  ImageResponse* New(::google::protobuf::Arena* arena) const final {
-    return CreateMaybeMessage<ImageResponse>(arena);
+  StoreImageResponse* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<StoreImageResponse>(arena);
   }
   void CopyFrom(const ::google::protobuf::Message& from) final;
   void MergeFrom(const ::google::protobuf::Message& from) final;
-  void CopyFrom(const ImageResponse& from);
-  void MergeFrom(const ImageResponse& from);
+  void CopyFrom(const StoreImageResponse& from);
+  void MergeFrom(const StoreImageResponse& from);
   void Clear() final;
   bool IsInitialized() const final;
 
@@ -257,7 +264,7 @@ class ImageResponse : public ::google::protobuf::Message /* @@protoc_insertion_p
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(ImageResponse* other);
+  void InternalSwap(StoreImageResponse* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -293,7 +300,7 @@ class ImageResponse : public ::google::protobuf::Message /* @@protoc_insertion_p
   bool success() const;
   void set_success(bool value);
 
-  // @@protoc_insertion_point(class_scope:ImageResponse)
+  // @@protoc_insertion_point(class_scope:StoreImageResponse)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -311,183 +318,197 @@ class ImageResponse : public ::google::protobuf::Message /* @@protoc_insertion_p
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// ImageRequest
+// StoreImageRequest
 
 // string image_name = 1;
-inline void ImageRequest::clear_image_name() {
+inline void StoreImageRequest::clear_image_name() {
   image_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& ImageRequest::image_name() const {
-  // @@protoc_insertion_point(field_get:ImageRequest.image_name)
+inline const ::std::string& StoreImageRequest::image_name() const {
+  // @@protoc_insertion_point(field_get:StoreImageRequest.image_name)
   return image_name_.GetNoArena();
 }
-inline void ImageRequest::set_image_name(const ::std::string& value) {
+inline void StoreImageRequest::set_image_name(const ::std::string& value) {
   
   image_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:ImageRequest.image_name)
+  // @@protoc_insertion_point(field_set:StoreImageRequest.image_name)
 }
 #if LANG_CXX11
-inline void ImageRequest::set_image_name(::std::string&& value) {
+inline void StoreImageRequest::set_image_name(::std::string&& value) {
   
   image_name_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:ImageRequest.image_name)
+  // @@protoc_insertion_point(field_set_rvalue:StoreImageRequest.image_name)
 }
 #endif
-inline void ImageRequest::set_image_name(const char* value) {
+inline void StoreImageRequest::set_image_name(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   image_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:ImageRequest.image_name)
+  // @@protoc_insertion_point(field_set_char:StoreImageRequest.image_name)
 }
-inline void ImageRequest::set_image_name(const char* value, size_t size) {
+inline void StoreImageRequest::set_image_name(const char* value, size_t size) {
   
   image_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:ImageRequest.image_name)
+  // @@protoc_insertion_point(field_set_pointer:StoreImageRequest.image_name)
 }
-inline ::std::string* ImageRequest::mutable_image_name() {
+inline ::std::string* StoreImageRequest::mutable_image_name() {
   
-  // @@protoc_insertion_point(field_mutable:ImageRequest.image_name)
+  // @@protoc_insertion_point(field_mutable:StoreImageRequest.image_name)
   return image_name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* ImageRequest::release_image_name() {
-  // @@protoc_insertion_point(field_release:ImageRequest.image_name)
+inline ::std::string* StoreImageRequest::release_image_name() {
+  // @@protoc_insertion_point(field_release:StoreImageRequest.image_name)
   
   return image_name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void ImageRequest::set_allocated_image_name(::std::string* image_name) {
+inline void StoreImageRequest::set_allocated_image_name(::std::string* image_name) {
   if (image_name != NULL) {
     
   } else {
     
   }
   image_name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), image_name);
-  // @@protoc_insertion_point(field_set_allocated:ImageRequest.image_name)
+  // @@protoc_insertion_point(field_set_allocated:StoreImageRequest.image_name)
 }
 
 // bytes image = 2;
-inline void ImageRequest::clear_image() {
+inline void StoreImageRequest::clear_image() {
   image_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& ImageRequest::image() const {
-  // @@protoc_insertion_point(field_get:ImageRequest.image)
+inline const ::std::string& StoreImageRequest::image() const {
+  // @@protoc_insertion_point(field_get:StoreImageRequest.image)
   return image_.GetNoArena();
 }
-inline void ImageRequest::set_image(const ::std::string& value) {
+inline void StoreImageRequest::set_image(const ::std::string& value) {
   
   image_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:ImageRequest.image)
+  // @@protoc_insertion_point(field_set:StoreImageRequest.image)
 }
 #if LANG_CXX11
-inline void ImageRequest::set_image(::std::string&& value) {
+inline void StoreImageRequest::set_image(::std::string&& value) {
   
   image_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:ImageRequest.image)
+  // @@protoc_insertion_point(field_set_rvalue:StoreImageRequest.image)
 }
 #endif
-inline void ImageRequest::set_image(const char* value) {
+inline void StoreImageRequest::set_image(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   image_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:ImageRequest.image)
+  // @@protoc_insertion_point(field_set_char:StoreImageRequest.image)
 }
-inline void ImageRequest::set_image(const void* value, size_t size) {
+inline void StoreImageRequest::set_image(const void* value, size_t size) {
   
   image_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:ImageRequest.image)
+  // @@protoc_insertion_point(field_set_pointer:StoreImageRequest.image)
 }
-inline ::std::string* ImageRequest::mutable_image() {
+inline ::std::string* StoreImageRequest::mutable_image() {
   
-  // @@protoc_insertion_point(field_mutable:ImageRequest.image)
+  // @@protoc_insertion_point(field_mutable:StoreImageRequest.image)
   return image_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* ImageRequest::release_image() {
-  // @@protoc_insertion_point(field_release:ImageRequest.image)
+inline ::std::string* StoreImageRequest::release_image() {
+  // @@protoc_insertion_point(field_release:StoreImageRequest.image)
   
   return image_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void ImageRequest::set_allocated_image(::std::string* image) {
+inline void StoreImageRequest::set_allocated_image(::std::string* image) {
   if (image != NULL) {
     
   } else {
     
   }
   image_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), image);
-  // @@protoc_insertion_point(field_set_allocated:ImageRequest.image)
+  // @@protoc_insertion_point(field_set_allocated:StoreImageRequest.image)
+}
+
+// int32 size = 3;
+inline void StoreImageRequest::clear_size() {
+  size_ = 0;
+}
+inline ::google::protobuf::int32 StoreImageRequest::size() const {
+  // @@protoc_insertion_point(field_get:StoreImageRequest.size)
+  return size_;
+}
+inline void StoreImageRequest::set_size(::google::protobuf::int32 value) {
+  
+  size_ = value;
+  // @@protoc_insertion_point(field_set:StoreImageRequest.size)
 }
 
 // -------------------------------------------------------------------
 
-// ImageResponse
+// StoreImageResponse
 
 // bool success = 1;
-inline void ImageResponse::clear_success() {
+inline void StoreImageResponse::clear_success() {
   success_ = false;
 }
-inline bool ImageResponse::success() const {
-  // @@protoc_insertion_point(field_get:ImageResponse.success)
+inline bool StoreImageResponse::success() const {
+  // @@protoc_insertion_point(field_get:StoreImageResponse.success)
   return success_;
 }
-inline void ImageResponse::set_success(bool value) {
+inline void StoreImageResponse::set_success(bool value) {
   
   success_ = value;
-  // @@protoc_insertion_point(field_set:ImageResponse.success)
+  // @@protoc_insertion_point(field_set:StoreImageResponse.success)
 }
 
 // string str_message = 2;
-inline void ImageResponse::clear_str_message() {
+inline void StoreImageResponse::clear_str_message() {
   str_message_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& ImageResponse::str_message() const {
-  // @@protoc_insertion_point(field_get:ImageResponse.str_message)
+inline const ::std::string& StoreImageResponse::str_message() const {
+  // @@protoc_insertion_point(field_get:StoreImageResponse.str_message)
   return str_message_.GetNoArena();
 }
-inline void ImageResponse::set_str_message(const ::std::string& value) {
+inline void StoreImageResponse::set_str_message(const ::std::string& value) {
   
   str_message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:ImageResponse.str_message)
+  // @@protoc_insertion_point(field_set:StoreImageResponse.str_message)
 }
 #if LANG_CXX11
-inline void ImageResponse::set_str_message(::std::string&& value) {
+inline void StoreImageResponse::set_str_message(::std::string&& value) {
   
   str_message_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:ImageResponse.str_message)
+  // @@protoc_insertion_point(field_set_rvalue:StoreImageResponse.str_message)
 }
 #endif
-inline void ImageResponse::set_str_message(const char* value) {
+inline void StoreImageResponse::set_str_message(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   str_message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:ImageResponse.str_message)
+  // @@protoc_insertion_point(field_set_char:StoreImageResponse.str_message)
 }
-inline void ImageResponse::set_str_message(const char* value, size_t size) {
+inline void StoreImageResponse::set_str_message(const char* value, size_t size) {
   
   str_message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:ImageResponse.str_message)
+  // @@protoc_insertion_point(field_set_pointer:StoreImageResponse.str_message)
 }
-inline ::std::string* ImageResponse::mutable_str_message() {
+inline ::std::string* StoreImageResponse::mutable_str_message() {
   
-  // @@protoc_insertion_point(field_mutable:ImageResponse.str_message)
+  // @@protoc_insertion_point(field_mutable:StoreImageResponse.str_message)
   return str_message_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* ImageResponse::release_str_message() {
-  // @@protoc_insertion_point(field_release:ImageResponse.str_message)
+inline ::std::string* StoreImageResponse::release_str_message() {
+  // @@protoc_insertion_point(field_release:StoreImageResponse.str_message)
   
   return str_message_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void ImageResponse::set_allocated_str_message(::std::string* str_message) {
+inline void StoreImageResponse::set_allocated_str_message(::std::string* str_message) {
   if (str_message != NULL) {
     
   } else {
     
   }
   str_message_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), str_message);
-  // @@protoc_insertion_point(field_set_allocated:ImageResponse.str_message)
+  // @@protoc_insertion_point(field_set_allocated:StoreImageResponse.str_message)
 }
 
 #ifdef __GNUC__

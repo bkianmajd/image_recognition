@@ -19,76 +19,77 @@
 #endif
 // @@protoc_insertion_point(includes)
 
-class ImageRequestDefaultTypeInternal {
+class StoreImageRequestDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<ImageRequest>
+  ::google::protobuf::internal::ExplicitlyConstructed<StoreImageRequest>
       _instance;
-} _ImageRequest_default_instance_;
-class ImageResponseDefaultTypeInternal {
+} _StoreImageRequest_default_instance_;
+class StoreImageResponseDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<ImageResponse>
+  ::google::protobuf::internal::ExplicitlyConstructed<StoreImageResponse>
       _instance;
-} _ImageResponse_default_instance_;
+} _StoreImageResponse_default_instance_;
 namespace protobuf_template_5fmatch_2eproto {
-static void InitDefaultsImageRequest() {
+static void InitDefaultsStoreImageRequest() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::_ImageRequest_default_instance_;
-    new (ptr) ::ImageRequest();
+    void* ptr = &::_StoreImageRequest_default_instance_;
+    new (ptr) ::StoreImageRequest();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::ImageRequest::InitAsDefaultInstance();
+  ::StoreImageRequest::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_ImageRequest =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsImageRequest}, {}};
+::google::protobuf::internal::SCCInfo<0> scc_info_StoreImageRequest =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsStoreImageRequest}, {}};
 
-static void InitDefaultsImageResponse() {
+static void InitDefaultsStoreImageResponse() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::_ImageResponse_default_instance_;
-    new (ptr) ::ImageResponse();
+    void* ptr = &::_StoreImageResponse_default_instance_;
+    new (ptr) ::StoreImageResponse();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::ImageResponse::InitAsDefaultInstance();
+  ::StoreImageResponse::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_ImageResponse =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsImageResponse}, {}};
+::google::protobuf::internal::SCCInfo<0> scc_info_StoreImageResponse =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsStoreImageResponse}, {}};
 
 void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_ImageRequest.base);
-  ::google::protobuf::internal::InitSCC(&scc_info_ImageResponse.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_StoreImageRequest.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_StoreImageResponse.base);
 }
 
 ::google::protobuf::Metadata file_level_metadata[2];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ImageRequest, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::StoreImageRequest, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ImageRequest, image_name_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ImageRequest, image_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::StoreImageRequest, image_name_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::StoreImageRequest, image_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::StoreImageRequest, size_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ImageResponse, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::StoreImageResponse, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ImageResponse, success_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::ImageResponse, str_message_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::StoreImageResponse, success_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::StoreImageResponse, str_message_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::ImageRequest)},
-  { 7, -1, sizeof(::ImageResponse)},
+  { 0, -1, sizeof(::StoreImageRequest)},
+  { 8, -1, sizeof(::StoreImageResponse)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::_ImageRequest_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::_ImageResponse_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::_StoreImageRequest_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::_StoreImageResponse_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -112,13 +113,13 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\024template_match.proto\"1\n\014ImageRequest\022\022"
-      "\n\nimage_name\030\001 \001(\t\022\r\n\005image\030\002 \001(\014\"5\n\rIma"
-      "geResponse\022\017\n\007success\030\001 \001(\010\022\023\n\013str_messa"
-      "ge\030\002 \001(\tb\006proto3"
+      "\n\024template_match.proto\"D\n\021StoreImageRequ"
+      "est\022\022\n\nimage_name\030\001 \001(\t\022\r\n\005image\030\002 \001(\014\022\014"
+      "\n\004size\030\003 \001(\005\":\n\022StoreImageResponse\022\017\n\007su"
+      "ccess\030\001 \001(\010\022\023\n\013str_message\030\002 \001(\tb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 136);
+      descriptor, 160);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "template_match.proto", &protobuf_RegisterTypes);
 }
@@ -137,21 +138,22 @@ struct StaticDescriptorInitializer {
 
 // ===================================================================
 
-void ImageRequest::InitAsDefaultInstance() {
+void StoreImageRequest::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ImageRequest::kImageNameFieldNumber;
-const int ImageRequest::kImageFieldNumber;
+const int StoreImageRequest::kImageNameFieldNumber;
+const int StoreImageRequest::kImageFieldNumber;
+const int StoreImageRequest::kSizeFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-ImageRequest::ImageRequest()
+StoreImageRequest::StoreImageRequest()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_template_5fmatch_2eproto::scc_info_ImageRequest.base);
+      &protobuf_template_5fmatch_2eproto::scc_info_StoreImageRequest.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:ImageRequest)
+  // @@protoc_insertion_point(constructor:StoreImageRequest)
 }
-ImageRequest::ImageRequest(const ImageRequest& from)
+StoreImageRequest::StoreImageRequest(const StoreImageRequest& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
@@ -163,54 +165,57 @@ ImageRequest::ImageRequest(const ImageRequest& from)
   if (from.image().size() > 0) {
     image_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.image_);
   }
-  // @@protoc_insertion_point(copy_constructor:ImageRequest)
+  size_ = from.size_;
+  // @@protoc_insertion_point(copy_constructor:StoreImageRequest)
 }
 
-void ImageRequest::SharedCtor() {
+void StoreImageRequest::SharedCtor() {
   image_name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   image_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  size_ = 0;
 }
 
-ImageRequest::~ImageRequest() {
-  // @@protoc_insertion_point(destructor:ImageRequest)
+StoreImageRequest::~StoreImageRequest() {
+  // @@protoc_insertion_point(destructor:StoreImageRequest)
   SharedDtor();
 }
 
-void ImageRequest::SharedDtor() {
+void StoreImageRequest::SharedDtor() {
   image_name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   image_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
-void ImageRequest::SetCachedSize(int size) const {
+void StoreImageRequest::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* ImageRequest::descriptor() {
+const ::google::protobuf::Descriptor* StoreImageRequest::descriptor() {
   ::protobuf_template_5fmatch_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_template_5fmatch_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const ImageRequest& ImageRequest::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_template_5fmatch_2eproto::scc_info_ImageRequest.base);
+const StoreImageRequest& StoreImageRequest::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_template_5fmatch_2eproto::scc_info_StoreImageRequest.base);
   return *internal_default_instance();
 }
 
 
-void ImageRequest::Clear() {
-// @@protoc_insertion_point(message_clear_start:ImageRequest)
+void StoreImageRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:StoreImageRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   image_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   image_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  size_ = 0;
   _internal_metadata_.Clear();
 }
 
-bool ImageRequest::MergePartialFromCodedStream(
+bool StoreImageRequest::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:ImageRequest)
+  // @@protoc_insertion_point(parse_start:StoreImageRequest)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
@@ -225,7 +230,7 @@ bool ImageRequest::MergePartialFromCodedStream(
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
             this->image_name().data(), static_cast<int>(this->image_name().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "ImageRequest.image_name"));
+            "StoreImageRequest.image_name"));
         } else {
           goto handle_unusual;
         }
@@ -244,6 +249,20 @@ bool ImageRequest::MergePartialFromCodedStream(
         break;
       }
 
+      // int32 size = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &size_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -256,17 +275,17 @@ bool ImageRequest::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:ImageRequest)
+  // @@protoc_insertion_point(parse_success:StoreImageRequest)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:ImageRequest)
+  // @@protoc_insertion_point(parse_failure:StoreImageRequest)
   return false;
 #undef DO_
 }
 
-void ImageRequest::SerializeWithCachedSizes(
+void StoreImageRequest::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:ImageRequest)
+  // @@protoc_insertion_point(serialize_start:StoreImageRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -275,7 +294,7 @@ void ImageRequest::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->image_name().data(), static_cast<int>(this->image_name().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "ImageRequest.image_name");
+      "StoreImageRequest.image_name");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->image_name(), output);
   }
@@ -286,17 +305,22 @@ void ImageRequest::SerializeWithCachedSizes(
       2, this->image(), output);
   }
 
+  // int32 size = 3;
+  if (this->size() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->size(), output);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:ImageRequest)
+  // @@protoc_insertion_point(serialize_end:StoreImageRequest)
 }
 
-::google::protobuf::uint8* ImageRequest::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* StoreImageRequest::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:ImageRequest)
+  // @@protoc_insertion_point(serialize_to_array_start:StoreImageRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -305,7 +329,7 @@ void ImageRequest::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->image_name().data(), static_cast<int>(this->image_name().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "ImageRequest.image_name");
+      "StoreImageRequest.image_name");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->image_name(), target);
@@ -318,16 +342,21 @@ void ImageRequest::SerializeWithCachedSizes(
         2, this->image(), target);
   }
 
+  // int32 size = 3;
+  if (this->size() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->size(), target);
+  }
+
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:ImageRequest)
+  // @@protoc_insertion_point(serialize_to_array_end:StoreImageRequest)
   return target;
 }
 
-size_t ImageRequest::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:ImageRequest)
+size_t StoreImageRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:StoreImageRequest)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -349,28 +378,35 @@ size_t ImageRequest::ByteSizeLong() const {
         this->image());
   }
 
+  // int32 size = 3;
+  if (this->size() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->size());
+  }
+
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void ImageRequest::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:ImageRequest)
+void StoreImageRequest::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:StoreImageRequest)
   GOOGLE_DCHECK_NE(&from, this);
-  const ImageRequest* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const ImageRequest>(
+  const StoreImageRequest* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const StoreImageRequest>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ImageRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:StoreImageRequest)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:ImageRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:StoreImageRequest)
     MergeFrom(*source);
   }
 }
 
-void ImageRequest::MergeFrom(const ImageRequest& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:ImageRequest)
+void StoreImageRequest::MergeFrom(const StoreImageRequest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:StoreImageRequest)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -384,40 +420,44 @@ void ImageRequest::MergeFrom(const ImageRequest& from) {
 
     image_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.image_);
   }
+  if (from.size() != 0) {
+    set_size(from.size());
+  }
 }
 
-void ImageRequest::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:ImageRequest)
+void StoreImageRequest::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:StoreImageRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void ImageRequest::CopyFrom(const ImageRequest& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:ImageRequest)
+void StoreImageRequest::CopyFrom(const StoreImageRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:StoreImageRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool ImageRequest::IsInitialized() const {
+bool StoreImageRequest::IsInitialized() const {
   return true;
 }
 
-void ImageRequest::Swap(ImageRequest* other) {
+void StoreImageRequest::Swap(StoreImageRequest* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void ImageRequest::InternalSwap(ImageRequest* other) {
+void StoreImageRequest::InternalSwap(StoreImageRequest* other) {
   using std::swap;
   image_name_.Swap(&other->image_name_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
   image_.Swap(&other->image_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
+  swap(size_, other->size_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata ImageRequest::GetMetadata() const {
+::google::protobuf::Metadata StoreImageRequest::GetMetadata() const {
   protobuf_template_5fmatch_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_template_5fmatch_2eproto::file_level_metadata[kIndexInFileMessages];
 }
@@ -425,21 +465,21 @@ void ImageRequest::InternalSwap(ImageRequest* other) {
 
 // ===================================================================
 
-void ImageResponse::InitAsDefaultInstance() {
+void StoreImageResponse::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ImageResponse::kSuccessFieldNumber;
-const int ImageResponse::kStrMessageFieldNumber;
+const int StoreImageResponse::kSuccessFieldNumber;
+const int StoreImageResponse::kStrMessageFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-ImageResponse::ImageResponse()
+StoreImageResponse::StoreImageResponse()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   ::google::protobuf::internal::InitSCC(
-      &protobuf_template_5fmatch_2eproto::scc_info_ImageResponse.base);
+      &protobuf_template_5fmatch_2eproto::scc_info_StoreImageResponse.base);
   SharedCtor();
-  // @@protoc_insertion_point(constructor:ImageResponse)
+  // @@protoc_insertion_point(constructor:StoreImageResponse)
 }
-ImageResponse::ImageResponse(const ImageResponse& from)
+StoreImageResponse::StoreImageResponse(const StoreImageResponse& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
@@ -448,39 +488,39 @@ ImageResponse::ImageResponse(const ImageResponse& from)
     str_message_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.str_message_);
   }
   success_ = from.success_;
-  // @@protoc_insertion_point(copy_constructor:ImageResponse)
+  // @@protoc_insertion_point(copy_constructor:StoreImageResponse)
 }
 
-void ImageResponse::SharedCtor() {
+void StoreImageResponse::SharedCtor() {
   str_message_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   success_ = false;
 }
 
-ImageResponse::~ImageResponse() {
-  // @@protoc_insertion_point(destructor:ImageResponse)
+StoreImageResponse::~StoreImageResponse() {
+  // @@protoc_insertion_point(destructor:StoreImageResponse)
   SharedDtor();
 }
 
-void ImageResponse::SharedDtor() {
+void StoreImageResponse::SharedDtor() {
   str_message_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
-void ImageResponse::SetCachedSize(int size) const {
+void StoreImageResponse::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* ImageResponse::descriptor() {
+const ::google::protobuf::Descriptor* StoreImageResponse::descriptor() {
   ::protobuf_template_5fmatch_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_template_5fmatch_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const ImageResponse& ImageResponse::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_template_5fmatch_2eproto::scc_info_ImageResponse.base);
+const StoreImageResponse& StoreImageResponse::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_template_5fmatch_2eproto::scc_info_StoreImageResponse.base);
   return *internal_default_instance();
 }
 
 
-void ImageResponse::Clear() {
-// @@protoc_insertion_point(message_clear_start:ImageResponse)
+void StoreImageResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:StoreImageResponse)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -490,11 +530,11 @@ void ImageResponse::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool ImageResponse::MergePartialFromCodedStream(
+bool StoreImageResponse::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:ImageResponse)
+  // @@protoc_insertion_point(parse_start:StoreImageResponse)
   for (;;) {
     ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
@@ -523,7 +563,7 @@ bool ImageResponse::MergePartialFromCodedStream(
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
             this->str_message().data(), static_cast<int>(this->str_message().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "ImageResponse.str_message"));
+            "StoreImageResponse.str_message"));
         } else {
           goto handle_unusual;
         }
@@ -542,17 +582,17 @@ bool ImageResponse::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:ImageResponse)
+  // @@protoc_insertion_point(parse_success:StoreImageResponse)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:ImageResponse)
+  // @@protoc_insertion_point(parse_failure:StoreImageResponse)
   return false;
 #undef DO_
 }
 
-void ImageResponse::SerializeWithCachedSizes(
+void StoreImageResponse::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:ImageResponse)
+  // @@protoc_insertion_point(serialize_start:StoreImageResponse)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -566,7 +606,7 @@ void ImageResponse::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->str_message().data(), static_cast<int>(this->str_message().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "ImageResponse.str_message");
+      "StoreImageResponse.str_message");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->str_message(), output);
   }
@@ -575,13 +615,13 @@ void ImageResponse::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:ImageResponse)
+  // @@protoc_insertion_point(serialize_end:StoreImageResponse)
 }
 
-::google::protobuf::uint8* ImageResponse::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* StoreImageResponse::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:ImageResponse)
+  // @@protoc_insertion_point(serialize_to_array_start:StoreImageResponse)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -595,7 +635,7 @@ void ImageResponse::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->str_message().data(), static_cast<int>(this->str_message().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "ImageResponse.str_message");
+      "StoreImageResponse.str_message");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->str_message(), target);
@@ -605,12 +645,12 @@ void ImageResponse::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:ImageResponse)
+  // @@protoc_insertion_point(serialize_to_array_end:StoreImageResponse)
   return target;
 }
 
-size_t ImageResponse::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:ImageResponse)
+size_t StoreImageResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:StoreImageResponse)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -635,23 +675,23 @@ size_t ImageResponse::ByteSizeLong() const {
   return total_size;
 }
 
-void ImageResponse::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:ImageResponse)
+void StoreImageResponse::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:StoreImageResponse)
   GOOGLE_DCHECK_NE(&from, this);
-  const ImageResponse* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const ImageResponse>(
+  const StoreImageResponse* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const StoreImageResponse>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ImageResponse)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:StoreImageResponse)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:ImageResponse)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:StoreImageResponse)
     MergeFrom(*source);
   }
 }
 
-void ImageResponse::MergeFrom(const ImageResponse& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:ImageResponse)
+void StoreImageResponse::MergeFrom(const StoreImageResponse& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:StoreImageResponse)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -666,29 +706,29 @@ void ImageResponse::MergeFrom(const ImageResponse& from) {
   }
 }
 
-void ImageResponse::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:ImageResponse)
+void StoreImageResponse::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:StoreImageResponse)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void ImageResponse::CopyFrom(const ImageResponse& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:ImageResponse)
+void StoreImageResponse::CopyFrom(const StoreImageResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:StoreImageResponse)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool ImageResponse::IsInitialized() const {
+bool StoreImageResponse::IsInitialized() const {
   return true;
 }
 
-void ImageResponse::Swap(ImageResponse* other) {
+void StoreImageResponse::Swap(StoreImageResponse* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void ImageResponse::InternalSwap(ImageResponse* other) {
+void StoreImageResponse::InternalSwap(StoreImageResponse* other) {
   using std::swap;
   str_message_.Swap(&other->str_message_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
@@ -696,7 +736,7 @@ void ImageResponse::InternalSwap(ImageResponse* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
 }
 
-::google::protobuf::Metadata ImageResponse::GetMetadata() const {
+::google::protobuf::Metadata StoreImageResponse::GetMetadata() const {
   protobuf_template_5fmatch_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_template_5fmatch_2eproto::file_level_metadata[kIndexInFileMessages];
 }
@@ -705,11 +745,11 @@ void ImageResponse::InternalSwap(ImageResponse* other) {
 // @@protoc_insertion_point(namespace_scope)
 namespace google {
 namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::ImageRequest* Arena::CreateMaybeMessage< ::ImageRequest >(Arena* arena) {
-  return Arena::CreateInternal< ::ImageRequest >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::StoreImageRequest* Arena::CreateMaybeMessage< ::StoreImageRequest >(Arena* arena) {
+  return Arena::CreateInternal< ::StoreImageRequest >(arena);
 }
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::ImageResponse* Arena::CreateMaybeMessage< ::ImageResponse >(Arena* arena) {
-  return Arena::CreateInternal< ::ImageResponse >(arena);
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::StoreImageResponse* Arena::CreateMaybeMessage< ::StoreImageResponse >(Arena* arena) {
+  return Arena::CreateInternal< ::StoreImageResponse >(arena);
 }
 }  // namespace protobuf
 }  // namespace google
