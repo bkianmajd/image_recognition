@@ -14,4 +14,3 @@ SOURCES += $${WORKSPACE}image_ipc/ipc_server/image_command_distributor_test.cpp
 
 include(ipc_server.pri)
 include(responses/responses.pri)
-include(file_manager/file_manager.pri)

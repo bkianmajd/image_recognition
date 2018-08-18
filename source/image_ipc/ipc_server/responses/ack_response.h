@@ -1,7 +1,7 @@
 #ifndef ACK_RESPONSE_H_
 #define ACK_RESPONSE_H_
 
-#include "image_ipc/ipc_server/iresponse.h"
+#include "image_ipc/ipc_server/response_handler.h"
 #include "schema/compiled_files/responses.pb.h"
 
 namespace ipc {

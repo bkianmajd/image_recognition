@@ -8,10 +8,11 @@ namespace postal_service {
 /// @interface IPostcard
 ///  All post cards map to a corresponding protobuf.
 class IPostCard {
-public:
-    virtual ~IPostCard() {}
+ public:
+  virtual ~IPostCard() {}
 
-    virtual google::protobuf::Any CreateProtobuf() = 0;
+  /// TODO() the return should be the base class of protobuf
+  virtual google::protobuf::Any CreateProtobuf() = 0;
 };
 
 }  // namespace postal_service

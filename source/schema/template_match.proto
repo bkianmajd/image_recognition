@@ -4,7 +4,7 @@ syntax = "proto3";
 message StoreImageRequest {
   string image_name = 1;
   bytes image = 2;
-  // Assume the format for now
+  // Assume the format for now (jpg)
 }
 
 // The response contains an acknowledgement

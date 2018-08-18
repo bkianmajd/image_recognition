@@ -1,7 +1,6 @@
 #include "image_ipc/ipc_server/image_command_distributor.h"
 
 #include "external_libraries/protobuf/src/google/protobuf/any.pb.h"
-#include "schema/compiled_files/template_match.pb.h"
 #include "schema/compiled_files/test_proto.pb.h"
 
 namespace ipc {
@@ -25,10 +24,17 @@ void ImageCommandDistributor::Distribute(std::string& string) {
   if (any.Is<StoreImageRequest>()) {
     StoreImageRequest request;
     any.UnpackTo(&request);
-
-    file_manager_->StoreImage(request.image().c_str(), request.size(),
-                              request.image_name());
+    StoreImageResponse response;
+    Handle(request, &response);
+    // TODO() Write ResponseHandler
   }
+}
+
+void ImageCommandDistributor::Handle(const StoreImageRequest& request,
+                                     StoreImageResponse* response) {
+  bool result = file_manager_->StoreFile(request.image().c_str(),
+                                         request.size(), request.image_name());
+  response->set_success(result);
 }
 
 }  // namespace ipc
