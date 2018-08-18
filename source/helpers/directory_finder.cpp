@@ -36,6 +36,10 @@ std::string Convert(const QString& qstr) {
 
 }  // namespace
 
+DirectoryFinder::DirectoryFinder(
+    const std::string& directory_relative_to_executable)
+    : DirectoryFinder(directory_relative_to_executable.c_str()) {}
+
 DirectoryFinder::DirectoryFinder(const char* directory_relative_to_executable) {
   FindAbsExecutablePath();
   abs_path_relative_executable_ += abs_executable_path_;

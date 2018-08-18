@@ -9,6 +9,7 @@ namespace helpers {
 
 class DirectoryFinder {
  public:
+  DirectoryFinder(const std::string& directory_relative_to_executable);
   DirectoryFinder(const char* directory_relative_to_executable = "");
 
   std::string GetAbsPathRelativeToExecutable() const;
