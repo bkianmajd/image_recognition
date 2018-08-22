@@ -6,14 +6,13 @@
 
 namespace postal_service {
 
-void MailDistributorSimple::Distribute(std::string& string) {
-  google::protobuf::Any any;
-  any.ParseFromString(string);
-
+void MailDistributorSimple::Distribute(const google::protobuf::Any& any) {
   if (any.Is<TestProto>()) {
     TestProto test;
     any.UnpackTo(&test);
-    std::cout << test.test_bool() << std::endl;
+    if (test.test_bool()) {
+      std::cout << "true" << std::endl;
+    }
     std::cout << test.test_int() << std::endl;
     return;
   };

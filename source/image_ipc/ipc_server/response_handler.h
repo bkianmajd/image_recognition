@@ -13,28 +13,14 @@ class ResponseHandler : public postal_service::IPostCard {
  public:
   ~ResponseHandler() {}
 
-  void Push(::google::protobuf::Message&& response_message) {
-    queue_.push(response_message);
-  }
+  void Push(std::unique_ptr<::google::protobuf::Message> response_message);
 
-  void Empty() const { return queue_.empty(); }
+  bool Empty() const;
 
-  virtual google::protobuf::Any CreateProtobuf() override {
-    // caller is responsible for making sure queue_ is not empty
-    assert(!queue_.empty());
-    const ::google::protobuf::Message& message = queue_.front();
-
-    // Does an unnecessary copy...revisit this later. Might be better to return
-    // a string from the post card. Any should only be used as a proto
-    // definition. The base class takes care of any.
-    google::protobuf::Any any;
-    any.PackFrom(message);
-    queue_.pop();
-    return any;
-  }
+  virtual google::protobuf::Any CreateProtobuf() override;
 
  private:
-  std::queue<::google::protobuf::Message> queue_;
+  std::queue<std::unique_ptr<::google::protobuf::Message>> queue_;
 };
 
 }  // namespace ipc_server

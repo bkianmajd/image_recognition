@@ -20,7 +20,12 @@ std::unique_ptr<com_layer::ICarrier> CarrierFactory(Type type) {
 
 PostalService::PostalService(Type type) : carrier_(CarrierFactory(type)) {}
 
-void PostalService::Init() { carrier_->Init(); }
+void PostalService::Init() {
+  if (!carrier_) {
+    return;
+  }
+  carrier_->Init();
+}
 
 void PostalService::SendPostCard(IPostCard& post_card) const {
   google::protobuf::Any any = post_card.CreateProtobuf();
@@ -30,8 +35,18 @@ void PostalService::SendPostCard(IPostCard& post_card) const {
 
 void PostalService::GetMail(IMailDistributor& mail_distributor) {
   carrier_->SwapReceivedByteArray(received_byte_array_);
-  mail_distributor.Distribute(received_byte_array_);
+  google::protobuf::Any any;
+  any.ParseFromString(received_byte_array_);
+
+  mail_distributor.Distribute(any);
   received_byte_array_.clear();
+}
+
+bool PostalService::IsOpen() const {
+  if (!carrier_) {
+    return false;
+  }
+  return carrier_->IsConnected();
 }
 
 }  // namespace postal_service

@@ -27,6 +27,8 @@ class PostalService {
 
   void GetMail(IMailDistributor& mail_distributor);
 
+  bool IsOpen() const;
+
  private:
   std::unique_ptr<com_layer::ICarrier> carrier_;
 

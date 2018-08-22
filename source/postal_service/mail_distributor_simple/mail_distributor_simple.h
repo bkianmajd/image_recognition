@@ -9,7 +9,7 @@ class MailDistributorSimple : public IMailDistributor {
  public:
   MailDistributorSimple() {}
 
-  void Distribute(std::string& string);
+  void Distribute(const google::protobuf::Any& any);
 
  private:
 };
