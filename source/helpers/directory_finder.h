@@ -7,8 +7,12 @@
 
 namespace helpers {
 
+/// This class finds the executable location, and returns the abs path of the
+/// specified target. The specified directory is passed through the constructur.
+/// The specified file is passed through the argument.
 class DirectoryFinder {
  public:
+  /// The target directory relative to the executable is specified.
   DirectoryFinder(const std::string& directory_relative_to_executable);
   DirectoryFinder(const char* directory_relative_to_executable = "");
 

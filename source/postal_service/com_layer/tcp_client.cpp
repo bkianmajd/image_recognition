@@ -15,19 +15,18 @@ TcpClient::TcpClient(QObject* parent) : QObject(parent), connected_(false) {
   connect(socket_.get(), SIGNAL(readyRead()), this, SLOT(OnReadyRead()));
 }
 
-TcpClient::~TcpClient() {
-  socket_->close();
-}
+TcpClient::~TcpClient() { Disconnect(); }
 
-void TcpClient::Init() {
+void TcpClient::Disconnect() { socket_->close(); }
+
+void TcpClient::Init(const ConnectionInfo& connection_info) {
   qDebug() << "Attempting to connect to host";
-  socket_->setSocketDescriptor(kPort);
-  socket_->connectToHost(QHostAddress(kConnectAddress), kPort);
+  socket_->setSocketDescriptor(connection_info.port);
+  socket_->connectToHost(QHostAddress(connection_info.connection_address),
+                         connection_info.port);
 }
 
-bool TcpClient::IsConnected() const {
-  return connected_.load();
-}
+bool TcpClient::IsConnected() const { return connected_.load(); }
 
 void TcpClient::OnConnected() {
   qDebug() << "TCP CLient Connected!";

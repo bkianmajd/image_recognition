@@ -19,7 +19,7 @@ class TcpServer : public QObject, public ICarrier {
 
   ~TcpServer();
 
-  void Init() override;
+  void Init(const ConnectionInfo& connection_info = ConnectionInfo()) override;
 
   // TcpIsOpen
   bool IsConnected() const override;
@@ -29,6 +29,8 @@ class TcpServer : public QObject, public ICarrier {
 
   // Swap the |byte_array_|
   void SwapReceivedByteArray(std::string& byte_array) override;
+
+  void Disconnect() override;
 
  private slots:
   void OnNewConnection();

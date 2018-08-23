@@ -19,9 +19,10 @@ enum Type {
 ///  All post cards map to a corresponding protobuf.
 class PostalService {
  public:
-  PostalService(Type type = Type::client);
+  explicit PostalService(Type type = Type::client);
 
-  void Init();
+  // This is a blocking call
+  void Init(const com_layer::ConnectionInfo& connection_info);
 
   void SendPostCard(IPostCard& post_card) const;
 

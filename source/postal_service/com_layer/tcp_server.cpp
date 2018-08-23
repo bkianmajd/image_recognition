@@ -16,8 +16,10 @@ TcpServer::TcpServer() : tcp_socket_(nullptr), byte_array_() {
   connect(&tcp_server_, SIGNAL(newConnection()), this, SLOT(OnNewConnection()));
 }
 
-TcpServer::~TcpServer() {
-  tcp_server_.disconnect();
+TcpServer::~TcpServer() { Disconnect(); }
+
+void TcpServer::Disconnect() {
+  tcp_server_.close();
   if (tcp_socket_ == nullptr) {
     return;
   }
@@ -26,8 +28,8 @@ TcpServer::~TcpServer() {
   }
 }
 
-void TcpServer::Init() {
-  if (!tcp_server_.listen(QHostAddress::Any, kPort)) {
+void TcpServer::Init(const ConnectionInfo& connection_info) {
+  if (!tcp_server_.listen(QHostAddress::Any, connection_info.port)) {
     qDebug() << "Cannot listen";
     return;
   }
@@ -35,10 +37,11 @@ void TcpServer::Init() {
 }
 
 bool TcpServer::IsConnected() const {
-  if(tcp_socket_ == nullptr) {
+  if (tcp_socket_ == nullptr) {
     return false;
   }
-  return tcp_socket_->isOpen(); }
+  return tcp_socket_->isOpen();
+}
 
 void TcpServer::OnNewConnection() {
   qDebug() << "Tcp Server received new connection!\n";

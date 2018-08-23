@@ -2,11 +2,7 @@
 
 namespace ipc {
 namespace ipc_server {
-namespace {
-
-constexpr std::chrono::seconds kInitTimeout = std::chrono::seconds(5);
-
-}  // namespace
+namespace {}  // namespace
 
 IpcServerController::IpcServerController(
     postal_service::PostalService* postal_service,
@@ -22,18 +18,20 @@ bool IpcServerController::Initialize() {
     return false;
   }
 
-  postal_service_->Init();
-  int max_counter = kInitTimeout / std::chrono::milliseconds(50);
-  int counter = 0;
+  com_layer::ConnectionInfo connection_info;
+  std::cout << "Server: Listening for the first connection on port number "
+            << connection_info.port << std::endl;
 
-  while (!postal_service_->IsOpen()) {
-    if (counter++ > max_counter) {
-      return false;
-    }
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+  // TODO(): return the connected socket address
+  // TODO(): Add a close function to stop listening
+  postal_service_->Init(connection_info);
+
+  if (postal_service_->IsOpen()) {
+    std::cout << "Initialization success" << std::endl;
+    return true;
   }
 
-  return true;
+  return false;
 }
 
 void IpcServerController::Run() {
@@ -44,8 +42,8 @@ void IpcServerController::Run() {
     // Receieve something
     postal_service_->GetMail(*imail_distributor_);
 
-    // Send response
-    if (!response_handler_->Empty()) {
+    // Send response(s)
+    while (!response_handler_->Empty()) {
       postal_service_->SendPostCard(*response_handler_);
     }
   } while (state_ == State::STATE_RUNNING);
