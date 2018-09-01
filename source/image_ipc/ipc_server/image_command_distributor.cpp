@@ -9,7 +9,7 @@ namespace ipc_server {
 namespace {}  // namespace
 
 ImageCommandDistributor::ImageCommandDistributor(
-    FileManager* file_manager, ResponseHandler* response_handler)
+    FileManager* file_manager, postal_service::PostCardQueue* response_handler)
     : file_manager_(file_manager), response_handler_(response_handler) {}
 
 void ImageCommandDistributor::Distribute(const google::protobuf::Any& any) {

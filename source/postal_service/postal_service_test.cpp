@@ -6,8 +6,8 @@
 #include <iostream>
 #include <thread>
 
-#include "postal_service/mail_distributor_simple/mail_distributor_simple.h"
-#include "postal_service/post_cards/test_post_card.h"
+#include "postal_service/utility/mail_distributor_simple.h"
+#include "postal_service/utility/test_post_card.h"
 
 postal_service::PostalService server(postal_service::server);
 postal_service::PostalService client(postal_service::client);

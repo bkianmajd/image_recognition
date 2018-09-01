@@ -1,4 +1,4 @@
-#include "postal_service/mail_distributor_simple/mail_distributor_simple.h"
+#include "postal_service/utility/mail_distributor_simple.h"
 
 #include <iostream>
 #include "external_libraries/protobuf/src/google/protobuf/any.pb.h"

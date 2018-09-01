@@ -7,13 +7,13 @@
 #include "helpers/directory_finder.h"
 #include "helpers/memory_helper.hpp"
 #include "image_ipc/file_manager/file_manager.h"
-#include "image_ipc/ipc_server/response_handler.h"
-#include "postal_service/post_cards/test_post_card.h"
 #include "postal_service/postal_service.h"
+#include "postal_service/utility/mail_distributor_queue.h"
+#include "postal_service/utility/post_card_queue.h"
 #include "schema/compiled_files/template_match.pb.h"
 
 postal_service::PostalService client(postal_service::client);
-ipc::ipc_server::ResponseHandler response_handler;
+postal_service::PostCardQueue response_handler;
 
 void StartClient(QCoreApplication* a) {
   if (!client.WaitForOpen()) {
@@ -32,7 +32,7 @@ void StartClient(QCoreApplication* a) {
       helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace);
 
   // Get the binary of the file image
-  ipc::ipc_server::FileManager file_manager(directory_finder.GetAbsPath());
+  ipc::FileManager file_manager(directory_finder.GetAbsPath());
   std::vector<char> binary = file_manager.ReadFile(testing_main::kImageOne);
 
   std::cout << "Storing image of size " << binary.size() << std::endl;
@@ -54,11 +54,16 @@ void StartClient(QCoreApplication* a) {
   client.SendPostCard(response_handler);
 
   // Wait for the response
-  // TODO() Write a mail distributor mailbox
-  // mail distributor queue
-  // client.GetMail();
+  postal_service::MailDistributorQueue response_queue;
+  while (response_queue.Empty()) {
+    client.GetMail(response_queue);
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+  }
 
-  // a->quit();
+  auto test = response_queue.Front();
+  test.PrintDebugString();
+
+  a->quit();
 }
 
 int main(int argc, char* argv[]) {

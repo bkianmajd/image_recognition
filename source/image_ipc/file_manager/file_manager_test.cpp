@@ -11,8 +11,6 @@
 #include "helpers/memory_helper.hpp"
 
 namespace ipc {
-namespace ipc_server {
-
 namespace {
 const std::string kTestImage = "test_output.jpg";
 }  // namespace
@@ -45,5 +43,4 @@ TEST_F(FileManagerTest, ReadSaveAndDeleteImage) {
   EXPECT_TRUE(file_manager_.DeleteFile(kTestImage));
 }
 
-}  // namespace ipc_server
 }  // namespace ipc

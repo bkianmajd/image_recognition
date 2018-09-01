@@ -8,6 +8,7 @@
 #include "image_ipc/ipc_server/image_command_distributor.h"
 #include "image_ipc/ipc_server/ipc_server_controller.h"
 #include "postal_service/com_layer/tcp_server.h"
+#include "postal_service/utility/post_card_queue.h"
 
 std::string GetFileManagerDirectory() {
   helpers::DirectoryFinder directory(
@@ -34,10 +35,10 @@ int Main(int argc, char* argv[]) {
           postal_service::Type::server);
 
   // Construction - ImageCommandDistributor
-  std::unique_ptr<ipc::ipc_server::FileManager> file_manager =
-      std::make_unique<ipc::ipc_server::FileManager>(GetFileManagerDirectory());
-  std::unique_ptr<ipc::ipc_server::ResponseHandler> response_handler =
-      std::make_unique<ipc::ipc_server::ResponseHandler>();
+  std::unique_ptr<ipc::FileManager> file_manager =
+      std::make_unique<ipc::FileManager>(GetFileManagerDirectory());
+  std::unique_ptr<postal_service::PostCardQueue> response_handler =
+      std::make_unique<postal_service::PostCardQueue>();
   std::unique_ptr<ipc::ipc_server::ImageCommandDistributor>
       image_command_distributor =
           std::make_unique<ipc::ipc_server::ImageCommandDistributor>(

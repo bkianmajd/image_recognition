@@ -9,7 +9,6 @@
 #include "helpers/directory_finder.h"
 
 namespace ipc {
-namespace ipc_server {
 namespace {
 
 constexpr char kSlash = '/';
@@ -104,5 +103,4 @@ std::vector<char> FileManager::ReadFile(const std::string& file_name) {
   return binary_data;
 }
 
-}  // namespace ipc_server
 }  // namespace ipc

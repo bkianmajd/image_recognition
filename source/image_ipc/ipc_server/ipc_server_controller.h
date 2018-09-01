@@ -4,9 +4,11 @@
 #include <chrono>
 #include <thread>
 #include "image_ipc/file_manager/file_manager.h"
-#include "image_ipc/ipc_server/response_handler.h"
 #include "postal_service/imail_distributor.h"
 #include "postal_service/postal_service.h"
+#include "postal_service/utility/post_card_queue.h"
+
+#include "postal_service/utility/post_card_queue.h"
 
 namespace ipc {
 namespace ipc_server {
@@ -21,7 +23,7 @@ class IpcServerController {
  public:
   IpcServerController(postal_service::PostalService* postal_service,
                       postal_service::IMailDistributor* imail_distributor,
-                      ResponseHandler* response_handler);
+                      postal_service::PostCardQueue* response_handler);
 
   // Initialize the communication with the first client and ensure connection
   // This function must be called from the main thread due to exec()
@@ -35,7 +37,7 @@ class IpcServerController {
   State state_;
   postal_service::PostalService* postal_service_;
   postal_service::IMailDistributor* imail_distributor_;
-  ResponseHandler* response_handler_;
+  postal_service::PostCardQueue* response_handler_;
 };
 
 }  // namespace ipc

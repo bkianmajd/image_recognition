@@ -7,7 +7,6 @@
 #include <vector>
 
 namespace ipc {
-namespace ipc_server {
 
 class FileManager {
  public:
@@ -23,7 +22,6 @@ class FileManager {
   const std::string directory_;
 };
 
-}  // namespace ipc_server
 }  // namespace ipc
 
 #endif  // FILE_MANAGER_H_

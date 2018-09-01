@@ -1,17 +1,17 @@
-#ifndef IRESPONSE_H_
-#define IRESPONSE_H_
+#ifndef POSTCARDQUEUE_H_
+#define POSTCARDQUEUE_H_
 
 #include <queue>
+#include <memory>
 #include "external_libraries/protobuf/src/google/protobuf/any.pb.h"
 #include "postal_service/ipost_card.h"
 
-namespace ipc {
-namespace ipc_server {
+namespace postal_service {
 
-/// @class Repsonse handler sends an IPostCard in the queue
-class ResponseHandler : public postal_service::IPostCard {
+/// @class PostCardQueue converts protobuf into a postcard
+class PostCardQueue : public postal_service::IPostCard {
  public:
-  ~ResponseHandler() {}
+  ~PostCardQueue() {}
 
   void Push(std::unique_ptr<::google::protobuf::Message> response_message);
 
@@ -23,7 +23,6 @@ class ResponseHandler : public postal_service::IPostCard {
   std::queue<std::unique_ptr<::google::protobuf::Message>> queue_;
 };
 
-}  // namespace ipc_server
-}  // namespace ipc
+}  // namespace postal_service
 
-#endif  // IRESPONSE_H_
+#endif  // POSTCARDQUEUE_H_

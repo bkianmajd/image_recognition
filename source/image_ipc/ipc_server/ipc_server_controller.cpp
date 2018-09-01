@@ -14,7 +14,7 @@ const std::chrono::milliseconds kRunDuration = std::chrono::milliseconds(500);
 IpcServerController::IpcServerController(
     postal_service::PostalService* postal_service,
     postal_service::IMailDistributor* imail_distributor,
-    ResponseHandler* response_handler)
+    postal_service::PostCardQueue* response_handler)
     : postal_service_(postal_service),
       imail_distributor_(imail_distributor),
       response_handler_(response_handler) {}
