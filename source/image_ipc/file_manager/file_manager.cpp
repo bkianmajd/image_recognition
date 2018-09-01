@@ -10,9 +10,30 @@
 
 namespace ipc {
 namespace ipc_server {
+namespace {
 
+constexpr char kSlash = '/';
+
+// Always adds a slash to the target_directory unless the target_direcetory is
+// empty
+std::string VerifySlash(const char* target_directory) {
+  std::string string_directory(target_directory);
+  if (string_directory.size() == 0) {
+    return string_directory;
+  }
+
+  if (string_directory.at(string_directory.size() - 1) != kSlash) {
+    string_directory += kSlash;
+  }
+
+  return string_directory;
+}
+
+}  // namespace
+
+// The directory should always have a slash
 FileManager::FileManager(const std::string& directory)
-    : directory_(directory) {}
+    : directory_(VerifySlash(directory.c_str())) {}
 
 bool FileManager::StoreFile(const char* data, size_t size,
                             const std::string& file_name) {
@@ -23,6 +44,8 @@ bool FileManager::StoreFile(const char* data, size_t size,
   // Open the destination file
   FILE* fp = std::fopen(directory_file_path.c_str(), "wb");
   if (!fp) {
+    std::cerr << "failed to open directory file path " << directory_file_path
+              << std::endl;
     return false;
   }
 

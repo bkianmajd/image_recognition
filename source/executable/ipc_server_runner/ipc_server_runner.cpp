@@ -1,6 +1,7 @@
 #include <QCoreApplication>
-#include <iostream>
 
+#include <iostream>
+#include <thread>
 #include "executable/ipc_server_runner/static_config.h"
 #include "helpers/directory_finder.h"
 #include "helpers/memory_helper.hpp"
@@ -10,11 +11,21 @@
 
 std::string GetFileManagerDirectory() {
   helpers::DirectoryFinder directory(
-      ipc_server_runner::kFileManagerDataDirectory);
-  return directory.GetAbsPathRelativeToExecutable();
+      ipc_server_runner::kFileManagerDataDirectory,
+      helpers::DirectoryFinder::ReferenceFrame::RelativeToExec);
+  return directory.GetAbsPath();
 }
 
-int Main(int argc, char *argv[]) {
+void RunControllerThread(QCoreApplication* a,
+                         ipc::ipc_server::IpcServerController* ipc_controller) {
+  // Controller run
+  ipc_controller->Run();
+
+  std::cout << "IPC Controller stopped running" << std::endl;
+  a->quit();
+}
+
+int Main(int argc, char* argv[]) {
   QCoreApplication a(argc, argv);
 
   // Construction - PostalService
@@ -39,19 +50,22 @@ int Main(int argc, char *argv[]) {
           response_handler.get());
 
   // Initialization
-  if(!ipc_server_controller->Initialize()) {
-    std::cerr << "Initialization failed" << std::endl;
-    return -1;
-  }
-  std::cout << "Initialization success!" << std::endl;
+  ipc_server_controller->Initialize();
 
-  // Start threads and transfer ownership
+  // Start thread and transfer ownership
+  std::thread t1(RunControllerThread, &a, ipc_server_controller.get());
 
   // Run the main thread in the background
-  return a.exec();
+  a.exec();
+
+  // Close the threads
+  std::cout << "Returning" << std::endl;
+  t1.join();
+
+  return 0;
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
   try {
     return Main(argc, argv);
   } catch (...) {

@@ -22,7 +22,8 @@ class ImageCommandDistributor : public postal_service::IMailDistributor {
   void Distribute(const google::protobuf::Any& any) override;
 
  private:
-  void Handle(const StoreImageRequest& request, StoreImageResponse* response);
+  void Handle(const ipc_interface::StoreImageRequest& request,
+              ipc_interface::StoreImageResponse* response);
 
   FileManager* file_manager_;
   ResponseHandler* response_handler_;

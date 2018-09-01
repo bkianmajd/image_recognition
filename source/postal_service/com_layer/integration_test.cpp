@@ -1,6 +1,6 @@
-#include "postal_service/com_layer/tcp_server.h"
 #include "postal_service/com_layer/com_defs.h"
 #include "postal_service/com_layer/tcp_client.h"
+#include "postal_service/com_layer/tcp_server.h"
 
 #include <stdlib.h>
 #include <QCoreApplication>
@@ -18,11 +18,12 @@ int main(int argc, char *argv[]) {
 
   TcpServer tcp_server_;
   TcpClient tcp_client_;
+  ConnectionInfo connection_info;
 
-  tcp_server_.Init();
+  tcp_server_.Init(connection_info);
 
   qDebug() << "starting to connect\n";
-  tcp_client_.Init();
+  tcp_client_.Init(connection_info);
 
   return a.exec();
 }

@@ -10,7 +10,7 @@ class ICarrier {
  public:
   virtual ~ICarrier() {}
   virtual bool IsConnected() const = 0;
-  virtual void SendData(const char* byte_array, int ln) const = 0;
+  virtual void SendData(const char* byte_array, int ln) = 0;
   virtual void SwapReceivedByteArray(std::string& byte_array) = 0;
   virtual void Init(const ConnectionInfo& connection_info) = 0;
   virtual void Disconnect() = 0;

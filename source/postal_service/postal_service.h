@@ -21,8 +21,10 @@ class PostalService {
  public:
   explicit PostalService(Type type = Type::client);
 
-  // This is a blocking call
-  void Init(const com_layer::ConnectionInfo& connection_info);
+  void AsyncInit(const com_layer::ConnectionInfo& connection_info);
+
+  // This is a blocking call and should be called after exec() is running
+  bool WaitForOpen();
 
   void SendPostCard(IPostCard& post_card) const;
 

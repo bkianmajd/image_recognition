@@ -25,12 +25,15 @@ class TcpServer : public QObject, public ICarrier {
   bool IsConnected() const override;
 
   // Send the byte array
-  void SendData(const char* byte_array, int ln) const override;
+  void SendData(const char* byte_array, int ln);
 
   // Swap the |byte_array_|
   void SwapReceivedByteArray(std::string& byte_array) override;
 
   void Disconnect() override;
+
+ signals:
+  void ReadySend();
 
  private slots:
   void OnNewConnection();
@@ -38,15 +41,19 @@ class TcpServer : public QObject, public ICarrier {
   // the |tcp_socket_| has sent a signal ReadyRead
   // and the tcp socket is ready to read data from the socket.
   void OnReadyRead();
+  void OnReadySend();
 
  private:
   FRIEND_TEST(TcpServerTest, SwapByteArrayTest);
 
   QTcpServer tcp_server_;
   QTcpSocket* tcp_socket_;
-  std::string byte_array_;
 
+  std::string byte_read_array_;
   std::mutex byte_read_mutex_;
+
+  std::string byte_write_array_;
+  std::mutex byte_write_mutex_;
 };
 
 }  // namespace com_layer

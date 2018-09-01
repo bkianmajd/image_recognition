@@ -6,7 +6,6 @@
 
 namespace ipc {
 namespace ipc_server {
-
 namespace {}  // namespace
 
 ImageCommandDistributor::ImageCommandDistributor(
@@ -23,11 +22,11 @@ void ImageCommandDistributor::Distribute(const google::protobuf::Any& any) {
     return;
   };
 
-  if (any.Is<StoreImageRequest>()) {
-    StoreImageRequest request;
+  if (any.Is<ipc_interface::StoreImageRequest>()) {
+    ipc_interface::StoreImageRequest request;
     any.UnpackTo(&request);
-    std::unique_ptr<StoreImageResponse> response =
-        std::make_unique<StoreImageResponse>();
+    std::unique_ptr<ipc_interface::StoreImageResponse> response =
+        std::make_unique<ipc_interface::StoreImageResponse>();
     Handle(request, response.get());
     response_handler_->Push(std::move(response));
     return;
@@ -36,10 +35,11 @@ void ImageCommandDistributor::Distribute(const google::protobuf::Any& any) {
   std::cout << "IMAGE_COMMAND_DISTRIBUTOR:string unrecogegnized" << std::endl;
 }
 
-void ImageCommandDistributor::Handle(const StoreImageRequest& request,
-                                     StoreImageResponse* response) {
-  bool result = file_manager_->StoreFile(request.image().c_str(),
-                                         request.size(), request.image_name());
+void ImageCommandDistributor::Handle(
+    const ipc_interface::StoreImageRequest& request,
+    ipc_interface::StoreImageResponse* response) {
+  bool result = file_manager_->StoreFile(
+      request.image().c_str(), request.image().size(), request.image_name());
   response->set_success(result);
 }
 

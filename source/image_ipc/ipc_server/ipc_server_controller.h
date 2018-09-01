@@ -24,7 +24,8 @@ class IpcServerController {
                       ResponseHandler* response_handler);
 
   // Initialize the communication with the first client and ensure connection
-  bool Initialize();
+  // This function must be called from the main thread due to exec()
+  void Initialize();
   void Run();
 
  private:

@@ -1,4 +1,5 @@
 syntax = "proto3";
+package ipc_interface;
 
 // The request message containing the user's name.
 message StoreImageRequest {

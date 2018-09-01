@@ -45,22 +45,25 @@ struct TableStruct {
 };
 void AddDescriptors();
 }  // namespace protobuf_template_5fmatch_2eproto
+namespace ipc_interface {
 class StoreImageRequest;
 class StoreImageRequestDefaultTypeInternal;
 extern StoreImageRequestDefaultTypeInternal _StoreImageRequest_default_instance_;
 class StoreImageResponse;
 class StoreImageResponseDefaultTypeInternal;
 extern StoreImageResponseDefaultTypeInternal _StoreImageResponse_default_instance_;
+}  // namespace ipc_interface
 namespace google {
 namespace protobuf {
-template<> ::StoreImageRequest* Arena::CreateMaybeMessage<::StoreImageRequest>(Arena*);
-template<> ::StoreImageResponse* Arena::CreateMaybeMessage<::StoreImageResponse>(Arena*);
+template<> ::ipc_interface::StoreImageRequest* Arena::CreateMaybeMessage<::ipc_interface::StoreImageRequest>(Arena*);
+template<> ::ipc_interface::StoreImageResponse* Arena::CreateMaybeMessage<::ipc_interface::StoreImageResponse>(Arena*);
 }  // namespace protobuf
 }  // namespace google
+namespace ipc_interface {
 
 // ===================================================================
 
-class StoreImageRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:StoreImageRequest) */ {
+class StoreImageRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ipc_interface.StoreImageRequest) */ {
  public:
   StoreImageRequest();
   virtual ~StoreImageRequest();
@@ -175,25 +178,18 @@ class StoreImageRequest : public ::google::protobuf::Message /* @@protoc_inserti
   ::std::string* release_image();
   void set_allocated_image(::std::string* image);
 
-  // int32 size = 3;
-  void clear_size();
-  static const int kSizeFieldNumber = 3;
-  ::google::protobuf::int32 size() const;
-  void set_size(::google::protobuf::int32 value);
-
-  // @@protoc_insertion_point(class_scope:StoreImageRequest)
+  // @@protoc_insertion_point(class_scope:ipc_interface.StoreImageRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr image_name_;
   ::google::protobuf::internal::ArenaStringPtr image_;
-  ::google::protobuf::int32 size_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_template_5fmatch_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
 
-class StoreImageResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:StoreImageResponse) */ {
+class StoreImageResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:ipc_interface.StoreImageResponse) */ {
  public:
   StoreImageResponse();
   virtual ~StoreImageResponse();
@@ -300,7 +296,7 @@ class StoreImageResponse : public ::google::protobuf::Message /* @@protoc_insert
   bool success() const;
   void set_success(bool value);
 
-  // @@protoc_insertion_point(class_scope:StoreImageResponse)
+  // @@protoc_insertion_point(class_scope:ipc_interface.StoreImageResponse)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -325,41 +321,41 @@ inline void StoreImageRequest::clear_image_name() {
   image_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& StoreImageRequest::image_name() const {
-  // @@protoc_insertion_point(field_get:StoreImageRequest.image_name)
+  // @@protoc_insertion_point(field_get:ipc_interface.StoreImageRequest.image_name)
   return image_name_.GetNoArena();
 }
 inline void StoreImageRequest::set_image_name(const ::std::string& value) {
   
   image_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:StoreImageRequest.image_name)
+  // @@protoc_insertion_point(field_set:ipc_interface.StoreImageRequest.image_name)
 }
 #if LANG_CXX11
 inline void StoreImageRequest::set_image_name(::std::string&& value) {
   
   image_name_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:StoreImageRequest.image_name)
+  // @@protoc_insertion_point(field_set_rvalue:ipc_interface.StoreImageRequest.image_name)
 }
 #endif
 inline void StoreImageRequest::set_image_name(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   image_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:StoreImageRequest.image_name)
+  // @@protoc_insertion_point(field_set_char:ipc_interface.StoreImageRequest.image_name)
 }
 inline void StoreImageRequest::set_image_name(const char* value, size_t size) {
   
   image_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:StoreImageRequest.image_name)
+  // @@protoc_insertion_point(field_set_pointer:ipc_interface.StoreImageRequest.image_name)
 }
 inline ::std::string* StoreImageRequest::mutable_image_name() {
   
-  // @@protoc_insertion_point(field_mutable:StoreImageRequest.image_name)
+  // @@protoc_insertion_point(field_mutable:ipc_interface.StoreImageRequest.image_name)
   return image_name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* StoreImageRequest::release_image_name() {
-  // @@protoc_insertion_point(field_release:StoreImageRequest.image_name)
+  // @@protoc_insertion_point(field_release:ipc_interface.StoreImageRequest.image_name)
   
   return image_name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -370,7 +366,7 @@ inline void StoreImageRequest::set_allocated_image_name(::std::string* image_nam
     
   }
   image_name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), image_name);
-  // @@protoc_insertion_point(field_set_allocated:StoreImageRequest.image_name)
+  // @@protoc_insertion_point(field_set_allocated:ipc_interface.StoreImageRequest.image_name)
 }
 
 // bytes image = 2;
@@ -378,41 +374,41 @@ inline void StoreImageRequest::clear_image() {
   image_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& StoreImageRequest::image() const {
-  // @@protoc_insertion_point(field_get:StoreImageRequest.image)
+  // @@protoc_insertion_point(field_get:ipc_interface.StoreImageRequest.image)
   return image_.GetNoArena();
 }
 inline void StoreImageRequest::set_image(const ::std::string& value) {
   
   image_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:StoreImageRequest.image)
+  // @@protoc_insertion_point(field_set:ipc_interface.StoreImageRequest.image)
 }
 #if LANG_CXX11
 inline void StoreImageRequest::set_image(::std::string&& value) {
   
   image_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:StoreImageRequest.image)
+  // @@protoc_insertion_point(field_set_rvalue:ipc_interface.StoreImageRequest.image)
 }
 #endif
 inline void StoreImageRequest::set_image(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   image_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:StoreImageRequest.image)
+  // @@protoc_insertion_point(field_set_char:ipc_interface.StoreImageRequest.image)
 }
 inline void StoreImageRequest::set_image(const void* value, size_t size) {
   
   image_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:StoreImageRequest.image)
+  // @@protoc_insertion_point(field_set_pointer:ipc_interface.StoreImageRequest.image)
 }
 inline ::std::string* StoreImageRequest::mutable_image() {
   
-  // @@protoc_insertion_point(field_mutable:StoreImageRequest.image)
+  // @@protoc_insertion_point(field_mutable:ipc_interface.StoreImageRequest.image)
   return image_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* StoreImageRequest::release_image() {
-  // @@protoc_insertion_point(field_release:StoreImageRequest.image)
+  // @@protoc_insertion_point(field_release:ipc_interface.StoreImageRequest.image)
   
   return image_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -423,21 +419,7 @@ inline void StoreImageRequest::set_allocated_image(::std::string* image) {
     
   }
   image_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), image);
-  // @@protoc_insertion_point(field_set_allocated:StoreImageRequest.image)
-}
-
-// int32 size = 3;
-inline void StoreImageRequest::clear_size() {
-  size_ = 0;
-}
-inline ::google::protobuf::int32 StoreImageRequest::size() const {
-  // @@protoc_insertion_point(field_get:StoreImageRequest.size)
-  return size_;
-}
-inline void StoreImageRequest::set_size(::google::protobuf::int32 value) {
-  
-  size_ = value;
-  // @@protoc_insertion_point(field_set:StoreImageRequest.size)
+  // @@protoc_insertion_point(field_set_allocated:ipc_interface.StoreImageRequest.image)
 }
 
 // -------------------------------------------------------------------
@@ -449,13 +431,13 @@ inline void StoreImageResponse::clear_success() {
   success_ = false;
 }
 inline bool StoreImageResponse::success() const {
-  // @@protoc_insertion_point(field_get:StoreImageResponse.success)
+  // @@protoc_insertion_point(field_get:ipc_interface.StoreImageResponse.success)
   return success_;
 }
 inline void StoreImageResponse::set_success(bool value) {
   
   success_ = value;
-  // @@protoc_insertion_point(field_set:StoreImageResponse.success)
+  // @@protoc_insertion_point(field_set:ipc_interface.StoreImageResponse.success)
 }
 
 // string str_message = 2;
@@ -463,41 +445,41 @@ inline void StoreImageResponse::clear_str_message() {
   str_message_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& StoreImageResponse::str_message() const {
-  // @@protoc_insertion_point(field_get:StoreImageResponse.str_message)
+  // @@protoc_insertion_point(field_get:ipc_interface.StoreImageResponse.str_message)
   return str_message_.GetNoArena();
 }
 inline void StoreImageResponse::set_str_message(const ::std::string& value) {
   
   str_message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:StoreImageResponse.str_message)
+  // @@protoc_insertion_point(field_set:ipc_interface.StoreImageResponse.str_message)
 }
 #if LANG_CXX11
 inline void StoreImageResponse::set_str_message(::std::string&& value) {
   
   str_message_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:StoreImageResponse.str_message)
+  // @@protoc_insertion_point(field_set_rvalue:ipc_interface.StoreImageResponse.str_message)
 }
 #endif
 inline void StoreImageResponse::set_str_message(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   str_message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:StoreImageResponse.str_message)
+  // @@protoc_insertion_point(field_set_char:ipc_interface.StoreImageResponse.str_message)
 }
 inline void StoreImageResponse::set_str_message(const char* value, size_t size) {
   
   str_message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:StoreImageResponse.str_message)
+  // @@protoc_insertion_point(field_set_pointer:ipc_interface.StoreImageResponse.str_message)
 }
 inline ::std::string* StoreImageResponse::mutable_str_message() {
   
-  // @@protoc_insertion_point(field_mutable:StoreImageResponse.str_message)
+  // @@protoc_insertion_point(field_mutable:ipc_interface.StoreImageResponse.str_message)
   return str_message_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* StoreImageResponse::release_str_message() {
-  // @@protoc_insertion_point(field_release:StoreImageResponse.str_message)
+  // @@protoc_insertion_point(field_release:ipc_interface.StoreImageResponse.str_message)
   
   return str_message_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -508,7 +490,7 @@ inline void StoreImageResponse::set_allocated_str_message(::std::string* str_mes
     
   }
   str_message_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), str_message);
-  // @@protoc_insertion_point(field_set_allocated:StoreImageResponse.str_message)
+  // @@protoc_insertion_point(field_set_allocated:ipc_interface.StoreImageResponse.str_message)
 }
 
 #ifdef __GNUC__
@@ -519,6 +501,7 @@ inline void StoreImageResponse::set_allocated_str_message(::std::string* str_mes
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace ipc_interface
 
 // @@protoc_insertion_point(global_scope)
 

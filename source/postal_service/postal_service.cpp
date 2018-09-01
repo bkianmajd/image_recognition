@@ -23,24 +23,35 @@ std::unique_ptr<com_layer::ICarrier> CarrierFactory(Type type) {
 
 }  // namespace
 
-PostalService::PostalService(Type type) : carrier_(CarrierFactory(type)) {}
+PostalService::PostalService(Type type) : carrier_(CarrierFactory(type)) {
+  received_byte_array_.clear();
+}
 
-void PostalService::Init(const com_layer::ConnectionInfo& connection_info) {
+void PostalService::AsyncInit(
+    const com_layer::ConnectionInfo& connection_info) {
   if (!carrier_) {
     return;
   }
 
   carrier_->Init(connection_info);
+}
+
+bool PostalService::WaitForOpen() {
+  if (!carrier_) {
+    return false;
+  }
+
   int max_counter = kInitTimeout / std::chrono::milliseconds(50);
   int counter = 0;
 
   while (!IsOpen()) {
     if (counter++ > max_counter) {
       std::cerr << "Timout occured" << std::endl;
-      return;
+      return false;
     }
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
   }
+  return true;
 }
 
 void PostalService::SendPostCard(IPostCard& post_card) const {
@@ -51,6 +62,10 @@ void PostalService::SendPostCard(IPostCard& post_card) const {
 
 void PostalService::GetMail(IMailDistributor& mail_distributor) {
   carrier_->SwapReceivedByteArray(received_byte_array_);
+  if (received_byte_array_.empty()) {
+    return;
+  }
+
   google::protobuf::Any any;
   any.ParseFromString(received_byte_array_);
 

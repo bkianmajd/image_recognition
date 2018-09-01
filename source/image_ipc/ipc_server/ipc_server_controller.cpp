@@ -1,8 +1,15 @@
 #include "image_ipc/ipc_server/ipc_server_controller.h"
 
+#include <chrono>
+#include <thread>
+
 namespace ipc {
 namespace ipc_server {
-namespace {}  // namespace
+namespace {
+
+const std::chrono::milliseconds kRunDuration = std::chrono::milliseconds(500);
+
+}  // namespace
 
 IpcServerController::IpcServerController(
     postal_service::PostalService* postal_service,
@@ -12,10 +19,10 @@ IpcServerController::IpcServerController(
       imail_distributor_(imail_distributor),
       response_handler_(response_handler) {}
 
-bool IpcServerController::Initialize() {
+void IpcServerController::Initialize() {
   if (postal_service_ == nullptr || imail_distributor_ == nullptr ||
       response_handler_ == nullptr) {
-    return false;
+    return;
   }
 
   com_layer::ConnectionInfo connection_info;
@@ -24,20 +31,20 @@ bool IpcServerController::Initialize() {
 
   // TODO(): return the connected socket address
   // TODO(): Add a close function to stop listening
-  postal_service_->Init(connection_info);
-
-  if (postal_service_->IsOpen()) {
-    std::cout << "Initialization success" << std::endl;
-    return true;
-  }
-
-  return false;
+  postal_service_->AsyncInit(connection_info);
 }
 
 void IpcServerController::Run() {
+  if (postal_service_->WaitForOpen()) {
+    std::cout << "Initialization success" << std::endl;
+    state_ = State::STATE_RUNNING;
+  }
+
   std::cout << "Starting run operation\n";
   do {
-    UpdateState();
+    std::this_thread::sleep_for(kRunDuration);
+
+    // UpdateState();
 
     // Receieve something
     postal_service_->GetMail(*imail_distributor_);
@@ -52,7 +59,10 @@ void IpcServerController::Run() {
 }
 
 void IpcServerController::UpdateState() {
-  if (postal_service_->IsOpen()) {
+  if (!postal_service_->IsOpen()) {
+    std::cout << "IpcServerController: Postal service is not open, transfering "
+                 "state to idle"
+              << std::endl;
     state_ = STATE_IDLE;
   }
 }

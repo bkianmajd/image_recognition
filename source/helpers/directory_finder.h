@@ -7,18 +7,25 @@
 
 namespace helpers {
 
-/// This class finds the executable location, and returns the abs path of the
-/// specified target. The specified directory is passed through the constructur.
-/// The specified file is passed through the argument.
+/// This class returns the abs path of the specified target. The specified
+/// directory is passed through the constructor.
 class DirectoryFinder {
  public:
-  /// The target directory relative to the executable is specified.
-  DirectoryFinder(const std::string& directory_relative_to_executable);
-  DirectoryFinder(const char* directory_relative_to_executable = "");
+  enum class ReferenceFrame {
+    RelativeToExec = 0,
+    RelativeToWorkspace,
+    // RelativeToPro,
+  };
 
-  std::string GetAbsPathRelativeToExecutable() const;
+  /// The target directory is specified. This is a relative directory.
+  DirectoryFinder(const std::string& target_directory,
+                  ReferenceFrame reference_frame);
+  DirectoryFinder(const char* target_directory, ReferenceFrame reference_frame);
+  explicit DirectoryFinder(ReferenceFrame reference_frame);
 
-  std::string GetAbsPathRelativeToWorkspace() const;
+  std::string GetAbsPath() const;
+
+  std::string GetAbsPathOfTargetFile(const std::string& file_name) const;
 
  private:
   void FindWorkspaceDirectoryPath();
@@ -32,9 +39,7 @@ class DirectoryFinder {
 
   std::string workspace_directory_path_;
 
-  std::string abs_path_relative_executable_;
-
-  std::string abs_path_relative_workspace_;
+  std::string abs_target_directory_path_;
 };
 
 }  // namespace helpers

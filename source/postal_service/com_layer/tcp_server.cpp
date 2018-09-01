@@ -6,14 +6,18 @@
 #include "postal_service/com_layer/com_defs.h"
 
 namespace com_layer {
-
 namespace {
+
 constexpr int kMaxAcceptedData = 8192;
+
 }  // namespace
 
-TcpServer::TcpServer() : tcp_socket_(nullptr), byte_array_() {
+TcpServer::TcpServer() : tcp_socket_(nullptr), byte_read_array_() {
+  byte_read_array_.clear();
   tcp_server_.setMaxPendingConnections(1);
   connect(&tcp_server_, SIGNAL(newConnection()), this, SLOT(OnNewConnection()));
+
+  connect(this, SIGNAL(ReadySend()), this, SLOT(OnReadySend()));
 }
 
 TcpServer::~TcpServer() { Disconnect(); }
@@ -33,7 +37,7 @@ void TcpServer::Init(const ConnectionInfo& connection_info) {
     qDebug() << "Cannot listen";
     return;
   }
-  qDebug() << "starting to listen!";
+  qDebug() << "Starting to listen!";
 }
 
 bool TcpServer::IsConnected() const {
@@ -55,17 +59,33 @@ void TcpServer::OnNewConnection() {
 
 void TcpServer::OnReadyRead() {
   std::lock_guard<std::mutex> lock(byte_read_mutex_);
-  byte_array_.append(tcp_socket_->readAll().toStdString());
-  qDebug() << "Incoming message!";
+  byte_read_array_.append(tcp_socket_->readAll().toStdString());
+  qDebug() << "Incoming message! " << byte_read_array_.size();
 }
 
 void TcpServer::SwapReceivedByteArray(std::string& byte_array) {
   std::lock_guard<std::mutex> lock(byte_read_mutex_);
-  std::swap(byte_array_, byte_array);
+  if (byte_read_array_.empty()) {
+    byte_array.clear();
+    return;
+  }
+  std::swap(byte_read_array_, byte_array);
 }
 
-void TcpServer::SendData(const char* byte_array, int ln) const {
-  tcp_socket_->write(byte_array, ln);
+void TcpServer::SendData(const char* byte_array, int ln) {
+  {
+    std::lock_guard<std::mutex> lock(byte_write_mutex_);
+    for (int i = 0; i < ln; ++i) {
+      byte_write_array_.push_back(byte_array[i]);
+    }
+  }
+  ReadySend();
+}
+
+void TcpServer::OnReadySend() {
+  std::lock_guard<std::mutex> lock(byte_write_mutex_);
+  tcp_socket_->write(byte_write_array_.c_str(), byte_write_array_.size());
+  byte_write_array_.clear();
 }
 
 }  // namespace com_layer

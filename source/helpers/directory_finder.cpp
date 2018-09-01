@@ -34,30 +34,60 @@ std::string Convert(const QString& qstr) {
   return ss.str();
 }
 
+// Always adds a slash to the target_directory unless the target_direcetory is
+// empty
+std::string VerifySlash(const char* target_directory) {
+  std::string string_directory(target_directory);
+  if (string_directory.size() == 0) {
+    return string_directory;
+  }
+
+  if (string_directory.at(string_directory.size() - 1) != kSlash) {
+    string_directory += kSlash;
+  }
+
+  return string_directory;
+}
+
 }  // namespace
 
-DirectoryFinder::DirectoryFinder(
-    const std::string& directory_relative_to_executable)
-    : DirectoryFinder(directory_relative_to_executable.c_str()) {}
+DirectoryFinder::DirectoryFinder(const std::string& target_directory,
+                                 ReferenceFrame reference_frame)
+    : DirectoryFinder(target_directory.c_str(), reference_frame) {}
 
-DirectoryFinder::DirectoryFinder(const char* directory_relative_to_executable) {
+DirectoryFinder::DirectoryFinder(const char* target_directory,
+                                 ReferenceFrame reference_frame) {
   FindAbsExecutablePath();
-  abs_path_relative_executable_ += abs_executable_path_;
-  abs_path_relative_executable_ += kSlash;
-  abs_path_relative_executable_ += directory_relative_to_executable;
-
   FindWorkspaceDirectoryPath();
-  abs_path_relative_workspace_ = workspace_directory_path_;
-  abs_path_relative_workspace_ += kSlash;
-  abs_path_relative_workspace_ += directory_relative_to_executable;
+
+  // update abs directory path
+  switch (reference_frame) {
+    case ReferenceFrame::RelativeToExec:
+      abs_target_directory_path_ = abs_executable_path_;
+      break;
+    case ReferenceFrame::RelativeToWorkspace:
+      abs_target_directory_path_ = workspace_directory_path_;
+      break;
+  }
+
+  abs_target_directory_path_ = VerifySlash(abs_target_directory_path_.c_str());
+  abs_target_directory_path_.append(target_directory);
 }
 
-std::string DirectoryFinder::GetAbsPathRelativeToExecutable() const {
-  return abs_path_relative_executable_;
+DirectoryFinder::DirectoryFinder(ReferenceFrame reference_frame)
+    : DirectoryFinder("", reference_frame) {}
+
+std::string DirectoryFinder::GetAbsPath() const {
+  return abs_target_directory_path_;
 }
 
-std::string DirectoryFinder::GetAbsPathRelativeToWorkspace() const {
-  return abs_path_relative_workspace_;
+std::string DirectoryFinder::GetAbsPathOfTargetFile(
+    const std::string& file_name) const {
+  std::string abs_target_path_of_file =
+      VerifySlash(abs_target_directory_path_.c_str());
+  abs_target_path_of_file.append(file_name.c_str());
+
+  return abs_target_path_of_file;
 }
 
 void DirectoryFinder::FindWorkspaceDirectoryPath() {
