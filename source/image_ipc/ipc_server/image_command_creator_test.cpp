@@ -1,10 +1,9 @@
-#include "image_ipc/ipc_server/image_command_distributor.h"
+#include "image_ipc/ipc_server/image_command_creator.h"
 
 #include <iostream>
 
 #include "gtest/gtest.h"
-#include "image_ipc/ipc_server/image_command_distributor.h"
-#include "schema/compiled_files/test_proto.pb.cc"
+#include "schema/compiled_files/test_proto.pb.h"
 
 namespace ipc {
 namespace ipc_server {
@@ -12,11 +11,11 @@ namespace ipc_server {
 class ImageCommandDistributorTest : public testing::Test {
  public:
   ImageCommandDistributorTest()
-      : image_command_distributor_(nullptr, &response_handler_) {}
+      : image_command_creator_(nullptr, &response_handler_) {}
 
  protected:
-  ResponseHandler response_handler_;
-  ImageCommandDistributor image_command_distributor_;
+  postal_service::PostCardQueue response_handler_;
+  ImageCommandCreator image_command_creator_;
 };
 TEST_F(ImageCommandDistributorTest, ConstructDestruct) {}
 
@@ -29,7 +28,7 @@ TEST_F(ImageCommandDistributorTest, CommandDistributor) {
   google::protobuf::Any any;
   any.PackFrom(proto);
 
-  image_command_distributor_.Distribute(any);
+  image_command_creator_.Distribute(any);
 
   EXPECT_FALSE(response_handler_.Empty());
 }

@@ -4,7 +4,7 @@
 #include "image_ipc/ipc_server/image_command_dispatcher.h"
 #include "postal_service/imail_distributor.h"
 #include "postal_service/utility/post_card_queue.h"
-#include "schema/compiled_files/image_request_response.pb.h"
+#include "schema/compiled_files/image_request_response_commands.pb.h"
 
 namespace ipc {
 namespace ipc_server {

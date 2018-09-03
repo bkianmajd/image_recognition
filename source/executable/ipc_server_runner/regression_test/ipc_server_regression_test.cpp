@@ -10,7 +10,7 @@
 #include "postal_service/postal_service.h"
 #include "postal_service/utility/mail_distributor_queue.h"
 #include "postal_service/utility/post_card_queue.h"
-#include "schema/compiled_files/image_request_response.pb.h"
+#include "schema/compiled_files/image_request_response_commands.pb.h"
 
 postal_service::PostalService client(postal_service::client);
 postal_service::PostCardQueue response_handler;

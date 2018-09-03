@@ -22,7 +22,8 @@ message TemplateMatchRequest {
 
 // Register template - template id must be unique
 message TemplateMatchResponse {
-  int32 x_location = 1;
-  int32 y_location = 2;
+  bool success = 1;
+  int32 x_location = 2;
+  int32 y_location = 3;
 }
 

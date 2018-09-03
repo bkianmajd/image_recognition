@@ -27,7 +27,7 @@ class SimpleRecognition : public TemplateRecognitionInterface {
   std::string GetFilePath() const;
 
  private:
-  FRIEND_TEST(RecognitionTest, TemplateStorageTest);
+  FRIEND_TEST(SimpleRecognitionTest, TemplateStorageTest);
 
   bool CheckImage(const std::string& abs_path_image_name);
 

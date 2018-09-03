@@ -12,6 +12,7 @@ INCLUDEPATH +=  $${WORKSPACE}/ \
 HEADERS += $${WORKSPACE}/template_recognition/template_recognition_interface.h \
            $${WORKSPACE}/template_recognition/template_recognition_defs.h
 HEADERS += $${WORKSPACE}/template_recognition/simple/simple_recognition.h
+HEADERS += $${WORKSPACE}/template_recognition/template_recognition_mock.hpp
 
 SOURCES += $${WORKSPACE}/template_recognition/simple/simple_recognition.cpp
 

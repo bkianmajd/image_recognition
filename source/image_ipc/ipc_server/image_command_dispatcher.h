@@ -2,13 +2,12 @@
 #define IMAGE_COMMAND_DISPATCHER_H_
 
 #include <string>
+#include <unordered_map>
+#include "gtest/gtest_prod.h"
 #include "helpers/directory_finder.h"
 #include "image_ipc/file_manager/file_manager.h"
-#include "schema/compiled_files/image_request_response.pb.h"
-#include "template_recognition/template_recognition_defs.h"
+#include "schema/compiled_files/image_request_response_commands.pb.h"
 #include "template_recognition/template_recognition_interface.h"
-
-// Change  template_match to image request response interface
 
 namespace ipc {
 namespace ipc_server {
@@ -24,7 +23,11 @@ class ImageCommandDispatcher {
   void Handle(const ipc_interface::StoreImageRequest& request,
               ipc_interface::StoreImageResponse* response);
 
+  void Handle(const ipc_interface::TemplateMatchRequest& request,
+              ipc_interface::TemplateMatchResponse* response);
+
  private:
+  FRIEND_TEST(ImageCommandDispatcherTest, GetTemplateIdTest);
   // The data directory is where all the images are currently stored
   helpers::DirectoryFinder* data_directory_;
 
@@ -33,6 +36,12 @@ class ImageCommandDispatcher {
 
   // TemplateRecognitionInterface
   template_recognition::TemplateRecognitionInterface* template_recognition_;
+
+  int GetTemplateIdOrRegisterTemplate(const std::string& image_name);
+
+  // The map key is the filename, the map value is the stored templateId
+  std::unordered_map<std::string, template_recognition::TemplateId>
+      stored_template_id_;
 };
 
 }  // namespace ipc
