@@ -9,41 +9,13 @@
 #include "helpers/directory_finder.h"
 
 namespace ipc {
-namespace {
-
-constexpr char kSlash = '/';
-
-// Always adds a slash to the target_directory unless the target_direcetory is
-// empty
-std::string VerifySlash(const char* target_directory) {
-  std::string string_directory(target_directory);
-  if (string_directory.size() == 0) {
-    return string_directory;
-  }
-
-  if (string_directory.at(string_directory.size() - 1) != kSlash) {
-    string_directory += kSlash;
-  }
-
-  return string_directory;
-}
-
-}  // namespace
-
-// The directory should always have a slash
-FileManager::FileManager(const std::string& directory)
-    : directory_(VerifySlash(directory.c_str())) {}
 
 bool FileManager::StoreFile(const char* data, size_t size,
-                            const std::string& file_name) {
-  // Open the image file
-  std::string directory_file_path = directory_;
-  directory_file_path.append(file_name);
-
+                            const std::string& abs_directory_file) {
   // Open the destination file
-  FILE* fp = std::fopen(directory_file_path.c_str(), "wb");
+  FILE* fp = std::fopen(abs_directory_file.c_str(), "wb");
   if (!fp) {
-    std::cerr << "failed to open directory file path " << directory_file_path
+    std::cerr << "failed to open directory file path " << abs_directory_file
               << std::endl;
     return false;
   }
@@ -55,20 +27,14 @@ bool FileManager::StoreFile(const char* data, size_t size,
   return sz_wrote == size;
 }
 
-bool FileManager::DeleteFile(const std::string& file_name) {
-  std::string directory_file_path = directory_;
-  directory_file_path.append(file_name);
-
+bool FileManager::DeleteFile(const std::string& abs_directory_file) {
   // a zero value is returned on success
-  return std::remove(directory_file_path.c_str()) == 0;
+  return std::remove(abs_directory_file.c_str()) == 0;
 }
 
-std::vector<char> FileManager::ReadFile(const std::string& file_name) {
-  std::string file_path = directory_;
-  file_path.append(file_name);
-
+std::vector<char> FileManager::ReadFile(const std::string& abs_directory_file) {
   // Open the source file
-  FILE* fp = std::fopen(file_path.c_str(), "rb");
+  FILE* fp = std::fopen(abs_directory_file.c_str(), "rb");
   if (!fp) {
     return std::vector<char>();
   };

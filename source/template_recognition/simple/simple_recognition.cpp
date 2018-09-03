@@ -11,11 +11,7 @@
 
 namespace template_recognition {
 
-SimpleRecognition::SimpleRecognition(std::string file_path)
-    : data_file_path_(file_path) {}
-
-bool SimpleRecognition::RegisterImage(const std::string& image_name) {
-  std::string image_with_path = data_file_path_ + image_name;
+bool SimpleRecognition::RegisterImage(const std::string& image_with_path) {
   // Find the image in the data file
   if (!CheckImage(image_with_path)) {
     return false;
@@ -26,10 +22,8 @@ bool SimpleRecognition::RegisterImage(const std::string& image_name) {
   return true;
 }
 
-bool SimpleRecognition::RegisterTemplate(
-    TemplateId template_id, const std::string& image_name) {
-  // Find the image in the data file
-  std::string image_with_path = data_file_path_ + image_name;
+bool SimpleRecognition::RegisterTemplate(TemplateId template_id,
+                                         const std::string& image_with_path) {
   // Find the image in the data file
   if (!CheckImage(image_with_path)) {
     return false;
@@ -106,10 +100,6 @@ bool SimpleRecognition::CheckImage(const std::string& file_name_with_path) {
   bool is_open = test_open.is_open();
   test_open.close();
   return is_open;
-}
-
-std::string GetFilePath() {
-  return data_file_path_;
 }
 
 }  // namespace template_recognition

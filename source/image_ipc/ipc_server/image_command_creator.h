@@ -1,18 +1,20 @@
-#ifndef IMAGE_COMMAND_DISTRIBUTOR_H_
-#define IMAGE_COMMAND_DISTRIBUTOR_H_
+#ifndef IMAGE_COMMAND_CREATOR_H_
+#define IMAGE_COMMAND_CREATOR_H_
 
-#include "image_ipc/file_manager/file_manager.h"
+#include "image_ipc/ipc_server/image_command_dispatcher.h"
 #include "postal_service/imail_distributor.h"
 #include "postal_service/utility/post_card_queue.h"
-#include "schema/compiled_files/template_match.pb.h"
+#include "schema/compiled_files/image_request_response.pb.h"
 
 namespace ipc {
 namespace ipc_server {
 
-class ImageCommandDistributor : public postal_service::IMailDistributor {
+/// Converts an any protofile to an image command and distributes the
+/// command to the dispatcher
+class ImageCommandCreator : public postal_service::IMailDistributor {
  public:
-  ImageCommandDistributor(FileManager* file_manager,
-                          postal_service::PostCardQueue* response_handler);
+  ImageCommandCreator(ImageCommandDispatcher* dispatcher,
+                      postal_service::PostCardQueue* response_handler);
 
   /// Postal service calls this to distribute a byte array
   /// this function therefore should decode the byte array and pass it up.
@@ -22,14 +24,11 @@ class ImageCommandDistributor : public postal_service::IMailDistributor {
   void Distribute(const google::protobuf::Any& any) override;
 
  private:
-  void Handle(const ipc_interface::StoreImageRequest& request,
-              ipc_interface::StoreImageResponse* response);
-
-  FileManager* file_manager_;
+  ImageCommandDispatcher* dispatcher_;
   postal_service::PostCardQueue* response_handler_;
 };
 
 }  // namespace ipc
 }  // namespace ipc_server
 
-#endif  // IMAGE_COMMAND_DISTRIBUTOR_H_
+#endif  // IMAGE_COMMAND_CREATOR_H_

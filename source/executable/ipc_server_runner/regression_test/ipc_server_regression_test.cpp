@@ -10,7 +10,7 @@
 #include "postal_service/postal_service.h"
 #include "postal_service/utility/mail_distributor_queue.h"
 #include "postal_service/utility/post_card_queue.h"
-#include "schema/compiled_files/template_match.pb.h"
+#include "schema/compiled_files/image_request_response.pb.h"
 
 postal_service::PostalService client(postal_service::client);
 postal_service::PostCardQueue response_handler;
@@ -32,8 +32,9 @@ void StartClient(QCoreApplication* a) {
       helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace);
 
   // Get the binary of the file image
-  ipc::FileManager file_manager(directory_finder.GetAbsPath());
-  std::vector<char> binary = file_manager.ReadFile(testing_main::kImageOne);
+  ipc::FileManager file_manager;
+  std::vector<char> binary = file_manager.ReadFile(
+      directory_finder.GetAbsPathOfTargetFile(testing_main::kImageOne));
 
   std::cout << "Storing image of size " << binary.size() << std::endl;
 

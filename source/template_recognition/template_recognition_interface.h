@@ -12,10 +12,13 @@ class TemplateRecognitionInterface {
 public:
   virtual ~TemplateRecognitionInterface() {}
 
-  // Registers an image id to an image file. returns true if success.
-  // returns false if image id is used or image file is non-existent.
+  // Registers an image to an image file. returns true if success.
+  // returns false if image is used or image file is non-existent.
   virtual bool RegisterImage(const std::string& image) = 0;
 
+  // Registers a template with a template id. returns true if success.
+  // returns false if template id is used or image file is non-existent.
+  // The template is registered in cache for faster execution at runtime
   virtual bool RegisterTemplate(TemplateId template_id,const std::string& image) = 0;
 
   // Gets the point for a specific image id.

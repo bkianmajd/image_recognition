@@ -5,17 +5,11 @@
 #include "executable/ipc_server_runner/static_config.h"
 #include "helpers/directory_finder.h"
 #include "helpers/memory_helper.hpp"
-#include "image_ipc/ipc_server/image_command_distributor.h"
+#include "image_ipc/ipc_server/image_command_creator.h"
 #include "image_ipc/ipc_server/ipc_server_controller.h"
 #include "postal_service/com_layer/tcp_server.h"
 #include "postal_service/utility/post_card_queue.h"
-
-std::string GetFileManagerDirectory() {
-  helpers::DirectoryFinder directory(
-      ipc_server_runner::kFileManagerDataDirectory,
-      helpers::DirectoryFinder::ReferenceFrame::RelativeToExec);
-  return directory.GetAbsPath();
-}
+#include "template_recognition/simple/simple_recognition.h"
 
 void RunControllerThread(QCoreApplication* a,
                          ipc::ipc_server::IpcServerController* ipc_controller) {
@@ -34,20 +28,37 @@ int Main(int argc, char* argv[]) {
       std::make_unique<postal_service::PostalService>(
           postal_service::Type::server);
 
-  // Construction - ImageCommandDistributor
+  // Define the session directory
+  std::unique_ptr<helpers::DirectoryFinder> session_directory_ =
+      std::make_unique<helpers::DirectoryFinder>(
+          ipc_server_runner::kSessionDataDirectory,
+          helpers::DirectoryFinder::ReferenceFrame::RelativeToExec);
+
+  // Construction - TemplateRecognitionInterface
+  std::unique_ptr<template_recognition::TemplateRecognitionInterface>
+      template_recognition_interface =
+          std::make_unique<template_recognition::SimpleRecognition>();
+
+  // Construction - ImageCommandDispatcher
   std::unique_ptr<ipc::FileManager> file_manager =
-      std::make_unique<ipc::FileManager>(GetFileManagerDirectory());
+      std::make_unique<ipc::FileManager>();
+  std::unique_ptr<ipc::ipc_server::ImageCommandDispatcher>
+      image_command_dispatcher =
+          std::make_unique<ipc::ipc_server::ImageCommandDispatcher>(
+              session_directory_.get(), file_manager.get(),
+              template_recognition_interface.get());
+
+  // Construction - ImageCommandCreator
   std::unique_ptr<postal_service::PostCardQueue> response_handler =
       std::make_unique<postal_service::PostCardQueue>();
-  std::unique_ptr<ipc::ipc_server::ImageCommandDistributor>
-      image_command_distributor =
-          std::make_unique<ipc::ipc_server::ImageCommandDistributor>(
-              file_manager.get(), response_handler.get());
+  std::unique_ptr<ipc::ipc_server::ImageCommandCreator> image_command_creator =
+      std::make_unique<ipc::ipc_server::ImageCommandCreator>(
+          image_command_dispatcher.get(), response_handler.get());
 
   // Construction - IpcServerController
   std::unique_ptr<ipc::ipc_server::IpcServerController> ipc_server_controller =
       std::make_unique<ipc::ipc_server::IpcServerController>(
-          postal_service.get(), image_command_distributor.get(),
+          postal_service.get(), image_command_creator.get(),
           response_handler.get());
 
   // Initialization

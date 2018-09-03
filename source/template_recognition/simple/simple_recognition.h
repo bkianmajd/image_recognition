@@ -14,12 +14,12 @@ namespace template_recognition {
 
 class SimpleRecognition : public TemplateRecognitionInterface {
  public:
-  SimpleRecognition(std::string file_path);
+  SimpleRecognition() = default;
 
-  bool RegisterImage(const std::string& image_name) override;
+  bool RegisterImage(const std::string& abs_path_image_name) override;
 
   bool RegisterTemplate(TemplateId template_id,
-                        const std::string& image_name) override;
+                        const std::string& abs_path_image_name) override;
 
   // Gets the point for a specific image id.
   Point GetTemplateMatch(TemplateId template_id) override;
@@ -29,10 +29,7 @@ class SimpleRecognition : public TemplateRecognitionInterface {
  private:
   FRIEND_TEST(RecognitionTest, TemplateStorageTest);
 
-  bool CheckImage(const std::string& file_name_with_path);
-
-  // The location of the files, ideally a data folder
-  std::string data_file_path_;
+  bool CheckImage(const std::string& abs_path_image_name);
 
   // The big image to compare the template images against.
   cv::Mat big_image_;

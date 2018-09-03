@@ -1,4 +1,4 @@
-#include "image_ipc/ipc_server/image_command_distributor.h"
+#include "image_ipc/ipc_server/image_command_creator.h"
 
 #include "external_libraries/protobuf/src/google/protobuf/any.pb.h"
 #include "helpers/memory_helper.hpp"
@@ -8,11 +8,12 @@ namespace ipc {
 namespace ipc_server {
 namespace {}  // namespace
 
-ImageCommandDistributor::ImageCommandDistributor(
-    FileManager* file_manager, postal_service::PostCardQueue* response_handler)
-    : file_manager_(file_manager), response_handler_(response_handler) {}
+ImageCommandCreator::ImageCommandCreator(
+    ImageCommandDispatcher* dispatcher,
+    postal_service::PostCardQueue* response_handler)
+    : dispatcher_(dispatcher), response_handler_(response_handler) {}
 
-void ImageCommandDistributor::Distribute(const google::protobuf::Any& any) {
+void ImageCommandCreator::Distribute(const google::protobuf::Any& any) {
   if (any.Is<TestProto>()) {
     TestProto test;
     any.UnpackTo(&test);
@@ -27,20 +28,12 @@ void ImageCommandDistributor::Distribute(const google::protobuf::Any& any) {
     any.UnpackTo(&request);
     std::unique_ptr<ipc_interface::StoreImageResponse> response =
         std::make_unique<ipc_interface::StoreImageResponse>();
-    Handle(request, response.get());
+    dispatcher_->Handle(request, response.get());
     response_handler_->Push(std::move(response));
     return;
   }
 
-  std::cout << "IMAGE_COMMAND_DISTRIBUTOR:string unrecogegnized" << std::endl;
-}
-
-void ImageCommandDistributor::Handle(
-    const ipc_interface::StoreImageRequest& request,
-    ipc_interface::StoreImageResponse* response) {
-  bool result = file_manager_->StoreFile(
-      request.image().c_str(), request.image().size(), request.image_name());
-  response->set_success(result);
+  std::cout << "IMAGE_COMMAND_Creator:string unrecogegnized" << std::endl;
 }
 
 }  // namespace ipc

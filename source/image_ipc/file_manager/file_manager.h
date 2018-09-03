@@ -10,16 +10,14 @@ namespace ipc {
 
 class FileManager {
  public:
-  FileManager(const std::string& directory);
+  FileManager() = default;
 
-  bool StoreFile(const char* data, size_t size, const std::string& file_name);
+  bool StoreFile(const char* data, size_t size,
+                 const std::string& abs_directory_file);
 
-  bool DeleteFile(const std::string& file_name);
+  bool DeleteFile(const std::string& abs_directory_file);
 
-  std::vector<char> ReadFile(const std::string& file_name);
-
- private:
-  const std::string directory_;
+  std::vector<char> ReadFile(const std::string& abs_directory_file);
 };
 
 }  // namespace ipc
