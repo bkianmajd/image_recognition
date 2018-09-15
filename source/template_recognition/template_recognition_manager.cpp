@@ -1,0 +1,75 @@
+#include "template_recognition/template_recognition_manager.h"
+
+#include <iostream>
+
+namespace template_recognition {
+namespace {
+
+constexpr int kFailedToRegisterTemplateError = -1;
+
+}  // namespace
+
+TemplateRecognitionManager::TemplateRecognitionManager(
+    helpers::DirectoryFinder* session_directory,
+    helpers::FileManager* file_manager,
+    template_recognition::TemplateRecognitionInterface* template_recognition)
+    : data_directory_(session_directory),
+      file_manager_(file_manager),
+      template_recognition_(template_recognition) {}
+
+bool TemplateRecognitionManager::StoreImage(
+    const std::string& image_name, const std::vector<char>& image_bytes) {
+  std::string abs_file = data_directory_->GetAbsPathOfTargetFile(image_name);
+
+  bool result = file_manager_->StoreFile(image_bytes.data(), image_bytes.size(),
+                                         abs_file);
+  return result;
+}
+
+bool TemplateRecognitionManager::TemplateMatch(
+    const std::string& big_image_name, const std::string& template_image_name,
+    Point* response_point) {
+  // Reset response point
+  response_point->isValid = false;
+
+  // Send the big image
+  if (!template_recognition_->RegisterImage(
+          data_directory_->GetAbsPathOfTargetFile(big_image_name))) {
+    std::cerr << "ImageCommandDispatcher:Failed to register image "
+              << data_directory_->GetAbsPathOfTargetFile(big_image_name)
+              << std::endl;
+    return false;
+  }
+
+  // Send the small image
+  int template_id = GetTemplateIdOrRegisterTemplate(template_image_name);
+  if (template_id == kFailedToRegisterTemplateError) {
+    std::cerr << "Failed to register template "
+              << data_directory_->GetAbsPathOfTargetFile(template_image_name)
+              << std::endl;
+    return false;
+  }
+
+  // Get the point
+  *response_point = template_recognition_->GetTemplateMatch(template_id);
+}
+
+int TemplateRecognitionManager::GetTemplateIdOrRegisterTemplate(
+    const std::string& image_name) {
+  auto it = stored_template_id_.find(image_name);
+  if (it != stored_template_id_.end()) {
+    return it->second;
+  }
+
+  int next_template_id = stored_template_id_.size();
+  if (!template_recognition_->RegisterTemplate(
+          next_template_id,
+          data_directory_->GetAbsPathOfTargetFile(image_name))) {
+    return kFailedToRegisterTemplateError;
+  }
+
+  stored_template_id_[image_name] = next_template_id;
+  return next_template_id;
+}
+
+}  // namespace template_recognition

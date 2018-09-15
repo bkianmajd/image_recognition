@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include "gtest/gtest_prod.h"
 #include "helpers/directory_finder.h"
-#include "image_ipc/file_manager/file_manager.h"
+#include "helpers/file_manager/file_manager.h"
 #include "schema/compiled_files/image_request_response_commands.pb.h"
 #include "template_recognition/template_recognition_interface.h"
 
@@ -13,7 +13,8 @@ namespace ipc {
 namespace ipc_server {
 
 /// Class handles the protocol buffers directly from the ImageRequestResponse
-/// protofile interface
+/// protofile interface. Converts protobuf to api functions that talk directly
+/// to the open cv interface
 class ImageCommandDispatcher {
  public:
   ImageCommandDispatcher(

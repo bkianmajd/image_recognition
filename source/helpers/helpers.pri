@@ -1,3 +1,10 @@
-HEADERS += $${WORKSPACE}/helpers/directory_finder.h
+!contains(included_modules, $$PWD ) {
+  included_modules += $$PWD
 
-SOURCES += $${WORKSPACE}/helpers/directory_finder.cpp
+  HEADERS += $${WORKSPACE}/helpers/directory_finder.h
+
+  SOURCES += $${WORKSPACE}/helpers/directory_finder.cpp
+}
+
+
+

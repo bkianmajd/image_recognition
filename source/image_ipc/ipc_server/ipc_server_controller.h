@@ -3,7 +3,7 @@
 
 #include <chrono>
 #include <thread>
-#include "image_ipc/file_manager/file_manager.h"
+#include "helpers/file_manager/file_manager.h"
 #include "postal_service/imail_distributor.h"
 #include "postal_service/postal_service.h"
 #include "postal_service/utility/post_card_queue.h"

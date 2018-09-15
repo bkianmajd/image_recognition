@@ -1,4 +1,4 @@
-#include "image_ipc/file_manager/file_manager.h"
+#include "helpers/file_manager/file_manager.h"
 
 #include <QFile>
 #include <fstream>

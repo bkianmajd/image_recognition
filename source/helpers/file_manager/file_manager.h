@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace ipc {
+namespace helpers {
 
 class FileManager {
  public:
@@ -20,6 +20,6 @@ class FileManager {
   std::vector<char> ReadFile(const std::string& abs_directory_file);
 };
 
-}  // namespace ipc
+}  // namespace helpers
 
 #endif  // FILE_MANAGER_H_

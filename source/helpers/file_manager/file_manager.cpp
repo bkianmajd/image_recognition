@@ -1,4 +1,4 @@
-#include "image_ipc/file_manager/file_manager.h"
+#include "helpers/file_manager/file_manager.h"
 
 #include <QDebug>
 #include <cassert>
@@ -8,7 +8,7 @@
 #include <string>
 #include "helpers/directory_finder.h"
 
-namespace ipc {
+namespace helpers {
 
 bool FileManager::StoreFile(const char* data, size_t size,
                             const std::string& abs_directory_file) {
@@ -69,4 +69,4 @@ std::vector<char> FileManager::ReadFile(const std::string& abs_directory_file) {
   return binary_data;
 }
 
-}  // namespace ipc
+}  // namespace helpers

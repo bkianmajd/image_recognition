@@ -13,4 +13,4 @@ HEADERS += $${WORKSPACE}/executable/ipc_server_runner/static_config.h
 
 SOURCES += $${WORKSPACE}/executable/ipc_server_runner/regression_test/ipc_server_regression_test.cpp
 
-include($${WORKSPACE}/image_ipc/ipc_server/ipc_server.pri)
+include($${WORKSPACE}/image_ipc/ipc_client.pri)

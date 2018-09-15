@@ -6,7 +6,7 @@
 #include "google_test/testing_def.h"
 #include "helpers/directory_finder.h"
 #include "helpers/memory_helper.hpp"
-#include "image_ipc/file_manager/file_manager.h"
+#include "helpers/file_manager/file_manager.h"
 #include "postal_service/postal_service.h"
 #include "postal_service/utility/mail_distributor_queue.h"
 #include "postal_service/utility/post_card_queue.h"
@@ -39,7 +39,6 @@ void StartClient(QCoreApplication* a) {
   std::cout << "Storing image of size " << binary.size() << std::endl;
 
   // Create the proto file
-  // todo make this a general proto_any_handler_
   std::unique_ptr<ipc_interface::StoreImageRequest> request =
       std::make_unique<ipc_interface::StoreImageRequest>();
 

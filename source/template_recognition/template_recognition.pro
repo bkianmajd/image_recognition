@@ -13,4 +13,3 @@ SOURCES += $${WORKSPACE}/google_test/main.cpp \
            $${WORKSPACE}/template_recognition/simple/simple_recognition_test.cpp
 
 include($${WORKSPACE}/template_recognition/template_recognition.pri)
-include($${WORKSPACE}/helpers/helpers.pri)
