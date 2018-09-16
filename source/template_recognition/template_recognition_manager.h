@@ -20,6 +20,8 @@ class TemplateRecognitionManager {
       helpers::FileManager* file_manager,
       template_recognition::TemplateRecognitionInterface* template_recognition);
 
+  bool RemoveImage(const std::string& image_name);
+
   bool StoreImage(const std::string& image_name,
                   const std::vector<char>& image_bytes);
 

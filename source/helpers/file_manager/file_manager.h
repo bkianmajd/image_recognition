@@ -13,11 +13,11 @@ class FileManager {
   FileManager() = default;
 
   bool StoreFile(const char* data, size_t size,
-                 const std::string& abs_directory_file);
+                 const std::string& abs_directory_file) const;
 
-  bool DeleteFile(const std::string& abs_directory_file);
+  bool DeleteFile(const std::string& abs_directory_file) const;
 
-  std::vector<char> ReadFile(const std::string& abs_directory_file);
+  std::vector<char> ReadFile(const std::string& abs_directory_file) const;
 };
 
 }  // namespace helpers

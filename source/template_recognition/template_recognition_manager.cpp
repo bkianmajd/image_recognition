@@ -17,6 +17,17 @@ TemplateRecognitionManager::TemplateRecognitionManager(
       file_manager_(file_manager),
       template_recognition_(template_recognition) {}
 
+bool TemplateRecognitionManager::RemoveImage(const std::string& image_name) {
+  std::string abs_file = data_directory_->GetAbsPathOfTargetFile(image_name);
+
+  auto it = stored_template_id_.find(image_name);
+  if (it != stored_template_id_.end()) {
+    stored_template_id_.erase(it);
+  }
+
+  return file_manager_->DeleteFile(abs_file);
+}
+
 bool TemplateRecognitionManager::StoreImage(
     const std::string& image_name, const std::vector<char>& image_bytes) {
   std::string abs_file = data_directory_->GetAbsPathOfTargetFile(image_name);
