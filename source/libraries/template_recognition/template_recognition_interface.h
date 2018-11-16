@@ -2,7 +2,7 @@
 #define TEMPLATE_RECOGNITION_TEMPLATE_RECOGNITION_INTERFACE_
 
 #include <string>
-#include "template_recognition/template_recognition_defs.h"
+#include "libraries/template_recognition/template_recognition_defs.h"
 
 namespace template_recognition {
 
@@ -21,7 +21,7 @@ class TemplateRecognitionInterface {
   virtual bool RegisterTemplate(TemplateId template_id,
                                 const std::string& image) = 0;
 
-  // Gets the point for a specific image id.
+  // Gets the point for a specific image id WRT the registered image.
   virtual Point GetTemplateMatch(TemplateId image_id) = 0;
 };
 

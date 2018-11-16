@@ -1,4 +1,4 @@
-#include "template_recognition/simple/simple_recognition.h"
+#include "libraries/template_recognition/simple/simple_recognition.h"
 
 #include <fstream>
 #include <iostream>

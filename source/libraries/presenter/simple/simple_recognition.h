@@ -8,7 +8,7 @@
 #include "external_libraries/googletest/include/gtest/gtest_prod.h"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
-#include "template_recognition/template_recognition_interface.h"
+#include "libraries/template_recognition/template_recognition_interface.h"
 
 namespace template_recognition {
 
