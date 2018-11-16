@@ -10,6 +10,7 @@
 
 namespace helpers {
 
+// Static
 bool FileManager::StoreFile(const char* data, size_t size,
                             const std::string& abs_directory_file) {
   // Open the destination file
@@ -27,11 +28,13 @@ bool FileManager::StoreFile(const char* data, size_t size,
   return sz_wrote == size;
 }
 
+// Static
 bool FileManager::DeleteFile(const std::string& abs_directory_file) {
   // a zero value is returned on success
   return std::remove(abs_directory_file.c_str()) == 0;
 }
 
+// Static
 std::vector<char> FileManager::ReadFile(const std::string& abs_directory_file) {
   // Open the source file
   FILE* fp = std::fopen(abs_directory_file.c_str(), "rb");

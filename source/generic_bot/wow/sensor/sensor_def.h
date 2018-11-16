@@ -5,7 +5,8 @@ namespace bot {
 namespace wow {
 
 enum ImageType {
-  IMAGE_TYPE_ENEMY = 0,
+  IMAGE_TYPE_NONE = 0,
+  IMAGE_TYPE_ENEMY,
   IMAGE_TYPE_NPC,
   IMAGE_TYPE_MOB,
   IMAGE_TYPE_PLAYER_SPELL,
@@ -35,11 +36,10 @@ struct DetectedObject {
   PixelPoint point;
   ImageType image_type;
 
-  // The other image types are non-opt
   PlayerSpell player_spell;
 };
 
 }  // namespace wow
 }  // namespace bot
 
-#endif WOW_SENSOR_DEF_
+#endif  // WOW_SENSOR_DEF_
