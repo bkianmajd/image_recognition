@@ -8,7 +8,6 @@ HEADERS += $${WORKSPACE}/components/image_recognition/image_recognition_defs.h
 SOURCES += $${WORKSPACE}/components/image_recognition/image_recognition_api.cpp
 SOURCES += $${WORKSPACE}/components/image_recognition/image_recognition_defs.cpp
 
-
 include($${WORKSPACE}/helpers/file_manager/file_manager.pri)
 include($${WORKSPACE}/helpers/helpers.pri)
 

@@ -29,8 +29,7 @@ class TemplateRecognitionMock : public TemplateRecognitionInterface {
   }
 
   // Gets the point for a specific image id.
-  Point GetTemplateMatch(TemplateId image_id,
-                         int template_match_type) override {
+  std::vector<Point> GetTemplateMatch(TemplateId image_id) override {
     (void)image_id;
     Point point;
     point.isValid = set_value_;

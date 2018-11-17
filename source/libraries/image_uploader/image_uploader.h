@@ -3,8 +3,11 @@
 
 #include <QString>
 #include <QStringList>
+<<<<<<< HEAD
 #include <string>
 #include <vector>
+=======
+>>>>>>> 43d87c17b85c57b9e757c93177e9cbb162a3df2e
 
 #include "gtest/gtest_prod.h"
 #include "helpers/directory_finder.h"
