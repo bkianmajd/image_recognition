@@ -3,7 +3,7 @@
 namespace template_recognition {
 namespace {
 
-constexpr double kProbabilityThreshold = .95;
+constexpr double kProbabilityThreshold = .986;
 
 }  // namespace
 
@@ -11,19 +11,22 @@ TemplateConverter::TemplateConverter() {}
 
 image_recognition::Point TemplateConverter::Convert(
     const std::vector<template_recognition::Point>& points) {
-  double max_probability = 0;
+  double sum = 0;
+  int count = 0;
   image_recognition::Point return_point;
   return_point.valid = false;
 
   for (const template_recognition::Point& point : points) {
-    if (point.probability > max_probability) {
-      max_probability = point.probability;
-      return_point.x = point.x;
-      return_point.y = point.y;
-    }
+    sum += point.probability;
+    count++;
+    return_point.x = point.x;
+    return_point.y = point.y;
   }
 
-  if (max_probability > kProbabilityThreshold) {
+  double average = sum/count;
+  std::cout << "average " << average;
+
+  if (average > kProbabilityThreshold) {
     return_point.valid = true;
   }
 

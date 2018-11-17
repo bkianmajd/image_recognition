@@ -40,6 +40,9 @@ ImageRecognitionApi::ImageRecognitionApi(
   // Sets the images from the template directory equal to the session directory
   // and registers the images with the template recognition
   RegisterTemplates();
+
+  // Unused function
+  (void)DebugPoints;
 }
 
 ImageRecognitionApi::~ImageRecognitionApi() {
