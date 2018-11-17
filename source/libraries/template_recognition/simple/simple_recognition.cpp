@@ -5,7 +5,6 @@
 #include <unordered_map>
 
 #include "external_libraries/googletest/include/gtest/gtest_prod.h"
-<<<<<<< HEAD
 #include "libraries/template_recognition/template_recognition_interface.h"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
@@ -15,13 +14,6 @@ namespace {
 
 constexpr int kMaxTemplateMatchTypes = 6;
 }
-=======
-#include "opencv2/highgui/highgui.hpp"
-#include "opencv2/imgproc/imgproc.hpp"
-#include "libraries/template_recognition/template_recognition_interface.h"
-
-namespace template_recognition {
->>>>>>> 43d87c17b85c57b9e757c93177e9cbb162a3df2e
 
 bool SimpleRecognition::RegisterImage(const std::string& image_with_path) {
   // Find the image in the data file
@@ -57,25 +49,14 @@ bool SimpleRecognition::RegisterTemplate(TemplateId template_id,
 }
 
 // Gets the point for a specific image id.
-<<<<<<< HEAD
 std::vector<Point> SimpleRecognition::GetTemplateMatch(TemplateId template_id) {
   std::vector<Point> return_point_vector;
-=======
-Point SimpleRecognition::GetTemplateMatch(TemplateId template_id) {
-  const int kMatchMethod = 5;
-  Point return_point;
->>>>>>> 43d87c17b85c57b9e757c93177e9cbb162a3df2e
 
   // Check if tempate id is in the template_map
   auto it = template_map_.find(template_id);
   if (it == template_map_.end()) {
-<<<<<<< HEAD
     std::cerr << "could not find template id " << template_id << std::endl;
     return return_point_vector;
-=======
-    return_point.isValid = false;
-    return return_point;
->>>>>>> 43d87c17b85c57b9e757c93177e9cbb162a3df2e
   }
 
   // Template image to compare against |big_image_|
@@ -90,7 +71,6 @@ Point SimpleRecognition::GetTemplateMatch(TemplateId template_id) {
   cv::Mat result;
   result.create(result_rows, result_cols, CV_32FC1);
 
-<<<<<<< HEAD
   for (int template_match_method = 0;
        template_match_method < kMaxTemplateMatchTypes;
        ++template_match_method) {
@@ -157,32 +137,6 @@ Point SimpleRecognition::GetTemplateMatch(TemplateId template_id) {
     return_point_vector.push_back(std::move(return_point));
   }
   return return_point_vector;
-=======
-  // Do the matching
-  cv::matchTemplate(big_image_, it->second, result, kMatchMethod);
-  cv::normalize(result, result, 0, 1, cv::NORM_MINMAX, -1, cv::Mat());
-
-  // Localizing the best match with minMaxLoc
-  double minVal;
-  double maxVal;
-  cv::Point minLoc, maxLoc;
-  cv::Point matchLoc;
-
-  cv::minMaxLoc(result, &minVal, &maxVal, &minLoc, &maxLoc, cv::Mat());
-
-  // For SQDIFF and SQDIFF_NORMED, the best matches are lower values. For all
-  // the other methods, the higher the better
-  if (kMatchMethod == CV_TM_SQDIFF || kMatchMethod == CV_TM_SQDIFF_NORMED) {
-    matchLoc = minLoc;
-  } else {
-    matchLoc = maxLoc;
-  }
-
-  // store matchLoc into return point
-  return_point.x = matchLoc.x;
-  return_point.y = matchLoc.y;
-  return return_point;
->>>>>>> 43d87c17b85c57b9e757c93177e9cbb162a3df2e
 }
 
 bool SimpleRecognition::CheckImage(const std::string& file_name_with_path) {

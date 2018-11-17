@@ -1,7 +1,6 @@
 #ifndef IMAGE_RECOGNITION_API_
 #define IMAGE_RECOGNITION_API_
 
-<<<<<<< HEAD
 #include <memory>
 #include <unordered_map>
 
@@ -10,11 +9,6 @@
 #include "libraries/image_file_manager/image_file_manager_interface.h"
 #include "libraries/image_uploader/image_uploader.h"
 #include "libraries/template_recognition/template_recognition_interface.h"
-=======
-#include "components/image_recognition/image_recognition_defs.h"
-#include "helpers/directory_finder.h"
-#include "helpers/file_manager/file_manager.h"
->>>>>>> 43d87c17b85c57b9e757c93177e9cbb162a3df2e
 
 namespace image_recognition {
 
