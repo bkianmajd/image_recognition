@@ -18,7 +18,8 @@ namespace image_recognition {
 class ImageRecognitionApi {
  public:
   explicit ImageRecognitionApi(
-      const helpers::DirectoryFinder& template_directory);
+      const helpers::DirectoryFinder& template_directory,
+      const helpers::DirectoryFinder& session_directory);
 
   ~ImageRecognitionApi();
 
@@ -26,8 +27,14 @@ class ImageRecognitionApi {
 
   Point TemplateMatch(const std::string& template_image_name);
 
+  /// Adds the template image name to the session directory. If the template
+  /// image already exists, will remove the image.
+  bool AddTemplateImage(const std::vector<char>& image_bytes,
+                        const std::string& template_image_name);
+
  private:
   void RegisterTemplates();
+  bool RegisterTemplate(const std::string& template_image_name);
 
   // The directory of all the template images
   helpers::DirectoryFinder template_directory_;

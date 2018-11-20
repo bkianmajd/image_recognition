@@ -35,10 +35,10 @@ bool SimpleRecognition::RegisterTemplate(TemplateId template_id,
 
   // Image exists. Add it to map
 
-  // Check if template_id is used
+  // Check if template_id is used, remove it
   auto it = template_map_.find(template_id);
   if (it != template_map_.end()) {
-    return false;
+    template_map_.erase(it);
   }
 
   // Add a new template id
