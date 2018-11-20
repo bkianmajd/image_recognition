@@ -1,12 +1,12 @@
-#include "postal_service/postal_service.h"
+#include "libraries/postal_service/postal_service.h"
 
 #include <chrono>
 #include <iostream>
 #include <thread>
 #include "external_libraries/protobuf/src/google/protobuf/any.pb.h"
-#include "postal_service/com_layer/com_defs.h"
-#include "postal_service/com_layer/tcp_client.h"
-#include "postal_service/com_layer/tcp_server.h"
+#include "libraries/postal_service/com_layer/com_defs.h"
+#include "libraries/postal_service/com_layer/tcp_client.h"
+#include "libraries/postal_service/com_layer/tcp_server.h"
 
 namespace postal_service {
 namespace {

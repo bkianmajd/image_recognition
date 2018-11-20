@@ -1,9 +1,9 @@
-#include "postal_service/com_layer/tcp_server.h"
+#include "libraries/postal_service/com_layer/tcp_server.h"
 
 #include <QHostAddress>
 #include <iostream>
 
-#include "postal_service/com_layer/com_defs.h"
+#include "libraries/postal_service/com_layer/com_defs.h"
 
 namespace com_layer {
 namespace {

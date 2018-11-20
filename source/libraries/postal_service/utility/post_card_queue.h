@@ -4,7 +4,7 @@
 #include <queue>
 #include <memory>
 #include "external_libraries/protobuf/src/google/protobuf/any.pb.h"
-#include "postal_service/ipost_card.h"
+#include "libraries/postal_service/ipost_card.h"
 
 namespace postal_service {
 

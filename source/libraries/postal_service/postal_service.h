@@ -4,9 +4,9 @@
 #include <memory>
 
 #include "gtest/gtest_prod.h"
-#include "postal_service/com_layer/icarrier.h"
-#include "postal_service/imail_distributor.h"
-#include "postal_service/ipost_card.h"
+#include "libraries/postal_service/com_layer/icarrier.h"
+#include "libraries/postal_service/imail_distributor.h"
+#include "libraries/postal_service/ipost_card.h"
 
 namespace postal_service {
 

@@ -2,7 +2,7 @@
 #define POSTAL_SERVICE_POST_CARDS_TEST_POST_CARD_H_
 
 #include "external_libraries/protobuf/src/google/protobuf/any.pb.h"
-#include "postal_service/ipost_card.h"
+#include "libraries/postal_service/ipost_card.h"
 #include "schema/compiled_files/test_proto.pb.h"
 
 namespace postal_service {

@@ -8,7 +8,7 @@
 #include <mutex>
 
 #include "gtest/gtest_prod.h"
-#include "postal_service/com_layer/icarrier.h"
+#include "libraries/postal_service/com_layer/icarrier.h"
 
 namespace com_layer {
 

@@ -3,7 +3,7 @@
 
 #include <queue>
 #include "external_libraries/protobuf/src/google/protobuf/any.pb.h"
-#include "postal_service/imail_distributor.h"
+#include "libraries/postal_service/imail_distributor.h"
 
 namespace postal_service {
 

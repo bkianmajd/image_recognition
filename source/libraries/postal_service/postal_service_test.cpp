@@ -1,4 +1,4 @@
-#include "postal_service/postal_service.h"
+#include "libraries/postal_service/postal_service.h"
 
 #include <QCoreApplication>
 #include <chrono>
@@ -6,8 +6,8 @@
 #include <iostream>
 #include <thread>
 
-#include "postal_service/utility/mail_distributor_simple.h"
-#include "postal_service/utility/test_post_card.h"
+#include "libraries/postal_service/utility/mail_distributor_simple.h"
+#include "libraries/postal_service/utility/test_post_card.h"
 
 postal_service::PostalService server(postal_service::server);
 postal_service::PostalService client(postal_service::client);
@@ -43,8 +43,6 @@ int main(int argc, char *argv[]) {
   com_layer::ConnectionInfo connection_info;
   server.AsyncInit(connection_info);
   client.AsyncInit(connection_info);
-
-
 
   std::thread t1(Print, &a);
   a.exec();

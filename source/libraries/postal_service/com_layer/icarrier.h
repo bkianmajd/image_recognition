@@ -2,7 +2,7 @@
 #define COM_LAYER_ICARRIER_H_
 
 #include <cstdint>
-#include "postal_service/com_layer/com_defs.h"
+#include "libraries/postal_service/com_layer/com_defs.h"
 
 namespace com_layer {
 
