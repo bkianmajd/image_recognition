@@ -1,5 +1,5 @@
-!contains(included_modules, $$PWD ) {
-  included_modules += $$PWD
+#!contains(included_modules, $$PWD ) {
+#  included_modules += $$PWD
 
 QT += core
 QT += network
@@ -13,4 +13,4 @@ INCLUDEPATH += $${WORKSPACE}/external_libraries/googletest/include
 
 LIBS += $${WORKSPACE}/external_libraries/googletest/lib/libgtest.a
 
-}
+#}

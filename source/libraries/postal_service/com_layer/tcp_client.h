@@ -15,7 +15,7 @@ namespace com_layer {
 class TcpClient : public QObject, public ICarrier {
   Q_OBJECT
  public:
-  explicit TcpClient(QObject* parent = 0);
+  TcpClient(QObject* parent = 0);
 
   ~TcpClient() override;
 

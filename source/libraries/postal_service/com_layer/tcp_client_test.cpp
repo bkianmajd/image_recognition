@@ -1,4 +1,4 @@
-#include "postal_service/com_layer/tcp_client.h"
+#include "libraries/postal_service/com_layer/tcp_client.h"
 
 #include <fstream>
 #include <iostream>
@@ -21,15 +21,15 @@ class TcpClientTest : public testing::Test {
 TEST_F(TcpClientTest, ConstructDestruct) {}
 
 TEST_F(TcpClientTest, SwapByteArrayTest) {
-  tcp_client_.byte_array_.append("tcp_byte_array");
+  tcp_client_.byte_read_array_.append("tcp_byte_array");
 
   std::string test_array = "test_array";
 
   tcp_client_.SwapReceivedByteArray(test_array);
   EXPECT_EQ("tcp_byte_array", test_array);
   EXPECT_NE("test_array", test_array);
-  EXPECT_NE("tcp_byte_array", tcp_client_.byte_array_);
-  EXPECT_EQ("test_array", tcp_client_.byte_array_);
+  EXPECT_NE("tcp_byte_array", tcp_client_.byte_read_array_);
+  EXPECT_EQ("test_array", tcp_client_.byte_read_array_);
 }
 
 }  // namespace rpc_server
