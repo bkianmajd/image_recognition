@@ -24,7 +24,7 @@ image_recognition::Point TemplateConverter::Convert(
   }
 
   double average = sum/count;
-  std::cout << "average " << average;
+  // std::cout << "average " << average << std::endl;
 
   if (average > kProbabilityThreshold) {
     return_point.valid = true;
