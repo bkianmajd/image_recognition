@@ -34,6 +34,33 @@ class ImageRecognitionApiTest : public testing::Test {
 
 TEST_F(ImageRecognitionApiTest, ConstructDestruct) {}
 
+TEST_F(ImageRecognitionApiTest, BigImageTest) {
+  std::vector<char> bytes =
+      helpers::FileManager::ReadFile(testing_directory_.GetAbsPathOfTargetFile(
+          testing_main::kBigImageCardDef));
+
+  ASSERT_GT(static_cast<int>(bytes.size()), 0);
+
+  EXPECT_TRUE(image_recognition_api_.SetBigImage(bytes));
+
+  // Pont should be between 0-100, 100-200
+  Point point =
+      image_recognition_api_.TemplateMatch(testing_main::kTemplate3Hearts);
+  EXPECT_TRUE(point.valid);
+  EXPECT_GT(point.x, 0);
+  EXPECT_LT(point.x, 100);
+  EXPECT_GT(point.y, 100);
+  EXPECT_LT(point.y, 200);
+
+  // Point should be between 200-300, 500-600,
+  point = image_recognition_api_.TemplateMatch(testing_main::kTemplate7Clubs);
+  EXPECT_TRUE(point.valid);
+  EXPECT_GT(point.x, 200);
+  EXPECT_LT(point.x, 300);
+  EXPECT_GT(point.y, 500);
+  EXPECT_LT(point.y, 600);
+}
+
 TEST_F(ImageRecognitionApiTest, ImageTest) {
   // Get the big image of the poker table
   std::vector<char> bytes =
