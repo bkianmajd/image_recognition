@@ -36,7 +36,6 @@ bool ScreenshotCreator::Capture(int x, int y, int width, int height) {
   }
   original_pixmap_ = screen->grabWindow(kWindowId, x, y, width, height);
 
-
   return true;
 }
 

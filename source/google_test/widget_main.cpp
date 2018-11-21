@@ -13,10 +13,8 @@ int main(int argc, char* argv[]) {
 
   bool testsPassed = RUN_ALL_TESTS();
 
-
   // Run the qt message loops
   // a.exec();
-
 
   // a->quit();
   return testsPassed;
