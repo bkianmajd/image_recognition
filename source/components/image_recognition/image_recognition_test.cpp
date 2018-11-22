@@ -18,7 +18,8 @@ class ImageRecognitionApiTest : public testing::Test {
             testing_main::kTestingDirectoryFromWorkspace,
             helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace),
         template_directory_(
-            "libraries/model_generator/poker_model_generator/template_images",
+            "components/poker/poker_game_controller/poker_model_generator/"
+            "template_images",
             helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace),
         session_directory_(
             kDefaultDirectory,

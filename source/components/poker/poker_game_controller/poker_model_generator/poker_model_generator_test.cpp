@@ -1,5 +1,5 @@
-#include "libraries/model_generator/poker_model_generator/poker_model_generator.h"
-#include "libraries/model_generator/poker_model_generator/poker_model_generator_mock.hpp"
+#include "components/poker/poker_game_controller/poker_model_generator/poker_model_generator.h"
+#include "components/poker/poker_game_controller/poker_model_generator/poker_model_generator_mock.hpp"
 
 #include <iostream>
 

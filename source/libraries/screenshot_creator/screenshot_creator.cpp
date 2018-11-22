@@ -21,7 +21,7 @@ QScreen* ScreenshotCreator::GetScreen() {
 
 bool ScreenshotCreator::Capture() {
   QScreen* screen = GetScreen();
-  if(screen == nullptr) {
+  if (screen == nullptr) {
     return false;
   }
 
@@ -29,12 +29,13 @@ bool ScreenshotCreator::Capture() {
   return true;
 }
 
-bool ScreenshotCreator::Capture(int x, int y, int width, int height) {
+bool ScreenshotCreator::Capture(const ScreenArea& screen_area) {
   QScreen* screen = GetScreen();
-  if(screen == nullptr) {
+  if (screen == nullptr) {
     return false;
   }
-  original_pixmap_ = screen->grabWindow(kWindowId, x, y, width, height);
+  original_pixmap_ = screen->grabWindow(kWindowId, screen_area.x, screen_area.y,
+                                        screen_area.width, screen_area.height);
 
   return true;
 }
@@ -58,6 +59,19 @@ std::vector<char> ScreenshotCreator::GetLastCapture() {
 
   std::vector<char> return_vector(bArray.begin(), bArray.end());
   return return_vector;
+}
+
+bool ScreenshotCreator::CaptureFromBigImage(const std::vector<char>& big_image,
+                                            const ScreenArea& screen_area) {
+  if (!original_pixmap_.loadFromData((const uchar*)(big_image.data()),
+                                     big_image.size(), "JPG")) {
+    std::cerr << "failed to load from data" << std::endl;
+    return false;
+  }
+
+  original_pixmap_ = original_pixmap_.copy(
+      screen_area.x, screen_area.y, screen_area.width, screen_area.height);
+  return true;
 }
 
 }  // namespace template_recognition

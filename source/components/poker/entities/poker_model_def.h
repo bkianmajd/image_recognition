@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "libraries/model_generator/poker_model_generator/card_def.h"
+#include "components/poker/entities/card_def.h"
 
 namespace image_recognition {
 namespace poker {

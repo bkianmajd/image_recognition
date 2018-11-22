@@ -17,9 +17,8 @@ namespace image_recognition {
 /// directory of jpg images are automatically loaded into the sesion directory.
 class ImageRecognitionApi {
  public:
-  explicit ImageRecognitionApi(
-      const helpers::DirectoryFinder& template_directory,
-      const helpers::DirectoryFinder& session_directory);
+  ImageRecognitionApi(const helpers::DirectoryFinder& template_directory,
+                      const helpers::DirectoryFinder& session_directory);
 
   ~ImageRecognitionApi();
 

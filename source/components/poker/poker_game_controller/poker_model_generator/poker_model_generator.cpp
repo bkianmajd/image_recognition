@@ -1,4 +1,4 @@
-#include "libraries/model_generator/poker_model_generator/poker_model_generator.h"
+#include "components/poker/poker_game_controller/poker_model_generator/poker_model_generator.h"
 
 #include <iostream>
 

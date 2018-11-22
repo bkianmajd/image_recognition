@@ -1,7 +1,8 @@
 #ifndef MODEL_DEF_H_
 #define MODEL_DEF_H_
 
-#include "components/image_recognition/image_recognition_api.h"
+#include <string>
+#include <vector>
 
 namespace image_recognition {
 
