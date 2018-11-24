@@ -84,6 +84,9 @@ LandmarkResponseDataArray PokerLandmarkGenerator::GenerateRelativeToIndicator(
       continue;
     }
 
+    if(i==4)
+      std::cout << "test\n";
+
     // find the template image and store it in the response
     landmark_response_data_array[i].left_card = ConvertToPoint(
         landmark_request_data.left_card, x_indicator, y_indicator);

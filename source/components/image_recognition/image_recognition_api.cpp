@@ -78,7 +78,7 @@ Point ImageRecognitionApi::TemplateMatch(
   std::vector<template_recognition::Point> t_point =
       template_recognition_->GetTemplateMatch(it->second);
 
-  // DebugPoints(template_image_name, t_point);
+  DebugPoints(template_image_name, t_point);
 
   template_recognition::TemplateConverter template_converter;
   return template_converter.Convert(t_point);

@@ -38,8 +38,8 @@ using LandmarkRequestDataArray = std::array<LandmarkRequestData, LANDMARK_SIZE>;
 using LandmarkResponseDataArray =
     std::array<LandmarkResponseData, LANDMARK_SIZE>;
 
-constexpr int kDefaultCardWidth = 62;
-constexpr int kDefaultCardHeight = 32;
+constexpr int kDefaultWidth = 62;
+constexpr int kDefaultHeight = 27;
 
 }  // namespace poker
 

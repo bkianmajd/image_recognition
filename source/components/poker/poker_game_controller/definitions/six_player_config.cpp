@@ -4,9 +4,7 @@
 #include "components/poker/poker_game_controller/definitions/landmark_config_def.h"
 
 namespace poker {
-namespace {
-
-}  // namespace
+namespace {}  // namespace
 
 LandmarkRequestDataArray GenerateSixPlayerConfig() {
   LandmarkRequestDataArray data_array;
@@ -17,22 +15,40 @@ LandmarkRequestDataArray GenerateSixPlayerConfig() {
     switch (landmark) {
       case LANDMARK_PLAYER_ZERO:
         landmark_request_data.left_card = template_recognition::ScreenArea(
-            457, 431, kDefaultCardWidth, kDefaultCardHeight);
+            457, 431, kDefaultWidth, kDefaultHeight);
         landmark_request_data.right_card = template_recognition::ScreenArea(
-            523, 431, kDefaultCardWidth, kDefaultCardHeight);
+            523, 431, kDefaultWidth, kDefaultHeight);
         break;
       case LANDMARK_PLAYER_ONE:
+        landmark_request_data.left_card = template_recognition::ScreenArea(
+            68, 322, kDefaultWidth, kDefaultHeight);
+        landmark_request_data.right_card = template_recognition::ScreenArea(
+            133, 322, kDefaultWidth, kDefaultHeight);
         break;
-      /*
-case LANDMARK_PLAYER_TWO:
-break;
-case LANDMARK_PLAYER_THREE:
-break;
-case LANDMARK_PLAYER_FOUR:
-break;
-case LANDMARK_PLAYER_FIVE:
-break;
-*/
+      case LANDMARK_PLAYER_TWO:
+        landmark_request_data.left_card = template_recognition::ScreenArea(
+            68, 97, kDefaultWidth, kDefaultHeight);
+        landmark_request_data.right_card = template_recognition::ScreenArea(
+            133, 97, kDefaultWidth, kDefaultHeight);
+        break;
+      case LANDMARK_PLAYER_THREE:
+        landmark_request_data.left_card = template_recognition::ScreenArea(
+            458, 11, kDefaultWidth, kDefaultHeight);
+        landmark_request_data.right_card = template_recognition::ScreenArea(
+            523, 13, kDefaultWidth, kDefaultHeight);
+        break;
+      case LANDMARK_PLAYER_FOUR:
+        landmark_request_data.left_card = template_recognition::ScreenArea(
+            849, 99, kDefaultWidth, kDefaultHeight);
+        landmark_request_data.right_card = template_recognition::ScreenArea(
+            915, 99, kDefaultWidth, kDefaultHeight);
+        break;
+      case LANDMARK_PLAYER_FIVE:
+        landmark_request_data.left_card = template_recognition::ScreenArea(
+            848, 322, kDefaultWidth, kDefaultHeight);
+        landmark_request_data.right_card = template_recognition::ScreenArea(
+            914, 322, kDefaultWidth, kDefaultHeight);
+        break;
       default:
         // do not search for this landmark
         landmark_request_data.is_search = false;
