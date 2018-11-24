@@ -1,13 +1,14 @@
-#ifndef LANDMARK_CONFIG_H_
-#define LANDMARK_CONFIG_H_
+#ifndef LANDMARK_CONFIG_DEF_H_
+#define LANDMARK_CONFIG_DEF_H_
 
 #include <vector>
 
+#include "components/image_recognition/image_recognition_defs.h"
 #include "libraries/screenshot_creator/screenshot_creator.h"
 
 namespace poker {
 
-enum LANDMARK {
+enum Landmark {
   LANDMARK_PLAYER_ZERO = 0,  // This is yourself
   LANDMARK_PLAYER_ONE,       // Counter-clockwise from self
   LANDMARK_PLAYER_TWO,
@@ -22,19 +23,24 @@ enum LANDMARK {
 };
 
 struct LandmarkRequestData {
-  bool valid = false;
-  std::string big_image_name;
+  bool is_search = false;
+  template_recognition::ScreenArea left_card;
+  template_recognition::ScreenArea right_card;
 };
 
+// This returns the x and y location of the template image relative to the map
 struct LandmarkResponseData {
-  bool found = false;
-  std::string template_image;
+  image_recognition::Point left_card;
+  image_recognition::Point right_card;
 };
 
 using LandmarkRequestDataArray = std::array<LandmarkRequestData, LANDMARK_SIZE>;
 using LandmarkResponseDataArray =
     std::array<LandmarkResponseData, LANDMARK_SIZE>;
 
+constexpr int kDefaultCardWidth = 62;
+constexpr int kDefaultCardHeight = 32;
+
 }  // namespace poker
 
-#endif  // LANDMARK_CONFIG_H_
+#endif  // LANDMARK_CONFIG_DEF_H_

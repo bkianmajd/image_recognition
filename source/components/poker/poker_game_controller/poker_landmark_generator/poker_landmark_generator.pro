@@ -9,7 +9,7 @@ INCLUDEPATH += $${WORKSPACE}/external_libraries/googletest/include
 
 LIBS += $${WORKSPACE}/external_libraries/googletest/lib/libgtest.a
 
-SOURCES += $${WORKSPACE}/google_test/main.cpp
+SOURCES += $${WORKSPACE}/google_test/widget_main.cpp
 SOURCES += $${WORKSPACE}components/poker/poker_game_controller/poker_landmark_generator/poker_landmark_generator_test.cpp
 SOURCES += $${WORKSPACE}components/poker/poker_game_controller/poker_landmark_generator/indicator_finder_test.cpp
 

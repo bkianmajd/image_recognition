@@ -56,8 +56,13 @@ TEST_F(ScreenshotCreatorTest, CaptureFromBigImageTest) {
       tester.GetAbsPath(testing_main::kBigImagePokerTable));
   ASSERT_GT(static_cast<int>(screenshot_raw_data.size()), 0);
 
-  EXPECT_TRUE(screenshot_creator_.CaptureFromBigImage(
-      screenshot_raw_data, ScreenArea(100, 100, 100, 100)));
+  EXPECT_TRUE(screenshot_creator_.Capture(screenshot_raw_data));
+
+  std::vector<char> last_capture =
+      screenshot_creator_.GetLastCapture(ScreenArea(457, 431, 62, 32));
+  EXPECT_GT(static_cast<int>(last_capture.size()), 0);
+
+  EXPECT_TRUE(screenshot_creator_.Capture(last_capture));
 
   EXPECT_TRUE(screenshot_creator_.SaveLastCaptureToFile(
       test_directory_.GetAbsPathOfTargetFile(kScreenshotSubsection)));

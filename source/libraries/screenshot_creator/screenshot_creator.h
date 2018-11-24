@@ -13,6 +13,8 @@
 namespace template_recognition {
 
 struct ScreenArea {
+  ScreenArea() {}
+
   ScreenArea(int p_x, int p_y, int p_width, int p_height)
       : x(p_x), y(p_y), width(p_width), height(p_height) {}
 
@@ -30,18 +32,20 @@ class ScreenshotCreator : QWidget {
 
   bool Capture(const ScreenArea& screen_area);
 
+  // Captures a raw data image instead of taking a screenshot
+  bool Capture(const std::vector<char>& big_image);
+
   bool SaveLastCaptureToFile(const std::string& abs_path);
 
-  bool CaptureFromBigImage(const std::vector<char>& big_image,
-                           const ScreenArea& screen_area);
-
   std::vector<char> GetLastCapture();
+
+  // Gets a subset of the last capture
+  std::vector<char> GetLastCapture(const ScreenArea& screen_area);
 
  private:
   QScreen* GetScreen();
 
   QPixmap original_pixmap_;
-  QDataStream data_stream_;
 };
 
 }  // namespace template_recognition

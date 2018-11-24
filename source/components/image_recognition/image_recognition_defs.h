@@ -8,7 +8,7 @@ namespace image_recognition {
 struct Point {
   int x;  // pixel location
   int y;  // pixel location
-  bool valid;
+  bool valid = false;
 };
 
 std::ostream& operator<<(std::ostream& os, const Point& point);

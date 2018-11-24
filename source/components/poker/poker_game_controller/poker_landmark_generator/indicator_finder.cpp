@@ -10,7 +10,7 @@ const std::string kSessionDirectory =
     "components/poker/poker_game_controller/poker_landmark_generator/"
     "indicator_session_directory";
 
-const std::string kLandmarkName = "landmark.jpg";
+const std::string kLandmarkName = "indicator.jpg";
 
 constexpr helpers::DirectoryFinder::ReferenceFrame kRelativePath =
     helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace;
