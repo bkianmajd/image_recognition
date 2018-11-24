@@ -84,7 +84,7 @@ LandmarkResponseDataArray PokerLandmarkGenerator::GenerateRelativeToIndicator(
       continue;
     }
 
-    if(i==4)
+    if(i==0)
       std::cout << "test\n";
 
     // find the template image and store it in the response

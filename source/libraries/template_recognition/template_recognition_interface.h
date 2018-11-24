@@ -22,6 +22,9 @@ class TemplateRecognitionInterface {
   virtual bool RegisterTemplate(TemplateId template_id,
                                 const std::string& image) = 0;
 
+  virtual bool RegisterTemplate(TemplateId template_id,
+                                const std::vector<char>& bytes) = 0;
+
   // Gets the point for a specific image id WRT the registered image.
   virtual std::vector<Point> GetTemplateMatch(TemplateId image_id) = 0;
 };

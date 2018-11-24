@@ -39,15 +39,15 @@ LandmarkRequestDataArray GenerateSixPlayerConfig() {
         break;
       case LANDMARK_PLAYER_FOUR:
         landmark_request_data.left_card = template_recognition::ScreenArea(
-            849, 99, kDefaultWidth, kDefaultHeight);
+            851, 98, kDefaultWidth, kDefaultHeight);
         landmark_request_data.right_card = template_recognition::ScreenArea(
             915, 99, kDefaultWidth, kDefaultHeight);
         break;
       case LANDMARK_PLAYER_FIVE:
         landmark_request_data.left_card = template_recognition::ScreenArea(
-            848, 322, kDefaultWidth, kDefaultHeight);
+            851, 324, kDefaultWidth, kDefaultHeight);
         landmark_request_data.right_card = template_recognition::ScreenArea(
-            914, 322, kDefaultWidth, kDefaultHeight);
+            917, 324, kDefaultWidth, kDefaultHeight);
         break;
       default:
         // do not search for this landmark

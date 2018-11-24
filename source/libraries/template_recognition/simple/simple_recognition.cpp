@@ -48,6 +48,28 @@ bool SimpleRecognition::RegisterTemplate(TemplateId template_id,
   return true;
 }
 
+bool SimpleRecognition::RegisterTemplate(TemplateId template_id,
+                                         const std::vector<char>& bytes) {
+  // Check if template_id is used, remove it
+  auto it = template_map_.find(template_id);
+  if (it != template_map_.end()) {
+    template_map_.erase(it);
+  }
+
+  // Add a new template id
+  template_map_.insert(std::pair<TemplateId, cv::Mat>(
+      template_id, cv::imdecode(bytes, cv::IMREAD_COLOR)));
+
+  // check to see if the mat is empty
+  it = template_map_.find(template_id);
+  if (it->second.empty()) {
+    template_map_.erase(it);
+    return false;
+  }
+
+  return true;
+}
+
 // Gets the point for a specific image id.
 std::vector<Point> SimpleRecognition::GetTemplateMatch(TemplateId template_id) {
   std::vector<Point> return_point_vector;

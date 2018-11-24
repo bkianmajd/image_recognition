@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <unordered_map>
+#include <vector>
 
 #include "external_libraries/googletest/include/gtest/gtest_prod.h"
 #include "libraries/template_recognition/template_recognition_interface.h"
@@ -22,6 +23,8 @@ class SimpleRecognition : public TemplateRecognitionInterface {
   bool RegisterTemplate(TemplateId template_id,
                         const std::string& abs_path_image_name) override;
 
+  bool RegisterTemplate(TemplateId template_id, const std::vector<char>& bytes) override;
+
   // Gets the point for a specific image id.
   std::vector<Point> GetTemplateMatch(TemplateId template_id) override;
 
@@ -29,6 +32,7 @@ class SimpleRecognition : public TemplateRecognitionInterface {
 
  private:
   FRIEND_TEST(SimpleRecognitionTest, TemplateStorageTest);
+  FRIEND_TEST(SimpleRecognitionTest, TemplateStorageTest2);
 
   bool CheckImage(const std::string& abs_path_image_name);
 
