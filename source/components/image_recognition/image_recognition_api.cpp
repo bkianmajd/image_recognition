@@ -78,7 +78,7 @@ Point ImageRecognitionApi::TemplateMatch(
   std::vector<template_recognition::Point> t_point =
       template_recognition_->GetTemplateMatch(it->second);
 
-  DebugPoints(template_image_name, t_point);
+  // DebugPoints(template_image_name, t_point);
 
   template_recognition::TemplateConverter template_converter;
   return template_converter.Convert(t_point);
@@ -95,18 +95,27 @@ void ImageRecognitionApi::RegisterTemplates() {
 bool ImageRecognitionApi::AddTemplateImage(
     const std::vector<char>& image_bytes,
     const std::__cxx11::string& template_image_name) {
-  std::string abs_file =
-      session_directory_.GetAbsPathOfTargetFile(template_image_name);
-  // remove the big image before storing the new image
-  helpers::FileManager::DeleteFile(abs_file);
+  // Check if the template id already exists with the image name
+  auto it = template_id_map_.find(template_image_name);
+  if (it == template_id_map_.end()) {
+    if (!template_recognition_->RegisterTemplate(last_id_, image_bytes)) {
+      std::cerr << "Template_recognition_->RegisterTemplate failed!"
+                << std::endl;
+      return false;
+    }
 
-  // Convert image_bytes into a file into the sesion directory
-  if (!helpers::FileManager::StoreFile(image_bytes.data(), image_bytes.size(),
-                                       abs_file)) {
-    std::cerr << "failed to store file " << abs_file << std::endl;
+    // Create a new template id
+    template_id_map_[template_image_name] = last_id_++;
+    return true;
+  }
+
+  // Use the old template id
+  if (!template_recognition_->RegisterTemplate(it->second, image_bytes)) {
+    std::cerr << "Template_recognition_->RegisterTemplate failed!" << std::endl;
     return false;
   }
-  return RegisterTemplate(template_image_name);
+
+  return true;
 }
 
 bool ImageRecognitionApi::RegisterTemplate(

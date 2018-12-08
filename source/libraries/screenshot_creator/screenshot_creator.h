@@ -13,7 +13,7 @@
 namespace template_recognition {
 
 struct ScreenArea {
-  ScreenArea() {}
+  ScreenArea() : x(0), y(0), width(0), height(0) {}
 
   ScreenArea(int p_x, int p_y, int p_width, int p_height)
       : x(p_x), y(p_y), width(p_width), height(p_height) {}

@@ -1,7 +1,6 @@
 #ifndef CARD_DEF_H_
 #define CARD_DEF_H_
 
-namespace image_recognition {
 namespace poker {
 
 enum Suit {
@@ -24,9 +23,9 @@ enum CardValue {
   CARD_VALUE_EIGHT = 8,
   CARD_VALUE_NINE = 9,
   CARD_VALUE_TEN = 10,
-  CARD_VALUE_ELLEVEN = 11,
-  CARD_VALUE_TWELVE = 12,
-  CARD_VALUE_THIRTEEN = 13,
+  CARD_VALUE_JACK = 11,
+  CARD_VALUE_QUEEN = 12,
+  CARD_VALUE_KING = 13,
 };
 
 struct Card {
@@ -56,6 +55,5 @@ struct Table {
 };
 
 }  // namespace poker
-}  // namespace image_recognition
 
 #endif  // CARD_DEF_H_

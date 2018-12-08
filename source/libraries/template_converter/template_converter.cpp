@@ -23,12 +23,15 @@ TemplateConverter::TemplateConverter() {}
 
 image_recognition::Point TemplateConverter::Convert(
     const std::vector<template_recognition::Point>& points) {
-  assert(points.size() == 3);
+  image_recognition::Point return_point;
+
+  if (points.size() != 3) {
+    std::cerr << "points not == 3" << std::endl;
+    return return_point;
+  }
 
   double max_probability = 0;
   int max_probability_index = 0;
-
-  image_recognition::Point return_point;
   return_point.valid = true;
 
   for (int i = 0; i < 3; ++i) {

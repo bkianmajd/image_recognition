@@ -10,7 +10,7 @@
 #include "helpers/directory_finder.h"
 #include "helpers/memory_helper.hpp"
 
-namespace ipc {
+namespace helpers {
 namespace {
 const std::string kTestImage = "test_output.jpg";
 }  // namespace
@@ -20,25 +20,23 @@ class FileManagerTest : public testing::Test {
   FileManagerTest()
       : directory_(
             testing_main::kTestingDirectoryFromWorkspace,
-            helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace),
-        file_manager_() {}
+            helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace) {}
 
  protected:
   helpers::DirectoryFinder directory_;
-  FileManager file_manager_;
 };
 TEST_F(FileManagerTest, ConstructDestruct) {}
 
 TEST_F(FileManagerTest, ReadSaveAndDeleteImage) {
-  std::vector<char> binary_data = file_manager_.ReadFile(
-      directory_.GetAbsPathOfTargetFile(testing_main::kImageOne));
+  std::vector<char> binary_data = FileManager::ReadFile(
+      directory_.GetAbsPathOfTargetFile(testing_main::kTemplateCheckers));
   ASSERT_GT(binary_data.size(), static_cast<unsigned int>(0));
 
-  ASSERT_TRUE(file_manager_.StoreFile(binary_data.data(), binary_data.size(),
-                                      kTestImage));
+  ASSERT_TRUE(FileManager::StoreFile(binary_data.data(), binary_data.size(),
+                                     kTestImage));
 
   // Atempt to delete the imaeg
-  EXPECT_TRUE(file_manager_.DeleteFile(kTestImage));
+  EXPECT_TRUE(FileManager::DeleteFile(kTestImage));
 }
 
-}  // namespace ipc
+}  // namespace helpers
