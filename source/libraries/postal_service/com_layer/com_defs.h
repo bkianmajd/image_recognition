@@ -7,7 +7,7 @@ namespace com_layer {
 
 constexpr int kDefaultPort = 8080;
 constexpr int kMaxBytes = 2048;
-constexpr char* kLocalHostAddress = "127.0.0.1";
+constexpr char kLocalHostAddress[] = "127.0.0.1";
 
 struct ConnectionInfo {
   int port = kDefaultPort;

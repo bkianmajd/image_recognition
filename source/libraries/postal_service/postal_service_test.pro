@@ -2,6 +2,7 @@ QT += core
 QT += network
 
 CONFIG += c++11
+CONFIG += warn_off
 
 WORKSPACE = $$_PRO_FILE_PWD_/../../../source/
 INCLUDEPATH += $${WORKSPACE}
