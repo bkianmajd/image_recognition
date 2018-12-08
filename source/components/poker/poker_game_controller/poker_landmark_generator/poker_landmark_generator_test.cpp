@@ -13,7 +13,7 @@ class PokerLandmarkGeneratorTest : public testing::Test {
  public:
   PokerLandmarkGeneratorTest()
       : testing_directory_(
-            testing_main::kTestingDirectoryFromWorkspace,
+            tester::kTestingDirectoryFromWorkspace,
             helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace),
         landmark_generator_(GenerateSixPlayerConfig()) {}
 
@@ -27,7 +27,7 @@ TEST_F(PokerLandmarkGeneratorTest, PlayerTest) {
   // Get the big image of the poker table
   std::vector<char> bytes =
       helpers::FileManager::ReadFile(testing_directory_.GetAbsPathOfTargetFile(
-          testing_main::kBigImagePokerTable));
+          tester::kBigImagePokerTable));
   ASSERT_GT(static_cast<int>(bytes.size()), 0);
 
   const LandmarkResponseDataArray& landmark_response_data_array =
@@ -49,7 +49,7 @@ TEST_F(PokerLandmarkGeneratorTest, PlayerFiveTest) {
   // Get the big image of the poker table
   std::vector<char> bytes =
       helpers::FileManager::ReadFile(testing_directory_.GetAbsPathOfTargetFile(
-          testing_main::kBigImagePokerTable));
+          tester::kBigImagePokerTable));
   ASSERT_GT(static_cast<int>(bytes.size()), 0);
 
   const LandmarkResponseDataArray& landmark_response_data_array =

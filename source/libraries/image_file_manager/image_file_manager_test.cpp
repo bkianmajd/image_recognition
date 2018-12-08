@@ -25,22 +25,22 @@ TEST_F(ImageFileManagerTest, ConstructDestruct) {}
 
 TEST_F(ImageFileManagerTest, RemoveStoreImageTest) {
   helpers::DirectoryFinder test_directory(
-      testing_main::kTestingDirectoryFromWorkspace,
+      tester::kTestingDirectoryFromWorkspace,
       helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace);
 
   std::string abs_image_path =
-      test_directory.GetAbsPathOfTargetFile(testing_main::kBigImage);
+      test_directory.GetAbsPathOfTargetFile(tester::kBigImage);
   // Grab the raw data
   std::vector<char> image_bytes =
       helpers::FileManager::ReadFile(abs_image_path);
   ASSERT_GT(image_bytes.size(), 0);
 
   // First remove if test_image is already in the sesion directory.
-  image_file_manager_.RemoveImage(testing_main::kBigImage);
+  image_file_manager_.RemoveImage(tester::kBigImage);
 
   // Next store the image
   EXPECT_TRUE(
-      image_file_manager_.StoreImage(testing_main::kBigImage, image_bytes));
+      image_file_manager_.StoreImage(tester::kBigImage, image_bytes));
 }
 
 }  // namespace helpers

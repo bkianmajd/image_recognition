@@ -28,7 +28,7 @@ TEST(DirectoryFinderTest, workspace_directory) {
             << test_directory.GetAbsPathOfTargetFile("test.jpg") << std::endl;
 
   DirectoryFinder workspace(
-      testing_main::kTestingDirectoryFromWorkspace,
+      tester::kTestingDirectoryFromWorkspace,
       helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace);
   std::cout << "Test directory workspace: " << workspace.GetAbsPath()
             << std::endl;

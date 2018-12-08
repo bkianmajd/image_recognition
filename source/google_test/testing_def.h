@@ -3,7 +3,7 @@
 
 #include "helpers/directory_finder.h"
 
-namespace testing_main {
+namespace tester {
 
 const std::string kWorkspaceFromTestingMain = "../../../source/";
 
@@ -37,6 +37,6 @@ class Tester {
   const helpers::DirectoryFinder test_directory_;
 };
 
-}  // testing_main
+}  // tester
 
 #endif  // TESTING_DEF_H_

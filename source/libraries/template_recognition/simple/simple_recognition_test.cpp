@@ -21,12 +21,12 @@ class SimpleRecognitionTest : public testing::Test {
  public:
   SimpleRecognitionTest()
       : directory_finder_(
-            testing_main::kTestingDirectoryFromWorkspace,
+            tester::kTestingDirectoryFromWorkspace,
             helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace),
         kBigImg(directory_finder_.GetAbsPathOfTargetFile(
-            testing_main::kBigImageChecker)),
+            tester::kBigImageChecker)),
         kTemplateImg(directory_finder_.GetAbsPathOfTargetFile(
-            testing_main::kTemplateCheckers)) {}
+            tester::kTemplateCheckers)) {}
 
  protected:
   helpers::DirectoryFinder directory_finder_;
@@ -52,7 +52,7 @@ TEST_F(SimpleRecognitionTest, FileCheckTest) {
 TEST_F(SimpleRecognitionTest, RegisterTest) {
   EXPECT_TRUE(simple_recognition_.RegisterImage(kTemplateImg));
   EXPECT_TRUE(simple_recognition_.RegisterImage(kBigImg));
-  EXPECT_FALSE(simple_recognition_.RegisterImage(testing_main::kNoFile));
+  EXPECT_FALSE(simple_recognition_.RegisterImage(tester::kNoFile));
 }
 
 TEST_F(SimpleRecognitionTest, ImageRegisterTest) {

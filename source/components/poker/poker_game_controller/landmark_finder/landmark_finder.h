@@ -51,8 +51,8 @@ class LandmarkFinder {
   image_recognition::ImageRecognitionApi card_reader_;
   // image_recognition::ImageRecognitionApi chair_reader_;
 
-  int x_indicator_location_;
-  int y_indicator_location_;
+  int x_indicator_location_ = 0;
+  int y_indicator_location_ = 0;
 };
 
 }  // namespace poker

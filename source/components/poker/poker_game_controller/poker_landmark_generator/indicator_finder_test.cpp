@@ -12,7 +12,7 @@ class IndicatorFinderTest : public testing::Test {
  public:
   IndicatorFinderTest()
       : testing_directory_(
-            testing_main::kTestingDirectoryFromWorkspace,
+            tester::kTestingDirectoryFromWorkspace,
             helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace) {}
 
  protected:
@@ -28,7 +28,7 @@ TEST_F(IndicatorFinderTest, FindIndicatorTest) {
   // Get the big image of the poker table 1
   bytes =
       helpers::FileManager::ReadFile(testing_directory_.GetAbsPathOfTargetFile(
-          testing_main::kBigImagePokerTable));
+          tester::kBigImagePokerTable));
   ASSERT_GT(static_cast<int>(bytes.size()), 0);
 
   EXPECT_TRUE(
@@ -39,7 +39,7 @@ TEST_F(IndicatorFinderTest, FindIndicatorTest) {
   // Get the big image of the poker table 2
   bytes =
       helpers::FileManager::ReadFile(testing_directory_.GetAbsPathOfTargetFile(
-          testing_main::kBigImagePokerTable2));
+          tester::kBigImagePokerTable2));
   ASSERT_GT(static_cast<int>(bytes.size()), 0);
 
   EXPECT_TRUE(

@@ -29,10 +29,10 @@ class WowDetectorTest : public testing::Test {
             kTemplateDirectory,
             helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace),
         test_directory_(
-            testing_main::kTestingDirectoryFromWorkspace,
+            tester::kTestingDirectoryFromWorkspace,
             helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace),
         session_directory_(
-            testing_main::kSessionDirectoryFromWorkspace,
+            tester::kSessionDirectoryFromWorkspace,
             helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace),
         template_recognition_manager_(session_directory_,
                                       &simple_recognition_),
@@ -56,15 +56,15 @@ TEST_F(WowDetectorTest, RegisterImage) {
 
   // Add big image
   std::string image_path_file =
-      test_directory_.GetAbsPathOfTargetFile(testing_main::kBigImage);
+      test_directory_.GetAbsPathOfTargetFile(tester::kBigImage);
   std::vector<char> bytes = helpers::FileManager::ReadFile(image_path_file);
   EXPECT_TRUE(
-      template_recognition_manager_.StoreImage(testing_main::kBigImage, bytes));
+      template_recognition_manager_.StoreImage(tester::kBigImage, bytes));
 
   // Search for image
   template_recognition::Point point;
   EXPECT_TRUE(template_recognition_manager_.TemplateMatch(
-      testing_main::kBigImage, kFireballName, &point));
+      tester::kBigImage, kFireballName, &point));
 
   EXPECT_TRUE(point.isValid);
 }

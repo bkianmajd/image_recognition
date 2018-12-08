@@ -51,9 +51,9 @@ TEST_F(ScreenshotCreatorTest, CapturePortionTest) {
 }
 
 TEST_F(ScreenshotCreatorTest, CaptureFromBigImageTest) {
-  testing_main::Tester tester;
+  tester::Tester tester;
   std::vector<char> screenshot_raw_data = helpers::FileManager::ReadFile(
-      tester.GetAbsPath(testing_main::kBigImagePokerTable));
+      tester.GetAbsPath(tester::kBigImagePokerTable));
   ASSERT_GT(static_cast<int>(screenshot_raw_data.size()), 0);
 
   EXPECT_TRUE(screenshot_creator_.Capture(screenshot_raw_data));

@@ -19,7 +19,7 @@ class FileManagerTest : public testing::Test {
  public:
   FileManagerTest()
       : directory_(
-            testing_main::kTestingDirectoryFromWorkspace,
+            tester::kTestingDirectoryFromWorkspace,
             helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace) {}
 
  protected:
@@ -29,7 +29,7 @@ TEST_F(FileManagerTest, ConstructDestruct) {}
 
 TEST_F(FileManagerTest, ReadSaveAndDeleteImage) {
   std::vector<char> binary_data = FileManager::ReadFile(
-      directory_.GetAbsPathOfTargetFile(testing_main::kTemplateCheckers));
+      directory_.GetAbsPathOfTargetFile(tester::kTemplateCheckers));
   ASSERT_GT(binary_data.size(), static_cast<unsigned int>(0));
 
   ASSERT_TRUE(FileManager::StoreFile(binary_data.data(), binary_data.size(),

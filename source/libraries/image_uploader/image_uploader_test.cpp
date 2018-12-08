@@ -12,7 +12,7 @@ class ImageUploaderTest : public testing::Test {
   ImageUploaderTest()
       : image_uploader_(nullptr,
                         helpers::DirectoryFinder(
-                            testing_main::kTestingDirectoryFromWorkspace,
+                            tester::kTestingDirectoryFromWorkspace,
                             helpers::DirectoryFinder::ReferenceFrame::
                                 RelativeToWorkspace)) {}
 

@@ -28,13 +28,13 @@ void StartClient(QCoreApplication* a) {
 
   // Get a single image from the kTestingDirectory
   helpers::DirectoryFinder directory_finder(
-      testing_main::kTestingDirectoryFromWorkspace,
+      tester::kTestingDirectoryFromWorkspace,
       helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace);
 
   // Get the binary of the file image
   ipc::FileManager file_manager;
   std::vector<char> binary = file_manager.ReadFile(
-      directory_finder.GetAbsPathOfTargetFile(testing_main::kImageOne));
+      directory_finder.GetAbsPathOfTargetFile(tester::kImageOne));
 
   std::cout << "Storing image of size " << binary.size() << std::endl;
 

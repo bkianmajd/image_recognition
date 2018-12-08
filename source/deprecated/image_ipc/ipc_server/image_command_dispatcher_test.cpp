@@ -13,7 +13,7 @@ class ImageCommandDispatcherTest : public testing::Test {
  public:
   ImageCommandDispatcherTest()
       : directory_finder_(
-            testing_main::kTestingDirectoryFromWorkspace,
+            tester::kTestingDirectoryFromWorkspace,
             helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace),
         image_command_dispatcher_(&directory_finder_, &file_manager_,
                                   &template_recognition_mock_) {}
@@ -28,7 +28,7 @@ TEST_F(ImageCommandDispatcherTest, ConstructDestruct) {}
 
 TEST_F(ImageCommandDispatcherTest, GetTemplateIdTest) {
   int template_id = image_command_dispatcher_.GetTemplateIdOrRegisterTemplate(
-      testing_main::kImageOne);
+      tester::kImageOne);
   EXPECT_EQ(template_id, 0);
 
   template_id =

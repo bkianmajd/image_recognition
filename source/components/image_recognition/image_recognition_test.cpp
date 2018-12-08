@@ -15,7 +15,7 @@ class ImageRecognitionApiTest : public testing::Test {
  public:
   ImageRecognitionApiTest()
       : testing_directory_(
-            testing_main::kTestingDirectoryFromWorkspace,
+            tester::kTestingDirectoryFromWorkspace,
             helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace),
         template_directory_(
             "components/poker/poker_game_controller/poker_model_generator/"
@@ -38,7 +38,7 @@ TEST_F(ImageRecognitionApiTest, ConstructDestruct) {}
 TEST_F(ImageRecognitionApiTest, BigImageTest) {
   std::vector<char> bytes =
       helpers::FileManager::ReadFile(testing_directory_.GetAbsPathOfTargetFile(
-          testing_main::kBigImageCardDef));
+          tester::kBigImageCardDef));
 
   ASSERT_GT(static_cast<int>(bytes.size()), 0);
 
@@ -46,7 +46,7 @@ TEST_F(ImageRecognitionApiTest, BigImageTest) {
 
   // Pont should be between 0-100, 100-200
   Point point =
-      image_recognition_api_.TemplateMatch(testing_main::kTemplate3Hearts);
+      image_recognition_api_.TemplateMatch(tester::kTemplate3Hearts);
   EXPECT_TRUE(point.valid);
   EXPECT_GT(point.x, 0);
   EXPECT_LT(point.x, 100);
@@ -54,7 +54,7 @@ TEST_F(ImageRecognitionApiTest, BigImageTest) {
   EXPECT_LT(point.y, 200);
 
   // Point should be between 200-300, 500-600,
-  point = image_recognition_api_.TemplateMatch(testing_main::kTemplate7Clubs);
+  point = image_recognition_api_.TemplateMatch(tester::kTemplate7Clubs);
   EXPECT_TRUE(point.valid);
   EXPECT_GT(point.x, 200);
   EXPECT_LT(point.x, 300);
@@ -66,7 +66,7 @@ TEST_F(ImageRecognitionApiTest, ImageTest) {
   // Get the big image of the poker table
   std::vector<char> bytes =
       helpers::FileManager::ReadFile(testing_directory_.GetAbsPathOfTargetFile(
-          testing_main::kBigImagePokerTable));
+          tester::kBigImagePokerTable));
 
   ASSERT_GT(static_cast<int>(bytes.size()), 0);
 
@@ -74,11 +74,11 @@ TEST_F(ImageRecognitionApiTest, ImageTest) {
 
   // Read all the poker table matches
   Point point =
-      image_recognition_api_.TemplateMatch(testing_main::kTemplate3Hearts);
+      image_recognition_api_.TemplateMatch(tester::kTemplate3Hearts);
   EXPECT_TRUE(point.valid);
   std::cout << point << std::endl;
 
-  point = image_recognition_api_.TemplateMatch(testing_main::kTemplate7Clubs);
+  point = image_recognition_api_.TemplateMatch(tester::kTemplate7Clubs);
   EXPECT_TRUE(point.valid);
   std::cout << point << std::endl;
 
@@ -86,7 +86,7 @@ TEST_F(ImageRecognitionApiTest, ImageTest) {
   EXPECT_FALSE(point.valid);
   std::cout << point << std::endl;
 
-  point = image_recognition_api_.TemplateMatch(testing_main::kTemplateCheckers);
+  point = image_recognition_api_.TemplateMatch(tester::kTemplateCheckers);
   EXPECT_FALSE(point.valid);
   std::cout << point << std::endl;
 }
@@ -95,7 +95,7 @@ TEST_F(ImageRecognitionApiTest, SecondImageTest) {
   // Get the big image of the poker table
   std::vector<char> bytes =
       helpers::FileManager::ReadFile(testing_directory_.GetAbsPathOfTargetFile(
-          testing_main::kBigImagePokerTable2));
+          tester::kBigImagePokerTable2));
 
   ASSERT_GT(static_cast<int>(bytes.size()), 0);
 

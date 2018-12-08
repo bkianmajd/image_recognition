@@ -11,27 +11,6 @@ template_recognition::ScreenArea ErrorScreenArea() {
 
 }  // namespace
 
-template_recognition::ScreenArea SixPlayerAreaFinder::GetPlayerArea(
-    PlayerLocation player_location) {
-  switch (player_location) {
-    case PlayerLocation::PLAYERLOC_PLAYER_ZERO:
-      break;
-    case PlayerLocation::PLAYERLOC_PLAYER_ONE:
-      break;
-    case PlayerLocation::PLAYERLOC_PLAYER_TWO:
-      break;
-    case PlayerLocation::PLAYERLOC_PLAYER_THREE:
-      break;
-    case PlayerLocation::PLAYERLOC_PLAYER_FOUR:
-      break;
-    case PlayerLocation::PLAYERLOC_PLAYER_FIVE:
-      break;
-    default:
-      return ErrorScreenArea();
-  }
-  return ErrorScreenArea();
-}
-
 template_recognition::ScreenArea SixPlayerAreaFinder::GetCardAreaLeft(
     PlayerLocation player_location) {
   switch (player_location) {
@@ -104,12 +83,49 @@ template_recognition::ScreenArea SixPlayerAreaFinder::GetCardAreaRight(
   return ErrorScreenArea();
 }
 
+template_recognition::ScreenArea SixPlayerAreaFinder::GetPlayerArea(
+    PlayerLocation player_location) {
+  switch (player_location) {
+    case PlayerLocation::PLAYERLOC_PLAYER_ZERO:
+    return template_recognition::ScreenArea(476, 485, kDefaultPlayerWidth,
+                                            kDefaultPlayerHeight);
+      break;
+    case PlayerLocation::PLAYERLOC_PLAYER_ONE:
+    return template_recognition::ScreenArea(28, 360, kDefaultPlayerWidth,
+                                            kDefaultPlayerHeight);
+      break;
+    case PlayerLocation::PLAYERLOC_PLAYER_TWO:
+    return template_recognition::ScreenArea(173, 157, kDefaultPlayerWidth,
+                                            kDefaultPlayerHeight);
+      break;
+    case PlayerLocation::PLAYERLOC_PLAYER_THREE:
+    return template_recognition::ScreenArea(426, 41, kDefaultPlayerWidth,
+                                            kDefaultPlayerHeight);
+      break;
+    case PlayerLocation::PLAYERLOC_PLAYER_FOUR:
+    return template_recognition::ScreenArea(874, 127, kDefaultPlayerWidth,
+                                            kDefaultPlayerHeight);
+      break;
+    case PlayerLocation::PLAYERLOC_PLAYER_FIVE:
+    return template_recognition::ScreenArea(875, 353, kDefaultPlayerWidth,
+                                            kDefaultPlayerHeight);
+      break;
+    default:
+      return ErrorScreenArea();
+  }
+  return ErrorScreenArea();
+}
+
 template_recognition::ScreenArea SixPlayerAreaFinder::GetMoneyArea(
     PlayerLocation player_location) {
   switch (player_location) {
     case PlayerLocation::PLAYERLOC_PLAYER_ZERO:
+    return template_recognition::ScreenArea(476, 510, kDefaultPlayerWidth,
+                                            kDefaultPlayerHeight);
       break;
     case PlayerLocation::PLAYERLOC_PLAYER_ONE:
+    return template_recognition::ScreenArea(42, 384, kDefaultPlayerWidth,
+                                            kDefaultPlayerHeight);
       break;
     case PlayerLocation::PLAYERLOC_PLAYER_TWO:
       break;
