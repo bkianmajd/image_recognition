@@ -1,4 +1,5 @@
 !contains(included_modules, $$PWD ) {
+included_modules += $$PWD
 QT += widgets
 QT += gui
 

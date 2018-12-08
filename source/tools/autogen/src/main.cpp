@@ -140,6 +140,7 @@ std::string CreatePri(const DirectoryFinder& directory_finder,
                       const std::string& file_input) {
   std::stringstream stream;
   stream << "!contains(included_modules, $$PWD ) {" << std::endl;
+  stream << "included_modules += $$PWD" << std::endl;
   stream << "HEADERS += "
          << "$${WORKSPACE}/" << directory_finder.GetAfterWorkspace()
          << file_input << ".h" << std::endl;

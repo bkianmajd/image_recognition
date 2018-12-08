@@ -4,16 +4,15 @@
 
 #include "gtest/gtest.h"
 
-namespace landmark_finder {
+namespace poker {
 
 class LandmarkFinderTest : public testing::Test {
-public:
-LandmarkFinderTest() {}
+ public:
+  LandmarkFinderTest() : landmark_finder_(6) {}
 
-protected:
-
+ protected:
+  LandmarkFinder landmark_finder_;
 };
 TEST_F(LandmarkFinderTest, ConstructDestruct) {}
 
-}  // namespace landmark_finder
-
+}  // namespace poker

@@ -37,13 +37,15 @@ std::unique_ptr<AreaFinder> MakeAreaFinder(int number_of_chairs) {
 
 LandmarkFinder::LandmarkFinder(int number_of_chairs)
     : area_finder_(MakeAreaFinder(number_of_chairs)),
-      indicator_reader_(helpers::DirectoryFinder(kMapImageDirectory, kRelativePath),
-                        helpers::DirectoryFinder(kSessionDirectory, kRelativePath)),
+      map_card_converter_(),
+      indicator_reader_(
+          helpers::DirectoryFinder(kMapImageDirectory, kRelativePath),
+          helpers::DirectoryFinder(kSessionDirectory, kRelativePath)),
       card_reader_(helpers::DirectoryFinder(kMapImageDirectory, kRelativePath),
-                         helpers::DirectoryFinder(kSessionDirectory, kRelativePath)){
+                   helpers::DirectoryFinder(kSessionDirectory, kRelativePath)) {
   helpers::DirectoryFinder map_directory(kMapImageDirectory, kRelativePath);
   std::vector<char> map_image = helpers::FileManager::ReadFile(
-      directory_finder.GetAbsPathOfTargetFile(kCardMap));
+      map_directory.GetAbsPathOfTargetFile(kCardMap));
 
   // Sets the card readers big image to the card_map
   assert(map_image.size() > 0);
@@ -66,29 +68,31 @@ bool LandmarkFinder::UpdateBigImage(const std::vector<char>& big_image) {
 
 Card LandmarkFinder::FindLeftCard(PlayerLocation player_location) {
   template_recognition::ScreenArea screen_area =
-      AreaFinder::GetCardAreaLeft(player_location);
+      area_finder_->GetCardAreaLeft(player_location);
   return FindCardFromRawScreenArea(screen_area);
 }
 
 Card LandmarkFinder::FindRightCard(PlayerLocation player_location) {
   template_recognition::ScreenArea screen_area =
-      AreaFinder::GetCardAreaRight(player_location);
+      area_finder_->GetCardAreaRight(player_location);
   return FindCardFromRawScreenArea(screen_area);
 }
 
 // See if there is a player occupying the chair
 ChairStatus LandmarkFinder::FindChairStatus(PlayerLocation player_location) {
+  // TODO(BK) Finish this
+  (void)player_location;
   return ChairStatus::CHAIR_STATUS_OCCUPIED;
 }
 
 Card LandmarkFinder::FindDealerCard(DealerLocation dealer_location) {
   template_recognition::ScreenArea screen_area =
-      AreaFinder::GetTableArea(player_location);
+      area_finder_->GetDealerCard(dealer_location);
   return FindCardFromRawScreenArea(screen_area);
 }
 
 Card LandmarkFinder::FindCardFromRawScreenArea(
-    const template_recognition::ScreenArea& screen_area) {
+    template_recognition::ScreenArea& screen_area) {
   Card card;
   // Find a subset of the big image
   screen_area.x += x_indicator_location_;

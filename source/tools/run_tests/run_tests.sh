@@ -1,5 +1,5 @@
 qmake_dir="/home/babak/Qt5.7.0/5.7/gcc_64/bin"
-abs_build_dir="$PWD/../../../build"
+abs_build_dir="$PWD/../../../build/testing_cache"
 source_dir="$PWD/../.."
 
 cd $source_dir

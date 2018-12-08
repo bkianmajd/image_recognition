@@ -31,8 +31,7 @@ class LandmarkFinder {
  private:
   // Finds the card from the raw screen area (not offset by the indicator
   // location)
-  Card FindCardFromRawScreenArea(
-      const template_recognition::ScreenArea& screen_area);
+  Card FindCardFromRawScreenArea(template_recognition::ScreenArea& screen_area);
 
   // Area finder that finds the area of cards
   const std::unique_ptr<AreaFinder> area_finder_;
