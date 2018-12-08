@@ -2,7 +2,7 @@ QT += core
 
 CONFIG += c++11
 
-WORKSPACE = ../../../source
+WORKSPACE = $$_PRO_FILE_PWD_/../../../source
 INCLUDEPATH += $${WORKSPACE}
 INCLUDEPATH += $${WORKSPACE}/external_libraries/googletest/include
 

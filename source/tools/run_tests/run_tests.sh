@@ -1,6 +1,5 @@
 qmake_dir="/home/babak/Qt5.7.0/5.7/gcc_64/bin"
 abs_build_dir="$PWD/../../../build"
-build_dir="../temp_build"
 source_dir="$PWD/../.."
 
 cd $source_dir
@@ -28,28 +27,20 @@ do
   cd $(dirname $abs_path)
   #echo $PWD
 
-  #creating the build directory
-  mkdir $build_dir
-  cd $build_dir
-  build_dir=$PWD
-  cd $(dirname $abs_path)
-
   #compiling
-  $qmake_dir/qmake -o $build_dir $abs_path
+  $qmake_dir/qmake -o $abs_build_dir $abs_path
 
   # making the file
-  cd $build_dir
+  cd $abs_build_dir
   make -s
 
-  # running the file
-  test_file=$(find . -name '*_test')  
-  ./$test_file
+done
 
-
-   #delete the build directory
-   cd $(dirname $abs_path)
-   rm -rf $build_dir
+#-----running the unit tests----------
+for i in $(find . -name '*_test')
+do
+  ./$i
    
-  echo "=========================="
-  echo "=========================="
+  #echo "=========================="
+  #echo "=========================="
 done
