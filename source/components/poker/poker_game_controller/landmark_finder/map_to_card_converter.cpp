@@ -11,10 +11,10 @@ Card MapToCardConverter::Convert(int x_location, int y_location) const {
         card.suit = Suit::SUIT_DIAMOND;
     }
     if(x_location < 200) {
-        card.suit = Suit::SUIT_CLUBS;
+        card.suit = Suit::SUIT_CLUB;
     }
     if(x_location < 100) {
-        card.suit = Suit::SUIT_SPADES;
+        card.suit = Suit::SUIT_SPADE;
     }
 
     if(y_location < 100) {

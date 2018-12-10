@@ -5,8 +5,8 @@ namespace poker {
 
 enum Suit {
   SUIT_UNKNOWN = 0,
-  SUIT_SPADES,
-  SUIT_CLUBS,
+  SUIT_SPADE,
+  SUIT_CLUB,
   SUIT_DIAMOND,
   SUIT_HEART,
 };

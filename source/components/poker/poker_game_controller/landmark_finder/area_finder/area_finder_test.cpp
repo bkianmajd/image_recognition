@@ -14,6 +14,8 @@ namespace {
 const std::string kOutputDirectory =
     "components/poker/poker_game_controller/landmark_finder/area_finder/"
     "test_areas";
+
+int image_number_ = 1;
 }  // namespece
 
 class AreaFinderTest : public testing::Test {
@@ -41,7 +43,6 @@ class AreaFinderTest : public testing::Test {
   tester::Tester tester_;
   helpers::DirectoryFinder output_directory_;
   template_recognition::ScreenshotCreator screenshot_creator_;
-  int image_number_ = 1;
 };
 
 TEST_F(AreaFinderTest, ConstructDestruct) {}
@@ -73,6 +74,33 @@ TEST_F(AreaFinderTest, ScreenshotPlayerTest) {
   OutputToFile(screen_area);
 
   screen_area = six_player_area_finder_.GetMoneyArea(player_location);
+  OutputToFile(screen_area);
+}
+
+TEST_F(AreaFinderTest, DealerTest) {
+  std::string abs_path = tester_.GetAbsPath(tester::kBigImagePokerTable2);
+  std::vector<char> raw_bytes = helpers::FileManager::ReadFile(abs_path);
+  screenshot_creator_.Capture(raw_bytes);
+
+  template_recognition::ScreenArea screen_area;
+  DealerLocation dealer_location = DEALER_ONE;
+  screen_area = six_player_area_finder_.GetDealerCard(dealer_location);
+  OutputToFile(screen_area);
+
+  dealer_location = DEALER_TWO;
+  screen_area = six_player_area_finder_.GetDealerCard(dealer_location);
+  OutputToFile(screen_area);
+
+  dealer_location = DEALER_THREE;
+  screen_area = six_player_area_finder_.GetDealerCard(dealer_location);
+  OutputToFile(screen_area);
+
+  dealer_location = DEALER_FOUR;
+  screen_area = six_player_area_finder_.GetDealerCard(dealer_location);
+  OutputToFile(screen_area);
+
+  dealer_location = DEALER_FIVE;
+  screen_area = six_player_area_finder_.GetDealerCard(dealer_location);
   OutputToFile(screen_area);
 }
 
