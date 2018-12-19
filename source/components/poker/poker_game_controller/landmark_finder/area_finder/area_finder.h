@@ -58,8 +58,8 @@ class AreaFinder {
 
  protected:
   // For Card area
-  static constexpr int kDefaultCardWidth = 58;
-  static constexpr int kDefaultCardHeight = 48;
+  static constexpr int kDefaultCardWidth = 62;
+  static constexpr int kDefaultCardHeight = 50;
   static constexpr int kDefaultPlayerWidth = 137;
   static constexpr int kDefaultPlayerHeight = 29;
 };

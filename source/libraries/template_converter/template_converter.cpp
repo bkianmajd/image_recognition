@@ -5,17 +5,9 @@
 namespace template_recognition {
 namespace {
 
-constexpr double kProbabilityThreshold[3] = {.92, .95, .50};
+constexpr int kVectorSize = 3;
+constexpr double kProbabilityThreshold[3] = {.92, .95, .90};
 constexpr int kVicinityThreshold = 50;
-
-// Returns true if vicinity is consistent
-bool CheckVicinity(const template_recognition::Point& point_1,
-                   const template_recognition::Point& point_2) {
-  return (point_1.x < point_2.x + kVicinityThreshold) &&
-         (point_1.x > point_2.x - kVicinityThreshold) &&
-         (point_1.y < point_2.y + kVicinityThreshold) &&
-         (point_1.y > point_2.y - kVicinityThreshold);
-}
 
 }  // namespace
 
@@ -24,37 +16,63 @@ TemplateConverter::TemplateConverter() {}
 image_recognition::Point TemplateConverter::Convert(
     const std::vector<template_recognition::Point>& points) {
   image_recognition::Point return_point;
+  return_point.valid = false;
 
-  if (points.size() != 3) {
+  // Check the vector size
+  if (points.size() != kVectorSize) {
     std::cerr << "points not == 3" << std::endl;
     return return_point;
   }
 
-  double max_probability = 0;
-  int max_probability_index = 0;
-  return_point.valid = true;
+  int max_index = GetLargestProbabilityIndex(points);
 
+  // Check the vicinity - return if success
+  if (CheckVicinity(points[0], points[1]) &&
+      CheckVicinity(points[1], points[2])) {
+    return ConvertToPoint(points[max_index]);
+  }
+
+  // Check the probability limits - return if success
   for (int i = 0; i < 3; ++i) {
-    const template_recognition::Point& point = points[i];
-    if (point.probability > max_probability) {
-      max_probability = point.probability;
-      max_probability_index = i;
-    }
-
-    if (point.probability < kProbabilityThreshold[i]) {
-      return_point.valid = false;
+    if (points[i].probability > kProbabilityThreshold[0]) {
+      return ConvertToPoint(points[i]);
     }
   }
 
-  // vicinity threshold
-  return_point.valid =
-      return_point.valid && CheckVicinity(points[0], points[1]);
-  return_point.valid =
-      return_point.valid && CheckVicinity(points[0], points[2]);
-
-  return_point.x = points[max_probability_index].x;
-  return_point.y = points[max_probability_index].y;
+  // return if false
   return return_point;
+}
+
+image_recognition::Point TemplateConverter::ConvertToPoint(
+    const template_recognition::Point& point) {
+  image_recognition::Point return_point;
+  return_point.valid = true;
+  return_point.x = point.x;
+  return_point.y = point.y;
+  return return_point;
+}
+
+int TemplateConverter::GetLargestProbabilityIndex(
+    const std::vector<template_recognition::Point>& points) {
+  int max_probability_index = 0;
+  for (int i = 0; i < kVectorSize; ++i) {
+    const template_recognition::Point& point = points[i];
+    if (point.probability > max_probability_index) {
+      max_probability_index = point.probability;
+      max_probability_index = i;
+    }
+  }
+  return max_probability_index;
+}
+
+// Returns true if vicinity is consistent
+bool TemplateConverter::CheckVicinity(
+    const template_recognition::Point& point_1,
+    const template_recognition::Point& point_2) {
+  return (point_1.x < point_2.x + kVicinityThreshold) &&
+         (point_1.x > point_2.x - kVicinityThreshold) &&
+         (point_1.y < point_2.y + kVicinityThreshold) &&
+         (point_1.y > point_2.y - kVicinityThreshold);
 }
 
 }  // namespace template_recognition

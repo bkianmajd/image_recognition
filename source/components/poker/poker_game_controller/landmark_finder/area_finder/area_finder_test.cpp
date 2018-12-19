@@ -56,7 +56,7 @@ TEST_F(AreaFinderTest, FindAreaTest) {
 }
 
 TEST_F(AreaFinderTest, ScreenshotPlayerTest) {
-  PlayerLocation player_location = PlayerLocation::PLAYERLOC_PLAYER_ONE;
+  PlayerLocation player_location = PlayerLocation::PLAYERLOC_PLAYER_ZERO;
 
   std::string abs_path = tester_.GetAbsPath(tester::kBigImagePokerTable2);
   std::vector<char> raw_bytes = helpers::FileManager::ReadFile(abs_path);

@@ -34,6 +34,7 @@ struct Card {
 };
 
 struct PlayerHand {
+  bool in_hand = false;
   Card first_card;
   Card second_card;
 };

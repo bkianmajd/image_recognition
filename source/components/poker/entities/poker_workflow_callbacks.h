@@ -11,13 +11,24 @@
 namespace poker {
 
 struct PokerWorkflowCallbacks {
+  // Table status
   std::function<void(const std::string& player)> OnPlayerEntering;
 
   std::function<void(const std::string& player)> OnPlayerExiting;
 
-  std::function<void(const std::string& player, float call_amount)>
-      OnPlayerCall;
+  // Card bets
+  std::function<void(Card left_card, Card right_card)> OnPlayerDeal;
 
+  std::function<void(Card first_card, Card second_card, Card third_card)>
+      OnFlop;
+
+  std::function<void(Card fourth_card)> OnTurn;
+
+  std::function<void(Card fifth_card)> OnRiver;
+
+  std::function<void()> OnReset;
+
+  // Player actions
   std::function<void(const std::string& player)> OnPlayerFold;
 };
 

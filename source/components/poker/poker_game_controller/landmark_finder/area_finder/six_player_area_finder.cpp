@@ -48,7 +48,7 @@ template_recognition::ScreenArea SixPlayerAreaFinder::GetCardAreaRight(
     PlayerLocation player_location) {
   switch (player_location) {
     case PlayerLocation::PLAYERLOC_PLAYER_ZERO:
-      return template_recognition::ScreenArea(523, 431, kDefaultCardWidth,
+      return template_recognition::ScreenArea(520, 431, kDefaultCardWidth,
                                               kDefaultCardHeight);
 
       break;

@@ -8,6 +8,8 @@
 
 namespace template_recognition {
 
+// Responsible for converting a template_recognition::Points to
+// image_recognition::Point
 class TemplateConverter {
  public:
   TemplateConverter();
@@ -17,6 +19,14 @@ class TemplateConverter {
       const std::vector<template_recognition::Point>& points);
 
  private:
+  int GetLargestProbabilityIndex(
+      const std::vector<template_recognition::Point>& points);
+
+  bool CheckVicinity(const template_recognition::Point& point_1,
+                     const template_recognition::Point& point_2);
+
+  image_recognition::Point ConvertToPoint(
+      const template_recognition::Point& point);
 };
 
 }  // namespace template_recognition
