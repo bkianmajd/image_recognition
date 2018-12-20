@@ -34,6 +34,7 @@ struct GameStatus {
 };
 
 struct GameModel {
+  GameStatus game_status;
   std::array<PlayerHand, PLAYERLOC_MAXSIZE> player_cards;
   std::array<Card, TABLE_STATUS_RIVER> dealer_cards;
 };

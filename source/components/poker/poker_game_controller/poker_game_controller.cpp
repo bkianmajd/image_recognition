@@ -25,6 +25,9 @@ bool PokerGameController::ProcessNextWorkflow(const GameStatus& game_status) {
   std::swap(last_game_status_, current_game_status_);
   current_game_status_ = game_status;
 
+  // TODO() : Consider doing game states here, i.e. player_waiting_preflop,
+  // player_waiting_flop, or player_betting_preflop...etc,
+
   // Checks to see if the dealer dealt a new card on the table
   if (CheckTableStatus()) {
     return true;

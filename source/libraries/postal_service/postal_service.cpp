@@ -55,8 +55,10 @@ bool PostalService::WaitForOpen() {
   return true;
 }
 
-void PostalService::SendPostCard(IPostCard& post_card) const {
-  google::protobuf::Any any = post_card.CreateProtobuf();
+void PostalService::SendMail(const google::protobuf::Message& message) const {
+  google::protobuf::Any any;
+  any.PackFrom(message);
+
   std::string byte_array = any.SerializeAsString();
   carrier_->SendData(byte_array.data(), byte_array.size());
 }

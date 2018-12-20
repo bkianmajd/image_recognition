@@ -11,6 +11,7 @@ namespace postal_service {
 /// wraps a queue.
 class MailDistributorQueue : public postal_service::IMailDistributor {
  public:
+  MailDistributorQueue() = default;
   ~MailDistributorQueue() {}
 
   virtual void Distribute(const google::protobuf::Any& any) override;

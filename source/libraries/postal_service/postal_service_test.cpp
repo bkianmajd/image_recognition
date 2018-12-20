@@ -19,11 +19,10 @@ void Print(QCoreApplication* a) {
   std::flush(std::cout);
 
   // Sending stuff from a different thread from client
-  postal_service::Test test;
-  test.value = true;
-  test.x = 123;
-  postal_service::TestPostCard test_post_card(test);
-  client.SendPostCard(test_post_card);
+  TestProto test_proto;
+  test_proto.set_test_bool(true);
+  test_proto.set_test_int(456);
+  client.SendMail(test_proto);
 
   postal_service::MailDistributorSimple mail_distributor;
   for (int i = 0; i < 2; ++i) {
@@ -32,12 +31,12 @@ void Print(QCoreApplication* a) {
   }
 
   // Sending stuff from a different thread from server
-  server.SendPostCard(test_post_card);
+  server.SendMail(test_proto);
 
   a->quit();
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
   QCoreApplication a(argc, argv);
 
   com_layer::ConnectionInfo connection_info;

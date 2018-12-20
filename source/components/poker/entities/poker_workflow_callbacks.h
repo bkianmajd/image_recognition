@@ -17,8 +17,6 @@ struct PokerWorkflowCallbacks {
   std::function<void(const std::string& player)> OnPlayerExiting;
 
   // Card bets
-  std::function<void(Card left_card, Card right_card)> OnPlayerDeal;
-
   std::function<void(Card first_card, Card second_card, Card third_card)>
       OnFlop;
 
@@ -29,7 +27,7 @@ struct PokerWorkflowCallbacks {
   std::function<void()> OnReset;
 
   // Player actions
-  std::function<void(const std::string& player)> OnPlayerFold;
+  std::function<void(Card left_card, Card right_card)> OnPlayerDeal;
 };
 
 }  // poker

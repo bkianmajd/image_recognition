@@ -26,7 +26,7 @@ class PostalService {
   // This is a blocking call and should be called after exec() is running
   bool WaitForOpen();
 
-  void SendPostCard(IPostCard& post_card) const;
+  void SendMail(const google::protobuf::Message& message) const;
 
   void GetMail(IMailDistributor& mail_distributor);
 

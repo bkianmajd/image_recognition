@@ -1,13 +1,23 @@
 #ifndef POKER_WORKFLOW_H_
 #define POKER_WORKFLOW_H_
 
+#include <mutex>
+
 #include "components/poker/entities/poker_workflow_callbacks.h"
+#include "components/poker/poker_game_controller/poker_game_controller.h"
 
 namespace poker {
 
 class PokerWorkflow {
  public:
   PokerWorkflow();
+
+  /// Consumes the image
+  /// Comes from a different thread
+  void ConsumeImage(std::vector<char>& big_image_raw_data);
+
+  // Process the image
+  void ProcessImage();
 
  private:
   // Dealer actions
@@ -23,7 +33,13 @@ class PokerWorkflow {
   // Player actions
   void OnPlayerFold();
 
+  std::mutex image_mutex_;
+  std::vector<char> active_image_;
+  int image_id_;
+  int last_image_id_;
+
   PokerWorkflowCallbacks poker_workflow_callbacks_;
+  std::unique_ptr<PokerGameController> poker_game_controller_;
 };
 
 }  // namespace poker

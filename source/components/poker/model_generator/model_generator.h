@@ -13,9 +13,15 @@ class ModelGenerator {
 
   const GameModel& GetGameModel() const;
 
-  SetFlop(Card first_card, Card second_card, Card third_card);
-  SetTurn(Card card);
-  SetRiver(Card card);
+  void Reset();
+
+  // Table actions
+  bool SetFlop(Card first_card, Card second_card, Card third_card);
+  bool SetTurn(Card card);
+  bool SetRiver(Card card);
+
+  // Player Actions
+  bool PlayerDeal(Card first_card, Card second_card);
 
  private:
   GameModel game_model_;

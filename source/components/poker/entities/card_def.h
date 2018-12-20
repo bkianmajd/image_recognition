@@ -1,6 +1,8 @@
 #ifndef CARD_DEF_H_
 #define CARD_DEF_H_
 
+#include <iostream>
+
 namespace poker {
 
 enum Suit {
@@ -54,6 +56,8 @@ struct Table {
   Card fourth_card;
   Card fifth_card;
 };
+
+std::ostream& operator<<(std::ostream& ss, Card card);
 
 }  // namespace poker
 
