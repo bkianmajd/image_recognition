@@ -5,11 +5,12 @@ CONFIG += console
 #http://doc.qt.io/qt-5/qmake-variable-reference.html
 
 WORKSPACE = $$_PRO_FILE_PWD_/../../../source
-message($${WORKSPACE})
+#message($${WORKSPACE})
 
 INCLUDEPATH += $${WORKSPACE}
 
-HEADERS += $${WORKSPACE}/executable/ipc_server_runner/static_config.h
-SOURCES += $${WORKSPACE}/executable/ipc_server_runner/ipc_server_runner.cpp
+HEADERS += $${WORKSPACE}/executables/ipc_server_runner/static_config.h
+SOURCES += $${WORKSPACE}/executables/ipc_server_runner/ipc_server_runner.cpp
 
-include($${WORKSPACE}/image_ipc/ipc_server/ipc_server.pri)
+include($${WORKSPACE}/components/image_service/server/ipc_server.pri)
+include($${WORKSPACE}/components/poker/poker_workflow.pri)

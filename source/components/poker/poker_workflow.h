@@ -40,6 +40,9 @@ class PokerWorkflow {
 
   PokerWorkflowCallbacks poker_workflow_callbacks_;
   std::unique_ptr<PokerGameController> poker_game_controller_;
+
+  // TODO(): Change this to game state
+  GameStatus game_status_;
 };
 
 }  // namespace poker

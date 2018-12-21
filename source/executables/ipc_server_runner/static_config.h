@@ -1,7 +1,8 @@
-namespace ipc_server_runner {
+namespace ipc_server {
 
-// This is the directory where the file manager stores all the data in.
-// Relative to executable
-const std::string kSessionDataDirectory = "data/";
+constexpr int kPort = 8080;
+// const char* kConnectionAddress = "123.123.123";
+const char* kConnectionAddress = "127.0.0.1";
+const std::chrono::seconds kTimeout = std::chrono::seconds(60);
 
-}  // ipc_server_runner
+}  // ipc_server

@@ -38,7 +38,7 @@ void PokerWorkflow::ProcessImage() {
   int running_counter = 0;
   while (running_counter++ < kTimeout) {
     // This should invoke some callbacks on this thread
-    if (!poker_game_controller_->ProcessNextWorkflow()) {
+    if (!poker_game_controller_->ProcessNextWorkflow(game_status_)) {
       return;
     }
   }
@@ -48,7 +48,7 @@ void PokerWorkflow::ProcessImage() {
 
 void PokerWorkflow::ConsumeImage(std::vector<char>& big_image_raw_data) {
   std::lock_guard<std::mutex> lock(image_mutex_);
-  std::swap(active_image_, big_image);
+  std::swap(active_image_, big_image_raw_data);
   image_id_++;
 }
 

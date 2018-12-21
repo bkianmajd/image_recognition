@@ -5,6 +5,7 @@
 
 #include "components/image_service/client/ipc_client.h"
 #include "executables/ipc_client_runner/static_config.h"
+#include "helpers/memory_helper.hpp"
 #include "libraries/postal_service/com_layer/com_defs.h"
 #include "libraries/postal_service/postal_service.h"
 #include "libraries/screenshot_creator/screenshot_creator.h"
@@ -12,14 +13,14 @@
 const std::string kImageName = "screenshot.jpg";
 
 void RunControllerThread(
-    QCoreApplication* a, std::shared_ptr<ipc::IpcClient> ipc_client,
-    std::shared_ptr<template_recognition::ScreenshotCreator>
-        screenshot_creator) {
+    QCoreApplication* a, ipc::IpcClient* ipc_client,
+    template_recognition::ScreenshotCreator* screenshot_creator) {
   auto start_time = std::chrono::system_clock::now();
   while (!ipc_client->IsInit()) {
     if (std::chrono::system_clock::now() - start_time > ipc_client::kTimeout) {
       std::cerr << "Could not initialize ipc client" << std::endl;
-      break;
+      a->quit();
+      return;
     }
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
@@ -39,6 +40,8 @@ void RunControllerThread(
       std::cerr << "Failed to send image" << std::endl;
       break;
     }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
   }
 
   std::cout << "Stopping running thread" << std::endl;
@@ -49,11 +52,11 @@ int Main(int argc, char* argv[]) {
   QApplication a(argc, argv);
 
   // Construction - IpcClient
-  std::shared_ptr<ipc::IpcClient> ipc_client =
-      std::make_shared<ipc::IpcClient>();
+  std::unique_ptr<ipc::IpcClient> ipc_client =
+      std::make_unique<ipc::IpcClient>();
 
-  std::shared_ptr<template_recognition::ScreenshotCreator> screenshot_creator =
-      std::make_shared<template_recognition::ScreenshotCreator>();
+  std::unique_ptr<template_recognition::ScreenshotCreator> screenshot_creator =
+      std::make_unique<template_recognition::ScreenshotCreator>();
 
   // Init communication - must be called within this thread
   com_layer::ConnectionInfo connection_info;
@@ -62,7 +65,8 @@ int Main(int argc, char* argv[]) {
   ipc_client->AsyncInit(connection_info);
 
   // Start thread and transfer ownership
-  std::thread t1(RunControllerThread, &a, ipc_client, screenshot_creator);
+  std::thread t1(RunControllerThread, &a, ipc_client.get(),
+                 screenshot_creator.get());
 
   // Run the main thread in the background
   a.exec();

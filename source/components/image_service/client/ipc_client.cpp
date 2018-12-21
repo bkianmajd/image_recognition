@@ -5,7 +5,7 @@
 namespace ipc {
 
 // Must be instantiated from qt main
-IpcClient::IpcClient() : client_(postal_service::client), response_queue_() {}
+IpcClient::IpcClient() : client_(postal_service::Type::client), response_queue_() {}
 
 void IpcClient::AsyncInit(const com_layer::ConnectionInfo& connection_info) {
   client_.AsyncInit(connection_info);
@@ -44,9 +44,14 @@ bool IpcClient::SendImage(const std::vector<char>& binary,
   const google::protobuf::Any& any_message = response_queue_.Front();
 
   ipc_interface::StoreImageResponse response;
-  if (any_message.Is<ipc_interface::StoreImageResponse>()) {
-    any_message.UnpackTo(&response);
+  if (!any_message.Is<ipc_interface::StoreImageResponse>()) {
+    std::cerr << "Unknown any message command" << std::endl;
+    response_queue_.Pop();
+    return false;
   }
+
+  any_message.UnpackTo(&response);
+  response_queue_.Pop();
 
   if (!response.success()) {
     std::cerr << response.str_message() << std::endl;

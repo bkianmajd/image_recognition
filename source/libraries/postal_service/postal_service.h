@@ -10,7 +10,7 @@
 
 namespace postal_service {
 
-enum Type {
+enum class Type {
   server = 0,
   client,
 };
