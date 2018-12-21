@@ -5,8 +5,13 @@
 namespace ipc {
 
 // Must be instantiated from qt main
-IpcClient::IpcClient(com_layer::ConnectionInfo connection_info)
-    : client_(postal_service::client), response_queue_() {}
+IpcClient::IpcClient() : client_(postal_service::client), response_queue_() {}
+
+void IpcClient::AsyncInit(const com_layer::ConnectionInfo& connection_info) {
+  client_.AsyncInit(connection_info);
+}
+
+bool IpcClient::IsInit() { return client_.IsOpen(); }
 
 // Send the binary - blocking clal
 bool IpcClient::SendImage(const std::vector<char>& binary,

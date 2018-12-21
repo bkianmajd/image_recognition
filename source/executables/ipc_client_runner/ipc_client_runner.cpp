@@ -1,62 +1,75 @@
-#include <QCoreApplication>
+#include <QApplication>
 
 #include <iostream>
 #include <thread>
 
 #include "components/image_service/client/ipc_client.h"
 #include "executables/ipc_client_runner/static_config.h"
-#include "helpers/memory_helper.hpp"
 #include "libraries/postal_service/com_layer/com_defs.h"
 #include "libraries/postal_service/postal_service.h"
+#include "libraries/screenshot_creator/screenshot_creator.h"
 
-/*
-void RunControllerThread(QCoreApplication* a,
-                         ipc::ipc_server::IpcServerController* ipc_controller) {
-  // Controller run
-  ipc_controller->Run();
+const std::string kImageName = "screenshot.jpg";
 
-  std::cout << "IPC Controller stopped running" << std::endl;
+void RunControllerThread(
+    QCoreApplication* a, std::shared_ptr<ipc::IpcClient> ipc_client,
+    std::shared_ptr<template_recognition::ScreenshotCreator>
+        screenshot_creator) {
+  auto start_time = std::chrono::system_clock::now();
+  while (!ipc_client->IsInit()) {
+    if (std::chrono::system_clock::now() - start_time > ipc_client::kTimeout) {
+      std::cerr << "Could not initialize ipc client" << std::endl;
+      break;
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+  }
+
+  bool run_mode = true;
+
+  while (run_mode) {
+    // Takes a screenshot of the desktop
+    if (!screenshot_creator->Capture()) {
+      std::cerr << "Capture failed" << std::endl;
+      break;
+    }
+
+    // Sends the image to the server
+    if (!ipc_client->SendImage(screenshot_creator->GetLastCapture(),
+                               kImageName)) {
+      std::cerr << "Failed to send image" << std::endl;
+      break;
+    }
+  }
+
+  std::cout << "Stopping running thread" << std::endl;
   a->quit();
 }
-*/
 
 int Main(int argc, char* argv[]) {
-  QCoreApplication a(argc, argv);
+  QApplication a(argc, argv);
 
-  // Construction - PostalService
-  std::unique_ptr<postal_service::PostalService> postal_service =
-      std::make_unique<postal_service::PostalService>(
-          postal_service::Type::client);
+  // Construction - IpcClient
+  std::shared_ptr<ipc::IpcClient> ipc_client =
+      std::make_shared<ipc::IpcClient>();
 
-  // Get connection info
+  std::shared_ptr<template_recognition::ScreenshotCreator> screenshot_creator =
+      std::make_shared<template_recognition::ScreenshotCreator>();
+
+  // Init communication - must be called within this thread
   com_layer::ConnectionInfo connection_info;
   connection_info.port = ipc_client::kPort;
   connection_info.connection_address = ipc_client::kConnectionAddress;
+  ipc_client->AsyncInit(connection_info);
 
-  postal_service->AsyncInit(connection_info);
-  /*
-        // Construction - IpcClient
-        ipc::IpcClient ipc_client;
+  // Start thread and transfer ownership
+  std::thread t1(RunControllerThread, &a, ipc_client, screenshot_creator);
 
-    std::unique_ptr<ipc::ipc_client::IpcClientController> ipc_server_controller
-    =
-        std::make_unique<ipc::ipc_server::IpcServerController>(
-            postal_service.get(), image_command_creator.get(),
-            response_handler.get());
+  // Run the main thread in the background
+  a.exec();
 
-    // Initialization
-    ipc_server_controller->Initialize();
+  std::cout << "Closing threads" << std::endl;
+  t1.join();
 
-    // Start thread and transfer ownership
-    std::thread t1(RunControllerThread, &a, ipc_server_controller.get());
-
-    // Run the main thread in the background
-    a.exec();
-
-    // Close the threads
-    std::cout << "Returning" << std::endl;
-    t1.join();
-  */
   return 0;
 }
 

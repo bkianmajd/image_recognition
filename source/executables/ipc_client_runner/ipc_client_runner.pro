@@ -10,4 +10,6 @@ INCLUDEPATH += $${WORKSPACE}
 
 HEADERS += $${WORKSPACE}/executables/ipc_client_runner/static_config.h
 SOURCES += $${WORKSPACE}/executables/ipc_client_runner/ipc_client_runner.cpp
+
 include($${WORKSPACE}/components/image_service/client/ipc_client.pri)
+include($${WORKSPACE}/libraries/screenshot_creator/screenshot_creator.pri)

@@ -10,7 +10,11 @@ namespace ipc {
 class IpcClient {
  public:
   // Must be instantiated from qt main
-  IpcClient(com_layer::ConnectionInfo connection_info);
+  IpcClient();
+
+  void AsyncInit(const com_layer::ConnectionInfo& connection_info);
+
+  bool IsInit();
 
   // Send the binary - blocking clal
   bool SendImage(const std::vector<char>& binary,

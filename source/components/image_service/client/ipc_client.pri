@@ -9,6 +9,5 @@ include($${WORKSPACE}/libraries/postal_service/postal_service.pri)
 include($${WORKSPACE}/libraries/postal_service/utility/utility.pri)
 include($${WORKSPACE}/schema/proto_schema.pri)
 include($${WORKSPACE}/helpers/file_manager/file_manager.pri)
-include($${WORKSPACE}/template_recognition/template_recognition.pri)
 
 }
