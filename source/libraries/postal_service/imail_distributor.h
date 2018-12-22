@@ -2,7 +2,7 @@
 #define POSTAL_SERVICE_IMAIL_DISTRIBUTOR_H_
 
 #include <string>
-#include "external_libraries/protobuf/src/google/protobuf/any.pb.h"
+#include "external_libraries/protobuf-3.5.x/src/google/protobuf/any.pb.h"
 
 namespace postal_service {
 

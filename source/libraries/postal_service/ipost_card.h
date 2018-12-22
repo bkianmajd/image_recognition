@@ -1,7 +1,7 @@
 #ifndef POSTAL_SERVICE_IPOST_CARD_H_
 #define POSTAL_SERVICE_IPOST_CARD_H_
 
-#include "external_libraries/protobuf/src/google/protobuf/any.pb.h"
+#include "external_libraries/protobuf-3.5.x/src/google/protobuf/any.pb.h"
 
 namespace postal_service {
 

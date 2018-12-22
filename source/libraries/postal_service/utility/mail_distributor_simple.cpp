@@ -1,7 +1,7 @@
 #include "libraries/postal_service/utility/mail_distributor_simple.h"
 
 #include <iostream>
-#include "external_libraries/protobuf/src/google/protobuf/any.pb.h"
+#include "external_libraries/protobuf-3.5.x/src/google/protobuf/any.pb.h"
 #include "schema/compiled_files/test_proto.pb.h"
 
 namespace postal_service {

@@ -2,7 +2,7 @@
 #define MAIL_DISTRIBUTOR_QUEUE_H_
 
 #include <queue>
-#include "external_libraries/protobuf/src/google/protobuf/any.pb.h"
+#include "external_libraries/protobuf-3.5.x/src/google/protobuf/any.pb.h"
 #include "libraries/postal_service/imail_distributor.h"
 
 namespace postal_service {
