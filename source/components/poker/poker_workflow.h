@@ -1,10 +1,11 @@
 #ifndef POKER_WORKFLOW_H_
 #define POKER_WORKFLOW_H_
 
+#include <memory>
 #include <mutex>
 
 #include "components/poker/entities/poker_workflow_callbacks.h"
-#include "components/poker/poker_game_controller/poker_game_controller.h"
+#include "components/poker/poker_game_controller/poker_game_controller_interface.h"
 
 namespace poker {
 
@@ -39,7 +40,7 @@ class PokerWorkflow {
   int last_image_id_;
 
   PokerWorkflowCallbacks poker_workflow_callbacks_;
-  std::unique_ptr<PokerGameController> poker_game_controller_;
+  std::unique_ptr<PokerGameControllerInterface> poker_game_controller_;
 
   // TODO(): Change this to game state
   GameStatus game_status_;

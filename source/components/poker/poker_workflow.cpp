@@ -2,11 +2,24 @@
 
 #include <functional>
 
+#include "components/poker/poker_game_controller/poker_game_controller.h"
+#include "components/poker/poker_game_controller/training/training_game_controller.h"
 #include "helpers/memory_helper.hpp"
 
 namespace poker {
 namespace {
 constexpr int kTimeout = 100;
+constexpr bool training = true;
+
+std::unique_ptr<PokerGameControllerInterface> GameControllerFactory(
+    PokerWorkflowCallbacks* workflow_callbacks) {
+  if (training) {
+    return std::make_unique<TrainingGameController>();
+  }
+
+  return std::make_unique<PokerGameController>(workflow_callbacks);
+}
+
 }  // namespace
 
 PokerWorkflow::PokerWorkflow() : image_id_(0), last_image_id_(0) {
@@ -27,8 +40,7 @@ PokerWorkflow::PokerWorkflow() : image_id_(0), last_image_id_(0) {
   poker_workflow_callbacks_.OnReset = std::bind(&PokerWorkflow::OnReset, this);
 
   // Instantiate the game controller
-  poker_game_controller_ =
-      std::make_unique<PokerGameController>(&poker_workflow_callbacks_);
+  poker_game_controller_ = GameControllerFactory(&poker_workflow_callbacks_);
 }
 
 void PokerWorkflow::ProcessImage() {

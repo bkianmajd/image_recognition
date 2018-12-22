@@ -1,24 +1,25 @@
 #ifndef POKER_GAME_CONTROLLER_H_
 #define POKER_GAME_CONTROLLER_H_
 
-#include "components/poker/entities/poker_workflow_callbacks.h"
+#include "components/poker/poker_game_controller/poker_game_controller_interface.h"
 
 #include "components/poker/entities/game_model_def.h"
+#include "components/poker/entities/poker_workflow_callbacks.h"
 #include "components/poker/poker_game_controller/landmark_finder/landmark_finder.h"
 
 namespace poker {
 
 // Converts images to decipher the workflow of a poker game
-class PokerGameController {
+class PokerGameController : public PokerGameControllerInterface {
  public:
   explicit PokerGameController(
       PokerWorkflowCallbacks* poker_workflow_callbacks);
 
   // Sets the data to process the image pipeline
-  void UpdateBigImage(const std::vector<char>& big_image_raw_data);
+  void UpdateBigImage(const std::vector<char>& big_image_raw_data) override;
 
   // Returns true if there is still more to progress through the workflow
-  bool ProcessNextWorkflow(const GameStatus& game_status);
+  bool ProcessNextWorkflow(const GameStatus& game_status) override;
 
  private:
   bool CheckPlayerStatus();
