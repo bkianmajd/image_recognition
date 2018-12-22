@@ -1,6 +1,6 @@
 QT += core
 
-CONFIG += c++11
+CONFIG += c++14
 CONFIG += console
 #http://doc.qt.io/qt-5/qmake-variable-reference.html
 
