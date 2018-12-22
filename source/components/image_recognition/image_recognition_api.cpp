@@ -94,7 +94,7 @@ void ImageRecognitionApi::RegisterTemplates() {
 
 bool ImageRecognitionApi::AddTemplateImage(
     const std::vector<char>& image_bytes,
-    const std::__cxx11::string& template_image_name) {
+    const std::string& template_image_name) {
   // Check if the template id already exists with the image name
   auto it = template_id_map_.find(template_image_name);
   if (it == template_id_map_.end()) {

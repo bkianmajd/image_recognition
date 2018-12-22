@@ -33,8 +33,9 @@ image_recognition::Point TemplateConverter::Convert(
   }
 
   // Check the probability limits - return if success
-  for (int i = 0; i < 3; ++i) {
-    if (points[i].probability > kProbabilityThreshold[0]) {
+  // The third probability is unreliable so ignore it
+  for (int i = 0; i < 2; ++i) {
+    if (points[i].probability > kProbabilityThreshold[i]) {
       return ConvertToPoint(points[i]);
     }
   }

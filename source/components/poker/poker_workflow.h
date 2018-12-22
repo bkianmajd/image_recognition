@@ -34,7 +34,7 @@ class PokerWorkflow {
   void OnPlayerFold();
 
   std::mutex image_mutex_;
-  std::vector<char> active_image_;
+  std::vector<char> consumed_image_;
   int image_id_;
   int last_image_id_;
 

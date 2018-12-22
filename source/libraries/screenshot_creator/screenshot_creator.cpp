@@ -62,11 +62,13 @@ bool ScreenshotCreator::SaveLastCaptureToFile(
 }
 
 bool ScreenshotCreator::Capture(const std::vector<char>& big_image) {
-  if (!original_pixmap_.loadFromData((const uchar*)(big_image.data()),
-                                     big_image.size(), "JPG")) {
+  if (!original_pixmap_.loadFromData(
+          reinterpret_cast<const uchar*>(big_image.data()), big_image.size(),
+          "JPG")) {
     std::cerr << "failed to load from data" << std::endl;
     return false;
   }
+
   return true;
 }
 

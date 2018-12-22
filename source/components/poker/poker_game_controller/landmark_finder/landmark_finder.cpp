@@ -63,6 +63,8 @@ bool LandmarkFinder::UpdateBigImage(const std::vector<char>& big_image) {
     return false;
   }
 
+  // need to find the indicator??
+
   return true;
 }
 

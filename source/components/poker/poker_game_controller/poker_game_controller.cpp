@@ -84,6 +84,7 @@ bool PokerGameController::CheckTableStatus() {
     case TABLE_STATUS_UNKNOWN:
     case TABLE_STATUS_PREFLOP:
       event_triggered = CheckForFlopEvent();
+    break;
     case TABLE_STATUS_FLOP:
       event_triggered = CheckForTurnEvent();
       break;

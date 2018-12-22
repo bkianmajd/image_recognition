@@ -35,13 +35,14 @@ void RunControllerThread(
     }
 
     // Sends the image to the server
-    if (!ipc_client->SendImage(screenshot_creator->GetLastCapture(),
-                               kImageName)) {
+    std::vector<char> bytes = screenshot_creator->GetLastCapture();
+    std::cout << "sending bytes: " << bytes.size() << std::endl;
+    if (!ipc_client->SendImage(bytes, kImageName)) {
       std::cerr << "Failed to send image" << std::endl;
       break;
     }
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
   }
 
   std::cout << "Stopping running thread" << std::endl;

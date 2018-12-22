@@ -2,12 +2,15 @@
 
 #include <functional>
 
+#include "helpers/memory_helper.hpp"
+
 namespace poker {
 namespace {
 constexpr int kTimeout = 100;
 }  // namespace
 
-PokerWorkflow::PokerWorkflow() {
+PokerWorkflow::PokerWorkflow() : image_id_(0), last_image_id_(0) {
+  consumed_image_.clear();
   // Dealer actions
   poker_workflow_callbacks_.OnFlop =
       std::bind(&PokerWorkflow::OnFlop, this, std::placeholders::_1,
@@ -22,6 +25,10 @@ PokerWorkflow::PokerWorkflow() {
       std::bind(&PokerWorkflow::OnPlayerDeal, this, std::placeholders::_1,
                 std::placeholders::_2);
   poker_workflow_callbacks_.OnReset = std::bind(&PokerWorkflow::OnReset, this);
+
+  // Instantiate the game controller
+  poker_game_controller_ =
+      std::make_unique<PokerGameController>(&poker_workflow_callbacks_);
 }
 
 void PokerWorkflow::ProcessImage() {
@@ -31,10 +38,12 @@ void PokerWorkflow::ProcessImage() {
       return;
     }
     image_id_ = last_image_id_;
-    poker_game_controller_->UpdateBigImage(active_image_);
+    poker_game_controller_->UpdateBigImage(consumed_image_);
+    // No longer need the image data
+    consumed_image_.clear();
   }
 
-  // Work on the active_image
+  // Work on image inside the game controller
   int running_counter = 0;
   while (running_counter++ < kTimeout) {
     // This should invoke some callbacks on this thread
@@ -48,7 +57,8 @@ void PokerWorkflow::ProcessImage() {
 
 void PokerWorkflow::ConsumeImage(std::vector<char>& big_image_raw_data) {
   std::lock_guard<std::mutex> lock(image_mutex_);
-  std::swap(active_image_, big_image_raw_data);
+  std::cout << "Consuming image " << big_image_raw_data.size() << std::endl;
+  std::swap(consumed_image_, big_image_raw_data);
   image_id_++;
 }
 

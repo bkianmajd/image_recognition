@@ -1,4 +1,4 @@
-#include <QCoreApplication>
+#include <QApplication>
 
 #include <iostream>
 #include <thread>
@@ -26,7 +26,7 @@ void RunControllerThread(QCoreApplication* a, ipc::IpcServer* ipc_server,
 
     // Check mail for screenshot
     if (!ipc_server->CheckForImage(&image_bytes)) {
-      std::cerr << "Failed in com protocol";
+      std::cerr << "Failed in com protocol" << std::endl;
       break;
     }
 
@@ -47,13 +47,15 @@ void RunControllerThread(QCoreApplication* a, ipc::IpcServer* ipc_server,
 }
 
 int Main(int argc, char* argv[]) {
-  QCoreApplication a(argc, argv);
+  QApplication a(argc, argv);
 
   // Construction - IpcServer
   std::unique_ptr<ipc::IpcServer> ipc_server =
       std::make_unique<ipc::IpcServer>();
 
   // Construction - poker component
+  // Widgets must be created in main thread
+  // template_recognition::ScreenshotCreator screenshot_creator;
   std::unique_ptr<poker::PokerWorkflow> poker_workflow =
       std::make_unique<poker::PokerWorkflow>();
 
