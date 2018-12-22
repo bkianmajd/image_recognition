@@ -11,11 +11,7 @@ SOURCES += $${WORKSPACE}/libraries/postal_service/postal_service.cpp
 
 INCLUDEPATH += $${WORKSPACE}/external_libraries/googletest/include
 
-LIBS += /usr/local/lib/libprotobuf.a \
-        /usr/local/lib/libprotoc.a \
-        /usr/local/lib/libprotobuf-lite.a\
-        $${WORKSPACE}/external_libraries/googletest/lib/libgtest.a
-
+include($${WORKSPACE}/external_libraries/protobuf_output/protobuf_output.pri)
 include($${WORKSPACE}/libraries/postal_service/com_layer/tcp_server.pri)
 include($${WORKSPACE}/libraries/postal_service/com_layer/tcp_client.pri)
 

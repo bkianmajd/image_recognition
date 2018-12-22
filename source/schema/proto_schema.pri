@@ -7,9 +7,6 @@ SOURCES += $${WORKSPACE}/schema/compiled_files/*.cc
 
 INCLUDEPATH += $${WORKSPACE}/external_libraries/protobuf/src
 
-LIBS += /usr/local/lib/libprotobuf.a \
-        /usr/local/lib/libprotoc.a \
-        /usr/local/lib/libprotobuf-lite.a
-
+include($${WORKSPACE}/external_libraries/protobuf_output/protobuf_output.pri)
 }
 
