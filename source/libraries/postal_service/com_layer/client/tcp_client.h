@@ -15,7 +15,7 @@ namespace com_layer {
 class TcpClient : public QObject, public ICarrier {
   Q_OBJECT
  public:
-  TcpClient(QObject* parent = 0);
+  TcpClient(QObject* parent = nullptr);
 
   ~TcpClient() override;
 
@@ -38,6 +38,7 @@ class TcpClient : public QObject, public ICarrier {
   void ReadySend();
 
  private slots:
+  void OnReadyRead();
   void OnReadySend();
 
  private:

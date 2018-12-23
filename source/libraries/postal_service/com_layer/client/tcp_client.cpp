@@ -1,4 +1,4 @@
-#include "libraries/postal_service/com_layer/tcp_client.h"
+#include "libraries/postal_service/com_layer/client/tcp_client.h"
 
 #include <QHostAddress>
 #include <iostream>
@@ -39,11 +39,12 @@ void TcpClient::OnConnected() {
 void TcpClient::OnDisconnected() { connected_.store(false); }
 
 void TcpClient::OnReadyRead() {
-  std::lock_guard<std::mutex> lock(byte_read_mutex_);
   QByteArray array = socket_->readAll();
   for (int i = 0; i < array.size(); ++i) {
     byte_read_array_.push_back(array.at(i));
   }
+
+    std::lock_guard<std::mutex> lock(byte_read_mutex_);
 }
 
 void TcpClient::SwapReceivedByteArray(std::string& byte_array) {
