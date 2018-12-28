@@ -10,7 +10,10 @@ const std::string kPacketEndNotifier = "PACKET_END_Notifier";
 const size_t kEndSize = kPacketEndNotifier.size();
 }  // namespace
 
-CarrierBase::CarrierBase() : kEndPacket(kPacketEndNotifier), socket_(nullptr) {
+CarrierBase::CarrierBase()
+    : kEndPacket(kPacketEndNotifier),
+      end_of_packet_index_(0),
+      socket_(nullptr) {
   connect(this, SIGNAL(ReadySend()), this, SLOT(OnReadySend()));
 }
 

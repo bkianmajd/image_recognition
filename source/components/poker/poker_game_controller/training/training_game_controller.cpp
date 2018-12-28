@@ -8,7 +8,7 @@ namespace poker {
 namespace {
 
 constexpr char kDefaultDirectory[] =
-    "components/poker/poker_game_controller/training";
+    "components/poker/poker_game_controller/training/images";
 
 }  // namespace
 
@@ -21,7 +21,7 @@ TrainingGameController::TrainingGameController()
 void TrainingGameController::UpdateBigImage(
     const std::vector<char>& big_image_raw_data) {
   std::stringstream ss;
-  ss << image_counter_ << ".jpg";
+  ss << image_counter_++ << ".jpg";
   // Store the file
   helpers::FileManager::StoreFile(
       big_image_raw_data.data(), big_image_raw_data.size(),
