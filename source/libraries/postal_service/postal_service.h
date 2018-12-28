@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "gtest/gtest_prod.h"
-#include "libraries/postal_service/com_layer/icarrier.h"
+#include "libraries/postal_service/com_layer/carrier_base.h"
 #include "libraries/postal_service/imail_distributor.h"
 #include "libraries/postal_service/ipost_card.h"
 
@@ -33,7 +33,7 @@ class PostalService {
   bool IsOpen() const;
 
  private:
-  std::unique_ptr<com_layer::ICarrier> carrier_;
+  std::unique_ptr<com_layer::CarrierBase> carrier_;
 
   std::string received_byte_array_;
 };

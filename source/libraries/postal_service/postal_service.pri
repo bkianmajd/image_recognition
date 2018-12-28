@@ -12,7 +12,8 @@ SOURCES += $${WORKSPACE}/libraries/postal_service/postal_service.cpp
 INCLUDEPATH += $${WORKSPACE}/external_libraries/googletest/include
 
 include($${WORKSPACE}/external_libraries/protobuf_output/protobuf_output.pri)
-include($${WORKSPACE}/libraries/postal_service/com_layer/tcp_server.pri)
-include($${WORKSPACE}/libraries/postal_service/com_layer/tcp_client.pri)
+include($${WORKSPACE}/libraries/postal_service/com_layer/com_layer.pri)
+include($${WORKSPACE}/libraries/postal_service/com_layer/server/server.pri)
+include($${WORKSPACE}/libraries/postal_service/com_layer/client/client.pri)
 
 }

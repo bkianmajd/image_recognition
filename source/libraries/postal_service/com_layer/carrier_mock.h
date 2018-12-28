@@ -25,7 +25,7 @@ class CarrierMock : public CarrierBase {
   }
 
  protected:
-  void DoDisconnect() override {}
+  void GiveUpTcpSocket(QTcpSocket* tcp_socket) override { (void)tcp_socket; }
 };
 
 }  // namespace com_laer

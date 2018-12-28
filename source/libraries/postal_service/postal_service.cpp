@@ -5,21 +5,21 @@
 #include <thread>
 
 #include "external_libraries/protobuf-3.5.x/src/google/protobuf/any.pb.h"
+#include "libraries/postal_service/com_layer/client/tcp_client.h"
 #include "libraries/postal_service/com_layer/com_defs.h"
-#include "libraries/postal_service/com_layer/tcp_client.h"
-#include "libraries/postal_service/com_layer/tcp_server.h"
+#include "libraries/postal_service/com_layer/server/tcp_server.h"
 
 namespace postal_service {
 namespace {
 
 constexpr std::chrono::seconds kInitTimeout = std::chrono::seconds(60);
 
-std::unique_ptr<com_layer::ICarrier> CarrierFactory(Type type) {
+std::unique_ptr<com_layer::CarrierBase> CarrierFactory(Type type) {
   if (type == Type::server) {
-    return std::unique_ptr<com_layer::ICarrier>(new com_layer::TcpServer);
+    return std::unique_ptr<com_layer::CarrierBase>(new com_layer::TcpServer);
   }
 
-  return std::unique_ptr<com_layer::ICarrier>(new com_layer::TcpClient);
+  return std::unique_ptr<com_layer::CarrierBase>(new com_layer::TcpClient);
 }
 
 }  // namespace
@@ -60,11 +60,11 @@ void PostalService::SendMail(const google::protobuf::Message& message) const {
   any.PackFrom(message);
 
   std::string byte_array = any.SerializeAsString();
-  carrier_->SendData(byte_array.data(), byte_array.size());
+  carrier_->SendData(byte_array.data(), static_cast<int>(byte_array.size()));
 }
 
 void PostalService::GetMail(IMailDistributor& mail_distributor) {
-  carrier_->SwapReceivedByteArray(received_byte_array_);
+  received_byte_array_ = carrier_->ReadByteArray();
   if (received_byte_array_.empty()) {
     return;
   }

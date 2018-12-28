@@ -60,6 +60,7 @@ class CarrierBase : public QObject {
   std::size_t end_of_packet_index_;
 
   QTcpSocket* socket_;
+  mutable std::mutex socket_mutex_;
   std::deque<char> byte_read_queue_;
 
   std::queue<std::string> incoming_packets_;

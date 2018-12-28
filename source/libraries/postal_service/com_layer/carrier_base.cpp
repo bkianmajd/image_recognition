@@ -23,16 +23,27 @@ CarrierBase::~CarrierBase() {
   }
 }
 
-bool CarrierBase::IsConnected() const { return socket_->isOpen(); }
+bool CarrierBase::IsConnected() const {
+  std::lock_guard<std::mutex> g1(socket_mutex_);
+  if (socket_ == nullptr) {
+    return false;
+  }
+  return socket_->isOpen();
+}
 
 void CarrierBase::Disconnect() {
+  std::lock_guard<std::mutex> g1(byte_read_mutex_);
+  std::lock_guard<std::mutex> g2(byte_write_mutex_);
+  std::lock_guard<std::mutex> g3(socket_mutex_);
   if (socket_ == nullptr) {
     return;
   }
   if (socket_->isOpen()) {
     socket_->close();
   }
+
   GiveUpTcpSocket(socket_);
+  socket_ = nullptr;
 }
 
 void CarrierBase::SendData(const char* byte_array, int ln) {
@@ -61,6 +72,7 @@ std::string CarrierBase::ReadByteArray() {
 void CarrierBase::ConsumeTcpSocket(QTcpSocket* tcp_socket) {
   std::lock_guard<std::mutex> g1(byte_read_mutex_);
   std::lock_guard<std::mutex> g2(byte_write_mutex_);
+  std::lock_guard<std::mutex> g3(socket_mutex_);
 
   if (socket_ != nullptr) {
     GiveUpTcpSocket(socket_);
