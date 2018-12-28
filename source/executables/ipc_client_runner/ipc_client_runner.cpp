@@ -12,6 +12,7 @@
 
 const std::string kImageName = "screenshot.jpg";
 const std::chrono::seconds kScreenshonFrequency = std::chrono::seconds(10);
+const std::chrono::hours kRunTime = std::chrono::hours(2);
 
 void RunControllerThread(
     QCoreApplication* a, ipc::IpcClient* ipc_client,
@@ -26,9 +27,7 @@ void RunControllerThread(
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
 
-  bool run_mode = true;
-
-  while (run_mode) {
+  while (std::chrono::system_clock::now() - start_time < kRunTime) {
     // Takes a screenshot of the desktop
     if (!screenshot_creator->Capture()) {
       std::cerr << "Capture failed" << std::endl;
