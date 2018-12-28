@@ -11,6 +11,7 @@
 #include "libraries/screenshot_creator/screenshot_creator.h"
 
 const std::string kImageName = "screenshot.jpg";
+const std::chrono::seconds kScreenshonFrequency = std::chrono::seconds(10);
 
 void RunControllerThread(
     QCoreApplication* a, ipc::IpcClient* ipc_client,
@@ -42,7 +43,7 @@ void RunControllerThread(
       break;
     }
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+    std::this_thread::sleep_for(kScreenshonFrequency);
   }
 
   std::cout << "Stopping running thread" << std::endl;
