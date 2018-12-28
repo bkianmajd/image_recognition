@@ -1,6 +1,8 @@
 #ifndef TCP_CLIENT_H_
 #define TCP_CLIENT_H_
 
+#include "libraries/postal_service/com_layer/carrier_base.h"
+
 #include <QTcpSocket>
 #include <QtGlobal>
 #include <atomic>
@@ -8,50 +10,26 @@
 #include <mutex>
 
 #include "gtest/gtest_prod.h"
-#include "libraries/postal_service/com_layer/icarrier.h"
 
 namespace com_layer {
 
-class TcpClient : public QObject, public ICarrier {
+class TcpClient : public CarrierBase {
   Q_OBJECT
  public:
-  TcpClient(QObject* parent = nullptr);
+  TcpClient();
 
-  ~TcpClient() override;
+  virtual ~TcpClient() override;
 
-  void Init(const ConnectionInfo& connection_info) override;
+  void Init(const ConnectionInfo& connection_info = ConnectionInfo()) override;
 
-  bool IsConnected() const override;
+ protected:
+  virtual void GiveUpTcpSocket(QTcpSocket* socket) override;
 
-  void SendData(const char* byte_array, int ln) override;
+private slots:
+ void OnConnected();
 
-  void SwapReceivedByteArray(std::string& byte_array) override;
-
-  void Disconnect() override;
-
- public slots:
-  void OnConnected();
-  void OnDisconnected();
-  void OnReadyRead();
-
- signals:
-  void ReadySend();
-
- private slots:
-  void OnReadyRead();
-  void OnReadySend();
-
- private:
-  FRIEND_TEST(TcpClientTest, SwapByteArrayTest);
-
-  std::unique_ptr<QTcpSocket> socket_;
-  std::atomic_bool connected_;
-
-  std::string byte_read_array_;
-  std::mutex byte_read_mutex_;
-
-  std::string byte_send_array_;
-  std::mutex byte_send_mutex_;
+private:
+ QTcpSocket* socket_;
 };
 
 }  // namespace tcp_client

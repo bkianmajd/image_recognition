@@ -10,6 +10,6 @@ INCLUDEPATH += $${WORKSPACE}/external_libraries/googletest/include
 LIBS += $${WORKSPACE}/external_libraries/googletest/lib/libgtest.a
 
 SOURCES += $${WORKSPACE}/google_test/main.cpp \
-           $${WORKSPACE}/libraries/postal_service/com_layer/tcp_server_test.cpp
+           $${WORKSPACE}/libraries/postal_service/com_layer/server/tcp_server_test.cpp
 
 include($${WORKSPACE}/libraries/postal_service/com_layer/server/server.pri)

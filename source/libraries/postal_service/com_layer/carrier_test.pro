@@ -1,7 +1,7 @@
 QT += core
 QT += network
 
-CONFIG += c++11
+CONFIG += c++14
 
 WORKSPACE = $$_PRO_FILE_PWD_/../../../../source
 INCLUDEPATH += $${WORKSPACE}
@@ -9,8 +9,9 @@ INCLUDEPATH += $${WORKSPACE}/external_libraries/googletest/include
 
 LIBS += $${WORKSPACE}/external_libraries/googletest/lib/libgtest.a
 
-SOURCES += $${WORKSPACE}/libraries/postal_service/com_layer/integration_test.cpp
+HEADERS += $${WORKSPACE}/libraries/postal_service/com_layer/carrier_mock.h
+
+SOURCES += $${WORKSPACE}/google_test/main.cpp
+SOURCES += $${WORKSPACE}/libraries/postal_service/com_layer/carrier_test.cpp
 
 include($${WORKSPACE}/libraries/postal_service/com_layer/com_layer.pri)
-include($${WORKSPACE}/libraries/postal_service/com_layer/server/server.pri)
-include($${WORKSPACE}/libraries/postal_service/com_layer/client/client.pri)
