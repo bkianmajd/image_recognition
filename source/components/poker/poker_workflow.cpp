@@ -69,7 +69,6 @@ void PokerWorkflow::ProcessImage() {
 
 void PokerWorkflow::ConsumeImage(std::vector<char>& big_image_raw_data) {
   std::lock_guard<std::mutex> lock(image_mutex_);
-  std::cout << "Consuming image " << big_image_raw_data.size() << std::endl;
   std::swap(consumed_image_, big_image_raw_data);
   image_id_++;
 }

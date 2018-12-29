@@ -24,17 +24,18 @@ image_recognition::Point TemplateConverter::Convert(
     return return_point;
   }
 
-  int max_index = GetLargestProbabilityIndex(points);
-
   // Check the vicinity - return if success
+  /*
+  int max_index = GetLargestProbabilityIndex(points);
   if (CheckVicinity(points[0], points[1]) &&
       CheckVicinity(points[1], points[2])) {
     return ConvertToPoint(points[max_index]);
   }
+  */
 
   // Check the probability limits - return if success
   // The third probability is unreliable so ignore it
-  for (int i = 0; i < 2; ++i) {
+  for (std::size_t i = 0; i < 2; ++i) {
     if (points[i].probability > kProbabilityThreshold[i]) {
       return ConvertToPoint(points[i]);
     }

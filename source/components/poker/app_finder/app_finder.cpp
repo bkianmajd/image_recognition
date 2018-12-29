@@ -25,6 +25,10 @@ AppFinder::AppFinder()
               helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace)) {}
 
 std::vector<char> AppFinder::Narrow(const std::vector<char>& screenshot) {
+  if (screenshot.size() == 0) {
+    return screenshot;
+  }
+
   image_recongition_.SetBigImage(screenshot);
   image_recognition::Point point =
       image_recongition_.TemplateMatch(kTemplateName);
@@ -38,8 +42,8 @@ std::vector<char> AppFinder::Narrow(const std::vector<char>& screenshot) {
     std::cerr << "screenshot failed to import" << std::endl;
   }
 
-  template_recognition::ScreenArea screen_area(point.x + kXOffset, point.y + kYOffset,
-                                   kXArea, kYArea);
+  template_recognition::ScreenArea screen_area(
+      point.x + kXOffset, point.y + kYOffset, kXArea, kYArea);
   return screenshot_creator_.GetLastCapture(screen_area);
 }
 

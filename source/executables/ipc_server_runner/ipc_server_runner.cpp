@@ -38,7 +38,7 @@ void RunControllerThread(QCoreApplication* a, ipc::IpcServer* ipc_server,
     // Send the image to the poker workflow
     if (narrowed_image.size() != 0) {
       std::cout << "poker image recognized" << std::endl;
-      poker_workflow->ConsumeImage(image_bytes);
+      poker_workflow->ConsumeImage(narrowed_image);
       // This runs the backend workflow
       // TODO(): Consider running this in a separate thread
       poker_workflow->ProcessImage();
