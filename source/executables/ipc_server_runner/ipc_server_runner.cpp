@@ -4,12 +4,14 @@
 #include <thread>
 
 #include "components/image_service/server/ipc_server.h"
+#include "components/poker/app_finder/app_finder.h"
 #include "components/poker/poker_workflow.h"
 #include "executables/ipc_server_runner/static_config.h"
 #include "helpers/memory_helper.hpp"
 
 void RunControllerThread(QCoreApplication* a, ipc::IpcServer* ipc_server,
                          poker::PokerWorkflow* poker_workflow) {
+  poker::AppFinder app_finder;
   auto start_time = std::chrono::system_clock::now();
   while (!ipc_server->IsInit()) {
     if (std::chrono::system_clock::now() - start_time > ipc_server::kTimeout) {
@@ -30,9 +32,12 @@ void RunControllerThread(QCoreApplication* a, ipc::IpcServer* ipc_server,
       break;
     }
 
+    // Check the image for the poker application
+    std::vector<char> narrowed_image = app_finder.Narrow(image_bytes);
+
     // Send the image to the poker workflow
-    if (image_bytes.size() != 0) {
-      std::cout << "new image obtained" << std::endl;
+    if (narrowed_image.size() != 0) {
+      std::cout << "poker image recognized" << std::endl;
       poker_workflow->ConsumeImage(image_bytes);
       // This runs the backend workflow
       // TODO(): Consider running this in a separate thread
