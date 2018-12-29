@@ -113,7 +113,7 @@ std::string CreateTestPro(const DirectoryFinder& directory_finder,
   stream << "QT += core" << std::endl;
   stream << "QT -= gui" << std::endl;
   stream << std::endl;
-  stream << "CONFIG += c++11" << std::endl;
+  stream << "CONFIG += c++14" << std::endl;
   stream << std::endl;
 
   stream << "WORKSPACE = $$_PRO_FILE_PWD_/"
@@ -128,11 +128,12 @@ std::string CreateTestPro(const DirectoryFinder& directory_finder,
   stream << std::endl;
 
   stream << "SOURCES += $${WORKSPACE}/google_test/main.cpp" << std::endl;
-  stream << "SOURCES += $${WORKSPACE}" << directory_finder.GetAfterWorkspace()
+  stream << "SOURCES += $${WORKSPACE}/" << directory_finder.GetAfterWorkspace()
          << file_input << "_test.cpp" << std::endl;
   stream << std::endl;
 
-  stream << "include(" << file_input << ".pri)" << std::endl;
+  stream << "include($${WORKSPACE}/" << directory_finder.GetAfterWorkspace()
+         << file_input << ".pri)" << std::endl;
   return stream.str();
 }
 

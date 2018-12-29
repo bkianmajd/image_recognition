@@ -4,6 +4,7 @@
 #include <thread>
 
 #include "components/image_service/client/ipc_client.h"
+#include "components/poker/app_finder/app_finder.h"
 #include "executables/ipc_client_runner/static_config.h"
 #include "helpers/memory_helper.hpp"
 #include "libraries/postal_service/com_layer/com_defs.h"
@@ -16,7 +17,8 @@ const std::chrono::hours kRunTime = std::chrono::hours(2);
 
 void RunControllerThread(
     QCoreApplication* a, ipc::IpcClient* ipc_client,
-    template_recognition::ScreenshotCreator* screenshot_creator) {
+    template_recognition::ScreenshotCreator* screenshot_creator,
+    poker::AppFinder* app_finder) {
   auto start_time = std::chrono::system_clock::now();
   while (!ipc_client->IsInit()) {
     if (std::chrono::system_clock::now() - start_time > ipc_client::kTimeout) {
@@ -36,10 +38,13 @@ void RunControllerThread(
 
     // Sends the image to the server
     std::vector<char> bytes = screenshot_creator->GetLastCapture();
-    std::cout << "sending bytes: " << bytes.size() << std::endl;
-    if (!ipc_client->SendImage(bytes, kImageName)) {
-      std::cerr << "Failed to send image" << std::endl;
-      break;
+    std::vector<char> configured_bytes = app_finder->Narrow(bytes);
+    if (configured_bytes.size() > 0) {
+      std::cout << "sending bytes: " << configured_bytes.size() << std::endl;
+      if (!ipc_client->SendImage(configured_bytes, kImageName)) {
+        std::cerr << "Failed to send image" << std::endl;
+        break;
+      }
     }
 
     std::this_thread::sleep_for(kScreenshonFrequency);
@@ -59,6 +64,9 @@ int Main(int argc, char* argv[]) {
   std::unique_ptr<template_recognition::ScreenshotCreator> screenshot_creator =
       std::make_unique<template_recognition::ScreenshotCreator>();
 
+  std::unique_ptr<poker::AppFinder> app_finder =
+      std::make_unique<poker::AppFinder>();
+
   // Init communication - must be called within this thread
   com_layer::ConnectionInfo connection_info;
   connection_info.port = ipc_client::kPort;
@@ -67,7 +75,7 @@ int Main(int argc, char* argv[]) {
 
   // Start thread and transfer ownership
   std::thread t1(RunControllerThread, &a, ipc_client.get(),
-                 screenshot_creator.get());
+                 screenshot_creator.get(), app_finder.get());
 
   // Run the main thread in the background
   a.exec();

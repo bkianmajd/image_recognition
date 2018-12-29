@@ -30,7 +30,7 @@ void TcpServer::GiveUpTcpSocket(QTcpSocket* tcp_socket) { delete tcp_socket; }
 void TcpServer::OnNewConnection() {
   qDebug() << "Tcp Server received new connection!\n";
 
-  tcp_server_.pauseAccepting();
+  // tcp_server_.pauseAccepting();
   QTcpSocket* tcp_socket = tcp_server_.nextPendingConnection();
   if (tcp_socket != nullptr) {
     CarrierBase::ConsumeTcpSocket(tcp_socket);

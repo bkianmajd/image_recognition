@@ -8,7 +8,7 @@ namespace poker {
 namespace {
 
 constexpr char kDefaultDirectory[] =
-    "components/poker/poker_game_controller/training/images";
+    "components/poker/poker_game_controller/training/ignore_images";
 
 }  // namespace
 
