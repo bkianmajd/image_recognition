@@ -96,9 +96,6 @@ Card LandmarkFinder::FindDealerCard(DealerLocation dealer_location) {
 Card LandmarkFinder::FindCardFromRawScreenArea(
     template_recognition::ScreenArea& screen_area) {
   Card card;
-  // Find a subset of the big image
-  screen_area.x += x_indicator_location_;
-  screen_area.y += y_indicator_location_;
   std::vector<char> raw_bytes = screenshot_creator_.GetLastCapture(screen_area);
 
   if (raw_bytes.size() == 0) {

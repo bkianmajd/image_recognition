@@ -7,7 +7,6 @@
 #include "components/image_recognition/image_recognition_api.h"
 #include "components/poker/entities/card_def.h"
 #include "components/poker/entities/player_location_def.h"
-#include "components/poker/poker_game_controller/landmark_finder/area_finder/area_finder.h"
 #include "components/poker/poker_game_controller/landmark_finder/map_to_card_converter.h"
 #include "libraries/screenshot_creator/screenshot_creator.h"
 
@@ -50,9 +49,6 @@ class LandmarkFinder {
   // The big image of this is the card map, the template is the screen area
   image_recognition::ImageRecognitionApi card_reader_;
   // image_recognition::ImageRecognitionApi chair_reader_;
-
-  int x_indicator_location_ = 0;
-  int y_indicator_location_ = 0;
 };
 
 }  // namespace poker
