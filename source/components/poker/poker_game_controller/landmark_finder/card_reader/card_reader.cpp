@@ -11,7 +11,7 @@ constexpr int kDefaultWidth = 16;
 constexpr int kDefaultHeight = 17;
 const template_recognition::ScreenArea kValueArea(1, 3, kDefaultWidth,
                                                   kDefaultHeight);
-const template_recognition::ScreenArea kSuitArea(1, 2+kDefaultHeight,
+const template_recognition::ScreenArea kSuitArea(1, 2 + kDefaultHeight,
                                                  kDefaultWidth, kDefaultHeight);
 const std::string kTemplateName = "template.jpg";
 
@@ -75,17 +75,20 @@ Suit CardReader::FindSuit() {
   }
 
   // Techncially should not be reached
-  assert(true);
+  // assert(false);
   return SUIT_UNKNOWN;
 }
 CardValue CardReader::FindValue() {
   suit_recognition_.AddTemplateImage(suit_, kTemplateName);
+  // Get the pixel location
   image_recognition::Point point =
       suit_recognition_.TemplateMatch(kTemplateName);
+  // Ignore the pixel if its not valid
   if (!point.valid) {
     return CARD_VALUE_UNKNOWN;
   }
 
+  // Checking each grid box
   int map_area = kGridLine;
   for (int value = CARD_VALUE_ACE; value <= CARD_VALUE_KING; ++value) {
     if (point.x < map_area) {
@@ -95,7 +98,7 @@ CardValue CardReader::FindValue() {
   }
 
   // Techncially should not be reached
-  assert(true);
+  assert(false);
   return CARD_VALUE_UNKNOWN;
 }
 

@@ -27,9 +27,9 @@ enum ChairStatus {
 // The cards dealt by the dealer
 enum DealerLocation {
   // Technically should never be called
-  DEALER_NONE = -99,
+  DEALER_NONE = 0,
   // The first three is the flop
-  DEALER_ONE = 0,
+  DEALER_ONE,
   DEALER_TWO,
   DEALER_THREE,
   // This is the turn
