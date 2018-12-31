@@ -2,8 +2,18 @@
 
 namespace poker {
 
+Card::Card() {
+  value = CARD_VALUE_UNKNOWN;
+  suit = SUIT_UNKNOWN;
+}
+
+Card::Card(CardValue arg_value, Suit arg_suit) {
+  value = arg_value;
+  suit = arg_suit;
+}
+
 std::ostream& operator<<(std::ostream& ss, Card card) {
-  switch (card.card_value) {
+  switch (card.value) {
     case 0:
       ss << "UNOWN_VALUE ";
       break;
@@ -17,7 +27,7 @@ std::ostream& operator<<(std::ostream& ss, Card card) {
       ss << "K ";
       break;
     default:
-      ss << card.card_value << " ";
+      ss << card.value << " ";
   }
 
   switch (card.suit) {

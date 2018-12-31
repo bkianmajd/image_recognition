@@ -31,8 +31,10 @@ enum CardValue {
 };
 
 struct Card {
-  CardValue card_value = CARD_VALUE_UNKNOWN;
-  Suit suit = SUIT_UNKNOWN;
+  CardValue value;
+  Suit suit;
+  Card();
+  Card(CardValue, Suit);
 };
 
 struct PlayerHand {

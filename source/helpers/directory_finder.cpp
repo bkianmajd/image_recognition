@@ -9,6 +9,11 @@
 
 namespace helpers {
 
+DirectoryFinder CreateDirectoryFinderFromWorkspace(const std::string& path) {
+  return DirectoryFinder(path.c_str(),
+                         DirectoryFinder::ReferenceFrame::RelativeToWorkspace);
+}
+
 namespace {
 
 const std::string kWorkspace = "source";

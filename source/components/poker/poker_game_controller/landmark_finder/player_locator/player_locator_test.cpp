@@ -117,4 +117,34 @@ TEST_F(PlayerLocatorTest, CardAreaTest) {
       directory_finder_.GetAbsPathOfTargetFile(ssr.str().c_str()));
 }
 
+TEST_F(PlayerLocatorTest, CardAreaTest2) {
+  std::vector<char> bytes = helpers::FileManager::ReadFile(
+      directory_finder_.GetAbsPathOfTargetFile(kImageTwo.c_str()));
+  screenshot_creator_.Capture(bytes);
+
+  size_t player_location = PlayerLocation::PLAYERLOC_PLAYER_FIVE;
+
+  // Left card
+  template_recognition::ScreenArea smaller_area =
+      player_locators_[player_location].GetLeftCardArea();
+  std::vector<char> smaller_bytes =
+      screenshot_creator_.GetLastCapture(smaller_area);
+  EXPECT_GT(smaller_bytes.size(), 0);
+  std::stringstream ss;
+  ss << "L" << player_location << ".jpg";
+  helpers::FileManager::StoreFile(
+      smaller_bytes.data(), smaller_bytes.size(),
+      directory_finder_.GetAbsPathOfTargetFile(ss.str().c_str()));
+
+  // Right card
+  smaller_area = player_locators_[player_location].GetRightCardArea();
+  smaller_bytes = screenshot_creator_.GetLastCapture(smaller_area);
+  EXPECT_GT(smaller_bytes.size(), 0);
+  std::stringstream ssr;
+  ssr << "R" << player_location << ".jpg";
+  helpers::FileManager::StoreFile(
+      smaller_bytes.data(), smaller_bytes.size(),
+      directory_finder_.GetAbsPathOfTargetFile(ssr.str().c_str()));
+}
+
 }  // namespace poker

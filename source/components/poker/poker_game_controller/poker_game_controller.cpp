@@ -63,12 +63,12 @@ bool PokerGameController::CheckForDecisionEvent() {
 
 bool PokerGameController::CheckForNewHandEvent() {
   Card left_card = landmark_finder_.FindLeftCard(PLAYERLOC_PLAYER_ZERO);
-  if (left_card.card_value == CARD_VALUE_UNKNOWN) {
+  if (left_card.value == CARD_VALUE_UNKNOWN) {
     return false;
   }
 
   Card right_card = landmark_finder_.FindLeftCard(PLAYERLOC_PLAYER_ZERO);
-  if (right_card.card_value == CARD_VALUE_UNKNOWN) {
+  if (right_card.value == CARD_VALUE_UNKNOWN) {
     return false;
   }
 
@@ -103,7 +103,7 @@ bool PokerGameController::CheckTableStatus() {
 
 bool PokerGameController::CheckForRoundEndEvent() {
   Card card_one = landmark_finder_.FindDealerCard(DealerLocation::DEALER_ONE);
-  if (card_one.card_value != CARD_VALUE_UNKNOWN) {
+  if (card_one.value != CARD_VALUE_UNKNOWN) {
     return false;
   }
 
@@ -113,18 +113,18 @@ bool PokerGameController::CheckForRoundEndEvent() {
 
 bool PokerGameController::CheckForFlopEvent() {
   Card card_one = landmark_finder_.FindDealerCard(DealerLocation::DEALER_ONE);
-  if (card_one.card_value == CARD_VALUE_UNKNOWN) {
+  if (card_one.value == CARD_VALUE_UNKNOWN) {
     return false;
   }
 
   Card card_two = landmark_finder_.FindDealerCard(DealerLocation::DEALER_TWO);
-  if (card_two.card_value == CARD_VALUE_UNKNOWN) {
+  if (card_two.value == CARD_VALUE_UNKNOWN) {
     return false;
   }
 
   Card card_three =
       landmark_finder_.FindDealerCard(DealerLocation::DEALER_THREE);
-  if (card_three.card_value == CARD_VALUE_UNKNOWN) {
+  if (card_three.value == CARD_VALUE_UNKNOWN) {
     return false;
   }
 
@@ -134,7 +134,7 @@ bool PokerGameController::CheckForFlopEvent() {
 
 bool PokerGameController::CheckForTurnEvent() {
   Card card = landmark_finder_.FindDealerCard(DealerLocation::DEALER_FOUR);
-  if (card.card_value == CARD_VALUE_UNKNOWN) {
+  if (card.value == CARD_VALUE_UNKNOWN) {
     return false;
   }
 
@@ -144,7 +144,7 @@ bool PokerGameController::CheckForTurnEvent() {
 
 bool PokerGameController::CheckForRiverEvent() {
   Card card = landmark_finder_.FindDealerCard(DealerLocation::DEALER_FIVE);
-  if (card.card_value == CARD_VALUE_UNKNOWN) {
+  if (card.value == CARD_VALUE_UNKNOWN) {
     return false;
   }
 

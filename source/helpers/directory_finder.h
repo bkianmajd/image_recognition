@@ -7,6 +7,10 @@
 
 namespace helpers {
 
+class DirectoryFinder;
+
+DirectoryFinder CreateDirectoryFinderFromWorkspace(const std::string&);
+
 /// This class returns the abs path of the specified target. The specified
 /// directory is passed through the constructor.
 class DirectoryFinder {
