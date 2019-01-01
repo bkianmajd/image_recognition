@@ -2,54 +2,20 @@
 
 #include <cassert>
 
-#include "components/poker/poker_game_controller/landmark_finder/area_finder/six_player_area_finder.h"
 #include "helpers/file_manager/file_manager.h"
 #include "helpers/memory_helper.hpp"
 
 namespace poker {
 namespace {
-const std::string kMapImageDirectory =
-    "components/poker/poker_game_controller/landmark_finder/map_images";
-
-const std::string kSessionDirectory =
-    "components/poker/poker_game_controller/landmark_finder/session_directory";
-
-const std::string kCardMap = "card_map.jpg";
-
-const std::string kTemplateImageName = "template_image.jpg";
-
-constexpr helpers::DirectoryFinder::ReferenceFrame kRelativePath =
-    helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace;
-
-std::unique_ptr<AreaFinder> MakeAreaFinder(int number_of_chairs) {
-  switch (number_of_chairs) {
-    case 6:
-      return std::make_unique<SixPlayerAreaFinder>();
-      break;
-    default:
-      std::cerr << "do not have table data for area finder" << std::endl;
-      assert(false);
-  }
-  return nullptr;
-}
 
 }  // namespace
 
-LandmarkFinder::LandmarkFinder(int number_of_chairs)
-    : area_finder_(MakeAreaFinder(number_of_chairs)),
-      map_card_converter_(),
-      indicator_reader_(
-          helpers::DirectoryFinder(kMapImageDirectory, kRelativePath),
-          helpers::DirectoryFinder(kSessionDirectory, kRelativePath)),
-      card_reader_(helpers::DirectoryFinder(kMapImageDirectory, kRelativePath),
-                   helpers::DirectoryFinder(kSessionDirectory, kRelativePath)) {
-  helpers::DirectoryFinder map_directory(kMapImageDirectory, kRelativePath);
-  std::vector<char> map_image = helpers::FileManager::ReadFile(
-      map_directory.GetAbsPathOfTargetFile(kCardMap));
-
-  // Sets the card readers big image to the card_map
-  assert(map_image.size() > 0);
-  assert(card_reader_.SetBigImage(map_image));
+LandmarkFinder::LandmarkFinder(int table_size)
+    : table_locator_(std::make_unique<TableLocator>(table_size)) {
+  for (int i = 0; i < table_size; ++i) {
+    player_locators_.push_back(
+        PlayerLocator(table_size, static_cast<PlayerLocation>(i)));
+  }
 }
 
 bool LandmarkFinder::UpdateBigImage(const std::vector<char>& big_image) {
@@ -58,25 +24,21 @@ bool LandmarkFinder::UpdateBigImage(const std::vector<char>& big_image) {
     return false;
   }
 
-  // Set the landmark finder to update its big image
-  if (!indicator_reader_.SetBigImage(big_image)) {
-    return false;
-  }
-
-  // need to find the indicator??
-
   return true;
 }
 
 Card LandmarkFinder::FindLeftCard(PlayerLocation player_location) {
   template_recognition::ScreenArea screen_area =
-      area_finder_->GetCardAreaLeft(player_location);
+      player_locators_.at(static_cast<size_t>(player_location))
+          .GetLeftCardArea();
+
   return FindCardFromRawScreenArea(screen_area);
 }
 
 Card LandmarkFinder::FindRightCard(PlayerLocation player_location) {
   template_recognition::ScreenArea screen_area =
-      area_finder_->GetCardAreaRight(player_location);
+      player_locators_.at(static_cast<size_t>(player_location))
+          .GetRightCardArea();
   return FindCardFromRawScreenArea(screen_area);
 }
 
@@ -89,28 +51,22 @@ ChairStatus LandmarkFinder::FindChairStatus(PlayerLocation player_location) {
 
 Card LandmarkFinder::FindDealerCard(DealerLocation dealer_location) {
   template_recognition::ScreenArea screen_area =
-      area_finder_->GetDealerCard(dealer_location);
+      table_locator_->GetDealerArea(dealer_location);
   return FindCardFromRawScreenArea(screen_area);
 }
 
 Card LandmarkFinder::FindCardFromRawScreenArea(
     template_recognition::ScreenArea& screen_area) {
   Card card;
-  std::vector<char> raw_bytes = screenshot_creator_.GetLastCapture(screen_area);
+  std::vector<char> card_raw_bytes =
+      screenshot_creator_.GetLastCapture(screen_area);
 
-  if (raw_bytes.size() == 0) {
+  if (card_raw_bytes.size() == 0) {
     std::cerr << "Landmark finder: Failed to capture screenshot" << std::endl;
     return card;
   }
 
-  card_reader_.AddTemplateImage(raw_bytes, kTemplateImageName);
-  image_recognition::Point point =
-      card_reader_.TemplateMatch(kTemplateImageName);
-  if (!point.valid) {
-    return card;
-  }
-
-  return map_card_converter_.Convert(point.x, point.y);
+  return card_reader_.ConvertToCard(card_raw_bytes);
 }
 
 }  // namespace poker

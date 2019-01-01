@@ -1,8 +1,10 @@
 #ifndef TRAINING_GAME_CONTROLLER_H_
 #define TRAINING_GAME_CONTROLLER_H_
 
-#include "components/poker/poker_game_controller/poker_game_controller_interface.h"
+#include <chrono>
 
+#include "components/poker/poker_game_controller/poker_game_controller_interface.h"
+#include "components/poker/poker_game_controller/landmark_finder/landmark_finder.h"
 #include "helpers/directory_finder.h"
 
 namespace poker {
@@ -17,9 +19,16 @@ class TrainingGameController : public PokerGameControllerInterface {
 
   // Returns true if there is still more to progress through the workflow
   bool ProcessNextWorkflow(const GameStatus& game_status) override;
-private:
+
+ private:
+  void TakeScreenshots(const std::vector<char>& big_image_raw_data);
+  void ReadCards(const std::vector<char>& big_image_raw_data);
+
+
   helpers::DirectoryFinder directory_finder_;
   int image_counter_;
+  LandmarkFinder landmark_finder_;
+  std::chrono::time_point<std::chrono::system_clock> last_print_time_;
 };
 
 }  // namespace poker
