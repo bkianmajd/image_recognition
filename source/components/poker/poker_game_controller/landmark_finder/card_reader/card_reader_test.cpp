@@ -23,6 +23,7 @@ class CardReaderTest : public testing::Test {
             helpers::CreateDirectoryFinderFromWorkspace(kTestingdDirectory)) {}
 
   void TestCard(const std::string& card_file, Card expected_card) {
+    std::cout << "expecting " << card_file << std::endl;
     std::vector<char> bytes = helpers::FileManager::ReadFile(
         directory_finder_.GetAbsPathOfTargetFile(card_file));
     Card card = card_reader_.ConvertToCard(bytes);
@@ -50,16 +51,16 @@ class CardReaderTest : public testing::Test {
 TEST_F(CardReaderTest, ConstructDestruct) {}
 
 TEST_F(CardReaderTest, AreaTest) {
-  TestCard("ace_clubs_hand.jpg", Card(CARD_VALUE_ACE, SUIT_CLUB));
-  TestCard("ace_hearts_hand.jpg", Card(CARD_VALUE_ACE, SUIT_HEART));
-  TestCard("queen_clubs_hand.jpg", Card(CARD_VALUE_QUEEN, SUIT_CLUB));
-  TestCard("ten_diamonds_table.jpg", Card(CARD_VALUE_TEN, SUIT_DIAMOND));
-  TestCard("five_diamonds_table.jpg", Card(CARD_VALUE_FIVE, SUIT_DIAMOND));
-  TestCard("ten_clubs_table.jpg", Card(CARD_VALUE_TEN, SUIT_CLUB));
-  TestCard("ace_spades_table.jpg", Card(CARD_VALUE_ACE, SUIT_SPADE));
-  TestCard("two_hearts_hand.jpg", Card(CARD_VALUE_TWO, SUIT_HEART));
-  TestCard("left_hidden.jpg", Card(CARD_VALUE_HIDDEN, SUIT_HIDDEN));
-  TestCard("right_hidden.jpg", Card(CARD_VALUE_HIDDEN, SUIT_HIDDEN));
+  // TestCard("ace_clubs_hand.jpg", Card(CARD_VALUE_ACE, SUIT_CLUB));
+//    TestCard("ace_hearts_hand.jpg", Card(CARD_VALUE_ACE, SUIT_HEART));
+//    TestCard("queen_clubs_hand.jpg", Card(CARD_VALUE_QUEEN, SUIT_CLUB));
+    TestCard("ten_diamonds_table.jpg", Card(CARD_VALUE_TEN, SUIT_DIAMOND));
+  //  TestCard("five_diamonds_table.jpg", Card(CARD_VALUE_FIVE, SUIT_DIAMOND));
+  //  TestCard("ten_clubs_table.jpg", Card(CARD_VALUE_TEN, SUIT_CLUB));
+  //  TestCard("ace_spades_table.jpg", Card(CARD_VALUE_ACE, SUIT_SPADE));
+  //  TestCard("two_hearts_hand.jpg", Card(CARD_VALUE_TWO, SUIT_HEART));
+  //  TestCard("left_hidden.jpg", Card(CARD_VALUE_HIDDEN, SUIT_HIDDEN));
+  //  TestCard("right_hidden.jpg", Card(CARD_VALUE_HIDDEN, SUIT_HIDDEN));
 }
 
 }  // namespace poker

@@ -5,7 +5,7 @@
 namespace poker {
 namespace {
 // The spacing of the maps
-constexpr int kGridLine = 50;
+constexpr int kGridLine = 30;
 
 constexpr int kDefaultWidth = 16;
 constexpr int kDefaultHeight = 17;
@@ -16,8 +16,7 @@ const template_recognition::ScreenArea kSuitArea(1, 2 + kDefaultHeight,
 const std::string kTemplateName = "template.jpg";
 
 const std::string kTemplateDirectory =
-    "components/poker/poker_game_controller/landmark_finder/card_reader/"
-    "template_directory";
+    "components/poker/poker_game_controller/landmark_finder/map_images";
 const std::string kSessionDirectory =
     "components/poker/poker_game_controller/landmark_finder/card_reader/"
     "session_directory";
@@ -67,7 +66,7 @@ Suit CardReader::FindSuit() {
   }
 
   int map_area = kGridLine;
-  for (int suit = SUIT_SPADE; suit <= SUIT_HEART; ++suit) {
+  for (int suit = SUIT_SPADE; suit <= SUIT_HIDDEN; ++suit) {
     if (point.x < map_area) {
       return static_cast<Suit>(suit);
     }
@@ -75,14 +74,14 @@ Suit CardReader::FindSuit() {
   }
 
   // Techncially should not be reached
-  // assert(false);
+  assert(false);
   return SUIT_UNKNOWN;
 }
 CardValue CardReader::FindValue() {
-  suit_recognition_.AddTemplateImage(suit_, kTemplateName);
+  value_recognition_.AddTemplateImage(suit_, kTemplateName);
   // Get the pixel location
   image_recognition::Point point =
-      suit_recognition_.TemplateMatch(kTemplateName);
+      value_recognition_.TemplateMatch(kTemplateName);
   // Ignore the pixel if its not valid
   if (!point.valid) {
     return CARD_VALUE_UNKNOWN;
@@ -90,7 +89,7 @@ CardValue CardReader::FindValue() {
 
   // Checking each grid box
   int map_area = kGridLine;
-  for (int value = CARD_VALUE_ACE; value <= CARD_VALUE_KING; ++value) {
+  for (int value = CARD_VALUE_ACE; value <= CARD_VALUE_HIDDEN; ++value) {
     if (point.x < map_area) {
       return static_cast<CardValue>(value);
     }
