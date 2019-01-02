@@ -58,7 +58,8 @@ TEST_F(CardReaderTest, AreaTest) {
   TestCard("ten_clubs_table.jpg", Card(CARD_VALUE_TEN, SUIT_CLUB));
   TestCard("ace_spades_table.jpg", Card(CARD_VALUE_ACE, SUIT_SPADE));
   TestCard("two_hearts_hand.jpg", Card(CARD_VALUE_TWO, SUIT_HEART));
-
+  TestCard("left_hidden.jpg", Card(CARD_VALUE_HIDDEN, SUIT_HIDDEN));
+  TestCard("right_hidden.jpg", Card(CARD_VALUE_HIDDEN, SUIT_HIDDEN));
 }
 
 }  // namespace poker

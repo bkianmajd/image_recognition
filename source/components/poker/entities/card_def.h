@@ -11,6 +11,7 @@ enum Suit {
   SUIT_CLUB,
   SUIT_DIAMOND,
   SUIT_HEART,
+  SUIT_HIDDEN,
 };
 
 enum CardValue {
@@ -28,6 +29,7 @@ enum CardValue {
   CARD_VALUE_JACK = 11,
   CARD_VALUE_QUEEN = 12,
   CARD_VALUE_KING = 13,
+  CARD_VALUE_HIDDEN,
 };
 
 struct Card {
