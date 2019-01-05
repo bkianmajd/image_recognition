@@ -9,7 +9,7 @@
 #include "helpers/file_manager/file_manager.h"
 #include "libraries/image_recognition/template_recognition/template_recognition_interface.h"
 
-namespace template_recognition {
+namespace recognition {
 namespace {
 
 const std::string kFilePath = "template_recognition/simple/data/";
@@ -23,8 +23,8 @@ class SimpleRecognitionTest : public testing::Test {
       : directory_finder_(
             tester::kTestingDirectoryFromWorkspace,
             helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace),
-        kBigImg(directory_finder_.GetAbsPathOfTargetFile(
-            tester::kBigImageChecker)),
+        kBigImg(
+            directory_finder_.GetAbsPathOfTargetFile(tester::kBigImageChecker)),
         kTemplateImg(directory_finder_.GetAbsPathOfTargetFile(
             tester::kTemplateCheckers)) {}
 
@@ -50,19 +50,17 @@ TEST_F(SimpleRecognitionTest, FileCheckTest) {
 }
 
 TEST_F(SimpleRecognitionTest, RegisterTest) {
-  EXPECT_TRUE(simple_recognition_.RegisterImage(kTemplateImg));
-  EXPECT_TRUE(simple_recognition_.RegisterImage(kBigImg));
-  EXPECT_FALSE(simple_recognition_.RegisterImage(tester::kNoFile));
-}
-
-TEST_F(SimpleRecognitionTest, ImageRegisterTest) {
-  EXPECT_TRUE(simple_recognition_.RegisterImage(kTemplateImg));
-  EXPECT_TRUE(simple_recognition_.RegisterImage(kBigImg));
-  EXPECT_FALSE(simple_recognition_.RegisterImage("no_file"));
+  EXPECT_TRUE(simple_recognition_.RegisterImage(
+      helpers::FileManager::ReadFile(kTemplateImg)));
+  EXPECT_TRUE(simple_recognition_.RegisterImage(
+      helpers::FileManager::ReadFile(kBigImg)));
+  EXPECT_FALSE(simple_recognition_.RegisterImage(
+      helpers::FileManager::ReadFile(tester::kNoFile)));
 }
 
 TEST_F(SimpleRecognitionTest, TemplateStorageTest) {
-  ASSERT_TRUE(simple_recognition_.RegisterTemplate(kTemplateInt, kTemplateImg));
+  ASSERT_TRUE(simple_recognition_.RegisterTemplate(
+      kTemplateInt, helpers::FileManager::ReadFile(kTemplateImg)));
 
   auto it = simple_recognition_.template_map_.find(kTemplateInt);
   EXPECT_TRUE(it != simple_recognition_.template_map_.end());
@@ -72,12 +70,14 @@ TEST_F(SimpleRecognitionTest, TemplateStorageTest) {
 }
 
 TEST_F(SimpleRecognitionTest, GetTemplateMatchTest) {
-  ASSERT_TRUE(simple_recognition_.RegisterImage(kBigImg));
-  ASSERT_TRUE(simple_recognition_.RegisterTemplate(kTemplateInt, kTemplateImg));
+  ASSERT_TRUE(simple_recognition_.RegisterImage(
+      helpers::FileManager::ReadFile(kBigImg)));
+  ASSERT_TRUE(simple_recognition_.RegisterTemplate(
+      kTemplateInt, helpers::FileManager::ReadFile(kTemplateImg)));
 
-  std::vector<Point> vector_point =
+  std::vector<ProbabilityPoint> vector_point =
       simple_recognition_.GetTemplateMatch(kTemplateInt);
-  Point& point = vector_point[1];
+  ProbabilityPoint& point = vector_point[1];
   EXPECT_TRUE(point.isValid);
 
   // predetermined from tutorial script
@@ -98,4 +98,4 @@ TEST_F(SimpleRecognitionTest, TemplateStorageTest2) {
   EXPECT_EQ(it->second.cols, templ.cols);
 }
 
-}  // namespace template_recognition
+}  // namespace recognition

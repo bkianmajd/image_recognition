@@ -5,51 +5,29 @@
 #include <unordered_map>
 
 #include "external_libraries/googletest/include/gtest/gtest_prod.h"
+#include "libraries/image_def/utility/utility.h"
 #include "libraries/image_recognition/template_recognition/template_recognition_interface.h"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 
-namespace template_recognition {
+namespace recognition {
 namespace {
 
 constexpr int kMaxTemplateMatchTypes = 6;
 }
 
-bool SimpleRecognition::RegisterImage(const std::string& image_with_path) {
-  // Find the image in the data file
-  if (!CheckImage(image_with_path)) {
+bool SimpleRecognition::RegisterImage(const image::Image& image) {
+  if (image.size() == 0) {
     return false;
   }
 
   // Image exists. Register it with OpenCv.
-  big_image_ = cv::imread(image_with_path, 1);
+  big_image_ = image::ConvertImageToMatrix(image);
   return true;
 }
 
 bool SimpleRecognition::RegisterTemplate(TemplateId template_id,
-                                         const std::string& image_with_path) {
-  // Find the image in the data file
-  if (!CheckImage(image_with_path)) {
-    return false;
-  }
-
-  // Image exists. Add it to map
-
-  // Check if template_id is used, remove it
-  auto it = template_map_.find(template_id);
-  if (it != template_map_.end()) {
-    template_map_.erase(it);
-  }
-
-  // Add a new template id
-  template_map_.insert(std::pair<TemplateId, cv::Mat>(
-      template_id, cv::imread(image_with_path, 1)));
-
-  return true;
-}
-
-bool SimpleRecognition::RegisterTemplate(TemplateId template_id,
-                                         const std::vector<char>& bytes) {
+                                         const image::Image& bytes) {
   // Check if template_id is used, remove it
   auto it = template_map_.find(template_id);
   if (it != template_map_.end()) {
@@ -71,8 +49,9 @@ bool SimpleRecognition::RegisterTemplate(TemplateId template_id,
 }
 
 // Gets the point for a specific image id.
-std::vector<Point> SimpleRecognition::GetTemplateMatch(TemplateId template_id) {
-  std::vector<Point> return_point_vector;
+std::vector<ProbabilityPoint> SimpleRecognition::GetTemplateMatch(
+    TemplateId template_id) {
+  std::vector<ProbabilityPoint> return_point_vector;
 
   // Check if tempate id is in the template_map
   auto it = template_map_.find(template_id);
@@ -126,7 +105,7 @@ std::vector<Point> SimpleRecognition::GetTemplateMatch(TemplateId template_id) {
       matchLoc = maxLoc;
     }
 
-    Point return_point;
+    ProbabilityPoint return_point;
     return_point.isValid = true;
     // Update the probabilities
     switch (template_match_method) {
@@ -161,12 +140,4 @@ std::vector<Point> SimpleRecognition::GetTemplateMatch(TemplateId template_id) {
   return return_point_vector;
 }
 
-bool SimpleRecognition::CheckImage(const std::string& file_name_with_path) {
-  std::ifstream test_open;
-  test_open.open(file_name_with_path);
-  bool is_open = test_open.is_open();
-  test_open.close();
-  return is_open;
-}
-
-}  // namespace template_recognition
+}  // namespace recognition
