@@ -1,4 +1,4 @@
-#include "libraries/pipeline/pipeline.h"
+#include "libraries/image_pipeline/pipeline.h"
 
 #include <iostream>
 

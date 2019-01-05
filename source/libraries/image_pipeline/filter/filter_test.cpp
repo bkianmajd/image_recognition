@@ -1,4 +1,4 @@
-#include "libraries/pipeline/filter/noise_reducer.h"
+#include "libraries/image_pipeline/filter/noise_reducer.h"
 
 #include <iostream>
 
@@ -10,7 +10,7 @@
 
 namespace image {
 namespace {
-const std::string kTestDirectory = "libraries/pipeline/filter/test_data/";
+const std::string kTestDirectory = "libraries/image_pipeline/filter/test_data/";
 }  // namespace
 
 class ImageFilterTest : public testing::Test {

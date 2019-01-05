@@ -5,12 +5,12 @@
 #include "helpers/directory_finder.h"
 #include "helpers/file_manager/file_manager.h"
 #include "libraries/image_def/image_def.h"
-#include "libraries/pipeline/crop/vertical_crop.h"
+#include "libraries/image_pipeline/crop/vertical_crop.h"
 #include "libraries/image_def/utility/utility.h"
 
 namespace image {
 namespace {
-const std::string kTestDirectory = "libraries/pipeline/crop/test_data";
+const std::string kTestDirectory = "libraries/image_pipeline/crop/test_data";
 }  // namespace
 
 class CropTest : public testing::Test {

@@ -1,9 +1,9 @@
-#include "libraries/pipeline/pipeline.h"
+#include "libraries/image_pipeline/pipeline.h"
 
 #include <iostream>
 
-#include "libraries/pipeline/crop/vertical_crop.h"
-#include "libraries/pipeline/filter/noise_reducer.h"
+#include "libraries/image_pipeline/crop/vertical_crop.h"
+#include "libraries/image_pipeline/filter/noise_reducer.h"
 #include "libraries/image_def/utility/utility.h"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"

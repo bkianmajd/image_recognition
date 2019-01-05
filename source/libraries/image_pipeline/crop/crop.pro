@@ -10,6 +10,6 @@ INCLUDEPATH += $${WORKSPACE}/external_libraries/googletest/include
 LIBS += $${WORKSPACE}/external_libraries/googletest/lib/libgtest.a
 
 SOURCES += $${WORKSPACE}/google_test/main.cpp
-SOURCES += $${WORKSPACE}/libraries/pipeline/filter/filter_test.cpp
+SOURCES += $${WORKSPACE}/libraries/image_pipeline/crop/crop_test.cpp
 
-include($${WORKSPACE}/libraries/pipeline/filter/filter.pri)
+include($${WORKSPACE}/libraries/image_pipeline/crop/crop.pri)

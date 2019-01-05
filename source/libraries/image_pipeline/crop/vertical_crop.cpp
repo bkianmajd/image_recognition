@@ -1,4 +1,4 @@
-#include "libraries/pipeline/crop/vertical_crop.h"
+#include "libraries/image_pipeline/crop/vertical_crop.h"
 
 #include "libraries/image_def/utility/utility.h"
 

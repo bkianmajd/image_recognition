@@ -1,8 +1,8 @@
 !contains(included_modules, $$PWD ) {
 included_modules += $$PWD
-HEADERS += $${WORKSPACE}/libraries/pipeline/filter/noise_reducer.h
+HEADERS += $${WORKSPACE}/libraries/image_pipeline/filter/noise_reducer.h
 
-SOURCES += $${WORKSPACE}/libraries/pipeline/filter/noise_reducer.cpp
+SOURCES += $${WORKSPACE}/libraries/image_pipeline/filter/noise_reducer.cpp
 
 LIBS += /usr/local/lib/libopencv_core.so \
         /usr/local/lib/libopencv_core.so.3.4 \

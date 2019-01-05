@@ -1,4 +1,4 @@
-#include "libraries/pipeline/filter/noise_reducer.h"
+#include "libraries/image_pipeline/filter/noise_reducer.h"
 
 #include <iostream>
 
