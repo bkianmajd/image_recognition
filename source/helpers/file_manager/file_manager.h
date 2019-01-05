@@ -13,7 +13,7 @@ class FileManager {
   FileManager() = default;
 
   static bool StoreFile(const char* data, size_t size,
-                 const std::string& abs_directory_file);
+                        const std::string& abs_directory_file);
 
   static bool DeleteFile(const std::string& abs_directory_file);
 
