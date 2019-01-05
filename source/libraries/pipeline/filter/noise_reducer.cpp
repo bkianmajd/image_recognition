@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "libraries/pipeline/utility/utility.h"
+#include "libraries/image_def/utility/utility.h"
 
 // https://docs.opencv.org/2.4/doc/user_guide/ug_mat.html
 // https://docs.opencv.org/3.0-beta/modules/imgcodecs/doc/reading_and_writing_images.html

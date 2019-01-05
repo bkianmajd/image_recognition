@@ -6,7 +6,7 @@
 #include "helpers/file_manager/file_manager.h"
 #include "libraries/image_def/image_def.h"
 #include "libraries/pipeline/crop/vertical_crop.h"
-#include "libraries/pipeline/utility/utility.h"
+#include "libraries/image_def/utility/utility.h"
 
 namespace image {
 namespace {

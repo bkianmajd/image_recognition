@@ -11,5 +11,5 @@ LIBS += /usr/local/lib/libopencv_core.so \
         /usr/local/lib/libopencv_imgcodecs.so
 
 include($${WORKSPACE}/helpers/file_manager/file_manager.pri)
-include($${WORKSPACE}/libraries/pipeline/utility/utility.pri)
+include($${WORKSPACE}/libraries/image_def/utility/utility.pri)
 }

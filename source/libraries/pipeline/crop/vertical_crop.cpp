@@ -1,6 +1,6 @@
 #include "libraries/pipeline/crop/vertical_crop.h"
 
-#include "libraries/pipeline/utility/utility.h"
+#include "libraries/image_def/utility/utility.h"
 
 #include <algorithm>
 
