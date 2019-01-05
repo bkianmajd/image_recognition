@@ -4,8 +4,6 @@
 
 HEADERS += $${WORKSPACE}/libraries/image_recognition/template_recognition/template_recognition_interface.h \
            $${WORKSPACE}/libraries/image_recognition/template_recognition/template_recognition_defs.h
-
-HEADERS += $${WORKSPACE}/libraries/image_recognition/template_recognition/template_recognition_manager.h
 HEADERS += $${WORKSPACE}/libraries/image_recognition/template_recognition/template_recognition_mock.hpp
 
 include($${WORKSPACE}/helpers/file_manager/file_manager.pri)

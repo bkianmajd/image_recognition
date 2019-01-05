@@ -4,11 +4,11 @@
 #include <memory>
 #include <unordered_map>
 
-#include "components/image_recognition/image_recognition_defs.h"
+#include "libraries/image_recognition/image_recognition_defs.h"
 #include "helpers/directory_finder.h"
 #include "libraries/image_file_manager/image_file_manager_interface.h"
 #include "libraries/image_uploader/image_uploader.h"
-#include "libraries/template_recognition/template_recognition_interface.h"
+#include "libraries/image_recognition/template_recognition/template_recognition_interface.h"
 
 namespace image_recognition {
 

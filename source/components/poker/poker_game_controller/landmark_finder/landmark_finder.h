@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "components/image_recognition/image_recognition_api.h"
+#include "libraries/image_recognition/image_recognition_api.h"
 #include "components/poker/entities/card_def.h"
 #include "components/poker/entities/player_location_def.h"
 #include "components/poker/poker_game_controller/landmark_finder/card_reader/card_reader.h"

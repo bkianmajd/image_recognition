@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "components/image_recognition/image_recognition_defs.h"
-#include "libraries/template_recognition/template_recognition_defs.h"
+#include "libraries/image_recognition/image_recognition_defs.h"
+#include "libraries/image_recognition/template_recognition/template_recognition_defs.h"
 
 namespace template_recognition {
 

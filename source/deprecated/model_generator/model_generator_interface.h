@@ -1,7 +1,7 @@
 #ifndef MODEL_GENERATOR_INTERFACE_H_
 #define MODEL_GENERATOR_INTERFACE_H_
 
-#include "components/image_recognition/image_recognition_api.h"
+#include "libraries/image_recognition/image_recognition_api.h"
 #include "libraries/model_generator/model_generator_def.h"
 
 namespace image_recognition {

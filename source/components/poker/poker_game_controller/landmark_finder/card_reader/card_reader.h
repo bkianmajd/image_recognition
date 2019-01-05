@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "components/image_recognition/image_recognition_api.h"
+#include "libraries/image_recognition/image_recognition_api.h"
 #include "components/poker/entities/card_def.h"
 #include "gtest/gtest_prod.h"
 #include "helpers/directory_finder.h"

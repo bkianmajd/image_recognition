@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "components/image_recognition/image_recognition_api.h"
+#include "libraries/image_recognition/image_recognition_api.h"
 #include "components/poker/poker_game_controller/definitions/landmark_config_def.h"
 #include "helpers/directory_finder.h"
 #include "libraries/model_generator/model_generator_def.h"

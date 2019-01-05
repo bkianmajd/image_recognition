@@ -1,7 +1,7 @@
 #ifndef POKER_MODEL_GENERATOR_H_
 #define POKER_MODEL_GENERATOR_H_
 
-#include "components/image_recognition/image_recognition_api.h"
+#include "libraries/image_recognition/image_recognition_api.h"
 #include "libraries/model_generator/model_generator_interface.h"
 #include "components/poker/poker_model_def.h"
 

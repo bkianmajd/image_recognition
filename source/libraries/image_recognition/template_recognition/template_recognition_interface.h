@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include "libraries/template_recognition/template_recognition_defs.h"
+#include "libraries/image_recognition/template_recognition/template_recognition_defs.h"
 
 namespace template_recognition {
 

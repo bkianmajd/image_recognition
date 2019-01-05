@@ -1,4 +1,4 @@
-#include "components/image_recognition/image_recognition_api.h"
+#include "libraries/image_recognition/image_recognition_api.h"
 
 #include <iostream>
 
@@ -9,7 +9,7 @@
 namespace image_recognition {
 
 const std::string kDefaultDirectory =
-    "components/image_recognition/test_directory";
+    "libraries/image_recognition/test_directory";
 
 class ImageRecognitionApiTest : public testing::Test {
  public:

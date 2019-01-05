@@ -1,4 +1,4 @@
-#include "libraries/template_recognition/simple/simple_recognition.h"
+#include "libraries/image_recognition/template_recognition/simple/simple_recognition.h"
 
 #include <fstream>
 #include <iostream>
@@ -7,7 +7,7 @@
 #include "google_test/testing_def.h"
 #include "helpers/directory_finder.h"
 #include "helpers/file_manager/file_manager.h"
-#include "libraries/template_recognition/template_recognition_interface.h"
+#include "libraries/image_recognition/template_recognition/template_recognition_interface.h"
 
 namespace template_recognition {
 namespace {

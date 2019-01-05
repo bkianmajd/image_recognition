@@ -1,13 +1,13 @@
-#include "components/image_recognition/image_recognition_api.h"
+#include "libraries/image_recognition/image_recognition_api.h"
 
 #include "gtest/gtest_prod.h"
 #include "helpers/directory_finder.h"
 #include "helpers/file_manager/file_manager.h"
 #include "helpers/memory_helper.hpp"
 #include "libraries/image_file_manager/image_file_manager.h"
-#include "libraries/template_converter/template_converter.h"
-#include "libraries/template_recognition/simple/simple_recognition.h"
-#include "libraries/template_recognition/template_recognition_defs.h"
+#include "libraries/image_recognition/template_converter/template_converter.h"
+#include "libraries/image_recognition/template_recognition/simple/simple_recognition.h"
+#include "libraries/image_recognition/template_recognition/template_recognition_defs.h"
 
 namespace image_recognition {
 namespace {

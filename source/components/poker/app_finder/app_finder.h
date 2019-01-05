@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "components/image_recognition/image_recognition_api.h"
+#include "libraries/image_recognition/image_recognition_api.h"
 #include "libraries/screenshot_creator/screenshot_creator.h"
 
 namespace poker {

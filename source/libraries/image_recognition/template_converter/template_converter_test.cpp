@@ -1,4 +1,4 @@
-#include "libraries/template_converter/template_converter.h"
+#include "libraries/image_recognition/template_converter/template_converter.h"
 
 #include <iostream>
 

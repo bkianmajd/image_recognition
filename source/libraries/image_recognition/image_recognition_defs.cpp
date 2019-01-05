@@ -1,4 +1,4 @@
-#include "components/image_recognition/image_recognition_defs.h"
+#include "libraries/image_recognition/image_recognition_defs.h"
 
 namespace image_recognition {
 
