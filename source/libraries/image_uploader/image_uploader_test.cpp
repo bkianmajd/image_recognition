@@ -5,16 +5,14 @@
 #include "google_test/testing_def.h"
 #include "gtest/gtest.h"
 
-namespace image_recognition {
+namespace image {
 
 class ImageUploaderTest : public testing::Test {
  public:
   ImageUploaderTest()
-      : image_uploader_(nullptr,
-                        helpers::DirectoryFinder(
-                            tester::kTestingDirectoryFromWorkspace,
-                            helpers::DirectoryFinder::ReferenceFrame::
-                                RelativeToWorkspace)) {}
+      : image_uploader_(helpers::CreateDirectoryFinderFromWorkspace(
+            tester::kTestingDirectoryFromWorkspace)) {}
+  ~ImageUploaderTest() = default;
 
  protected:
   ImageUploader image_uploader_;
@@ -27,4 +25,4 @@ TEST_F(ImageUploaderTest, GetImageListTest) {
   EXPECT_GT(image_list.size(), 0);
 }
 
-}  // namespace image_recognition
+}  // namespace image

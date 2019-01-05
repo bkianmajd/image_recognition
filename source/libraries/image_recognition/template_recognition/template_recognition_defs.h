@@ -1,10 +1,12 @@
 #ifndef TEMPLATE_RECOGNITION_TEMPLATE_RECOGNITION_DEFS_
 #define TEMPLATE_RECOGNITION_TEMPLATE_RECOGNITION_DEFS_
 
+#include <string>
+
 namespace recognition {
 
 // template id is a unique identifier
-using TemplateId = int;
+using TemplateId = std::string;
 
 // x is along x axis - left side is 0
 // y is along y axis - bottom is 0

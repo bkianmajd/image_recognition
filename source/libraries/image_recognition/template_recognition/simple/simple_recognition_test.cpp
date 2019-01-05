@@ -13,7 +13,7 @@ namespace recognition {
 namespace {
 
 const std::string kFilePath = "template_recognition/simple/data/";
-const int kTemplateInt = 1;
+const TemplateId kTemplateInt = "1.jpg";
 
 }  // namespace
 

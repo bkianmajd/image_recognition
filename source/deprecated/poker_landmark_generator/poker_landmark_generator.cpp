@@ -38,10 +38,10 @@ PokerLandmarkGenerator::PokerLandmarkGenerator(
   assert(image_recognition_api_.SetBigImage(map_image));
 }
 
-image_recognition::Point PokerLandmarkGenerator::ConvertToPoint(
+recognition::Point PokerLandmarkGenerator::ConvertToPoint(
     const template_recognition::ScreenArea& screen_area, int x_indicator,
     int y_indicator) {
-  image_recognition::Point return_point;
+  recognition::Point return_point;
   return_point.valid = false;
 
   template_recognition::ScreenArea global_screen_area(

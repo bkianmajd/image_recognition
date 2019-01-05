@@ -4,21 +4,20 @@
 #include <memory>
 #include <unordered_map>
 
-#include "libraries/image_recognition/image_recognition_defs.h"
 #include "helpers/directory_finder.h"
 #include "libraries/image_file_manager/image_file_manager_interface.h"
-#include "libraries/image_uploader/image_uploader.h"
+#include "libraries/image_recognition/image_recognition_defs.h"
 #include "libraries/image_recognition/template_recognition/template_recognition_interface.h"
+#include "libraries/image_uploader/image_uploader.h"
 
-namespace image_recognition {
+namespace recognition {
 
 /// Class that acts as the API to easily recognize images and templates. A
 /// template directory is passed into this class. The
 /// directory of jpg images are automatically loaded into the sesion directory.
 class ImageRecognitionApi {
  public:
-  ImageRecognitionApi(const helpers::DirectoryFinder& template_directory,
-                      const helpers::DirectoryFinder& session_directory);
+  explicit ImageRecognitionApi(const helpers::DirectoryFinder& template_directory);
 
   ~ImageRecognitionApi();
 
@@ -33,26 +32,17 @@ class ImageRecognitionApi {
 
  private:
   void RegisterTemplates();
-  bool RegisterTemplate(const std::string& template_image_name);
 
   // The directory of all the template images
   helpers::DirectoryFinder template_directory_;
 
-  // Creates a session directory - for now a static fixed folder
-  helpers::DirectoryFinder session_directory_;
-  std::unique_ptr<ImageFileManagerInterface> session_file_manager_;
-
-  // Uploads all the images into the session directory
-  ImageUploader image_uploader_;
+  // Searches all the images into the session directory
+  image::ImageUploader image_uploader_;
 
   // Template recognition
-  std::unique_ptr<template_recognition::TemplateRecognitionInterface>
-      template_recognition_;
-
-  int last_id_ = 0;
-  std::unordered_map<std::string, int> template_id_map_;
+  std::unique_ptr<TemplateRecognitionInterface> template_recognition_;
 };
 
-}  // namespace image_recognition
+}  // namespace recognition
 
 #endif  // IMAGE_RECOGNITION_API_

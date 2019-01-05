@@ -18,7 +18,7 @@ class IndicatorFinder {
                      int* y_indicator);
 
  private:
-  image_recognition::ImageRecognitionApi image_recognition_api_;
+  recognition::ImageRecognitionApi image_recognition_api_;
 };
 
 }  // namespace poker

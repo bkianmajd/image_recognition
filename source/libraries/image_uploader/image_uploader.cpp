@@ -6,13 +6,11 @@
 
 #include "helpers/file_manager/file_manager.h"
 
-namespace image_recognition {
+namespace image {
 
 ImageUploader::ImageUploader(
-    ImageFileManagerInterface* file_manager_interface,
     const helpers::DirectoryFinder& directory_of_templates)
-    : directory_of_templates_(directory_of_templates),
-      image_file_manager_session_(file_manager_interface) {}
+    : directory_of_templates_(directory_of_templates) {}
 
 void ImageUploader::SearchAndStoreImages() {
   QStringList images = GetImageList();
@@ -35,16 +33,13 @@ bool ImageUploader::Store(const QString& file_name) {
     return false;
   }
 
-  if (!image_file_manager_session_->StoreImage(file_name.toStdString(),
-                                               raw_data)) {
-    std::cerr << "Failed to store image " << abs_path_image << std::endl;
-    return false;
-  }
+  Image& image = raw_data;
+  image_map_[file_name.toStdString()] = image;
 
   return true;
 }
 
-QStringList ImageUploader::GetImageList() {
+QStringList ImageUploader::GetImageList() const {
   const QString path(directory_of_templates_.GetAbsPath().c_str());
 
   QDir directory(path);
@@ -60,13 +55,28 @@ const std::vector<std::string>& ImageUploader::StoredImages() const {
 }
 
 void ImageUploader::RemoveAllImages() {
-  QStringList images = GetImageList();
-  foreach (QString file_name, images) {
-    if (!image_file_manager_session_->RemoveImage(file_name.toStdString())) {
-      std::cerr << "failed to remove image " << file_name.toStdString()
-                << std::endl;
-    }
-  }
+  stored_images_.clear();
+  image_map_.clear();
 }
 
-}  // namespace image_recognition
+const Image& ImageUploader::GetImage(const std::string& image_name) const {
+  auto it = image_map_.find(image_name);
+  if (it == image_map_.end()) {
+    std::cerr << "asking for incorrect image " << image_name.c_str()
+              << std::endl;
+    return error_image_;
+  }
+
+  return it->second;
+}
+
+std::vector<std::string> ImageUploader::SearchImages() const {
+  std::vector<std::string> images;
+  QStringList list = GetImageList();
+  foreach (QString file_name, list) {
+    images.push_back(file_name.toStdString());
+  }
+  return images;
+}
+
+}  // namespace image

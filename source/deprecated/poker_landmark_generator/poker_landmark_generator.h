@@ -24,12 +24,12 @@ class PokerLandmarkGenerator {
       const std::vector<char>& screenshot, int x_indicator, int y_indicator);
 
  private:
-  image_recognition::Point ConvertToPoint(
+  recognition::Point ConvertToPoint(
       const template_recognition::ScreenArea& screen_area, int x_indicator,
       int y_indicator);
 
   const LandmarkRequestDataArray landmark_request_data_array_;
-  image_recognition::ImageRecognitionApi image_recognition_api_;
+  recognition::ImageRecognitionApi image_recognition_api_;
 
   // For getting template images
   template_recognition::ScreenshotCreator screenshot_creator_;

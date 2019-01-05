@@ -1,6 +1,6 @@
 #include "libraries/image_recognition/image_recognition_defs.h"
 
-namespace image_recognition {
+namespace recognition {
 
 std::ostream& operator<<(std::ostream& os, const Point& point) {
   if (point.valid) {
@@ -12,4 +12,4 @@ std::ostream& operator<<(std::ostream& os, const Point& point) {
   return os;
 }
 
-}  // image_recognition
+}  // recognition

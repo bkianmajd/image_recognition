@@ -17,7 +17,7 @@ namespace recognition {
 class SimpleRecognition : public TemplateRecognitionInterface {
  public:
   SimpleRecognition() = default;
-  ~SimpleRecognition() {}
+  ~SimpleRecognition() override = default;
 
   bool RegisterImage(const image::Image& image) override;
 

@@ -27,8 +27,8 @@ class CardReader {
 
   helpers::DirectoryFinder template_directory_;
   template_recognition::ScreenshotCreator screenshot_creator_;
-  image_recognition::ImageRecognitionApi suit_recognition_;
-  image_recognition::ImageRecognitionApi value_recognition_;
+  recognition::ImageRecognitionApi suit_recognition_;
+  recognition::ImageRecognitionApi value_recognition_;
   std::vector<char> value_;
   std::vector<char> suit_;
 };

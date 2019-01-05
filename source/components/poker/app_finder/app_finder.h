@@ -16,7 +16,7 @@ class AppFinder {
 
  private:
   // For finding landmarks of the application
-  image_recognition::ImageRecognitionApi image_recongition_;
+  recognition::ImageRecognitionApi image_recongition_;
 
   // For taking a screenshot of the subset
   template_recognition::ScreenshotCreator screenshot_creator_;

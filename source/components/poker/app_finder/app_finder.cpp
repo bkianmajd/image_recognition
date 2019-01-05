@@ -4,7 +4,6 @@
 
 namespace poker {
 namespace {
-const std::string kSessionDirectory = "components/poker/app_finder/session";
 const std::string kTemplateDirectory = "components/poker/app_finder/template";
 const std::string kTemplateName = "app_landmark.jpg";
 
@@ -16,13 +15,9 @@ constexpr int kYArea = 583;
 }
 
 AppFinder::AppFinder()
-    : image_recongition_(
-          helpers::DirectoryFinder(
-              kTemplateDirectory,
-              helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace),
-          helpers::DirectoryFinder(
-              kSessionDirectory,
-              helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace)) {}
+    : image_recongition_(helpers::DirectoryFinder(
+          kTemplateDirectory,
+          helpers::DirectoryFinder::ReferenceFrame::RelativeToWorkspace)) {}
 
 std::vector<char> AppFinder::Narrow(const std::vector<char>& screenshot) {
   if (screenshot.size() == 0) {
@@ -30,8 +25,7 @@ std::vector<char> AppFinder::Narrow(const std::vector<char>& screenshot) {
   }
 
   image_recongition_.SetBigImage(screenshot);
-  image_recognition::Point point =
-      image_recongition_.TemplateMatch(kTemplateName);
+  recognition::Point point = image_recongition_.TemplateMatch(kTemplateName);
 
   // The poker application was not found
   if (!point.valid) {

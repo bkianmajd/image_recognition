@@ -25,6 +25,7 @@ class TemplateRecognitionMock : public TemplateRecognitionInterface {
   bool RegisterTemplate(TemplateId template_id,
                         const image::Image& image) override {
     (void)image;
+    (void)template_id;
     return set_value_;
   }
 
@@ -33,6 +34,9 @@ class TemplateRecognitionMock : public TemplateRecognitionInterface {
     (void)image_id;
     ProbabilityPoint point;
     point.isValid = set_value_;
+    std::vector<ProbabilityPoint> points;
+    points.push_back(point);
+    return points;
   }
 
   bool set_value_ = true;

@@ -17,9 +17,6 @@ const std::string kTemplateName = "template.jpg";
 
 const std::string kTemplateDirectory =
     "components/poker/poker_game_controller/landmark_finder/map_images";
-const std::string kSessionDirectory =
-    "components/poker/poker_game_controller/landmark_finder/card_reader/"
-    "session_directory";
 
 const std::string kSuitMap = "suit_map.jpg";
 const std::string kValueMap = "value_map.jpg";
@@ -31,10 +28,8 @@ CardReader::CardReader()
           helpers::CreateDirectoryFinderFromWorkspace(kTemplateDirectory)),
       suit_recognition_(
           helpers::CreateDirectoryFinderFromWorkspace(kTemplateDirectory),
-          helpers::CreateDirectoryFinderFromWorkspace(kSessionDirectory)),
       value_recognition_(
-          helpers::CreateDirectoryFinderFromWorkspace(kTemplateDirectory),
-          helpers::CreateDirectoryFinderFromWorkspace(kSessionDirectory)) {
+          helpers::CreateDirectoryFinderFromWorkspace(kTemplateDirectory)) {
   std::vector<char> big_image_bytes = helpers::FileManager::ReadFile(
       template_directory_.GetAbsPathOfTargetFile(kSuitMap));
   // TODO() : Assert vector size here
@@ -59,7 +54,7 @@ Card CardReader::ConvertToCard(const std::vector<char>& card_bytes) {
 
 Suit CardReader::FindSuit() {
   suit_recognition_.AddTemplateImage(suit_, kTemplateName);
-  image_recognition::Point point =
+  recognition::Point point =
       suit_recognition_.TemplateMatch(kTemplateName);
   if (!point.valid) {
     return SUIT_UNKNOWN;
@@ -80,7 +75,7 @@ Suit CardReader::FindSuit() {
 CardValue CardReader::FindValue() {
   value_recognition_.AddTemplateImage(suit_, kTemplateName);
   // Get the pixel location
-  image_recognition::Point point =
+  recognition::Point point =
       value_recognition_.TemplateMatch(kTemplateName);
   // Ignore the pixel if its not valid
   if (!point.valid) {

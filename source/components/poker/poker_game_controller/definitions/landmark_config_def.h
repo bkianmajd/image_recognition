@@ -30,8 +30,8 @@ struct LandmarkRequestData {
 
 // This returns the x and y location of the template image relative to the map
 struct LandmarkResponseData {
-  image_recognition::Point left_card;
-  image_recognition::Point right_card;
+  recognition::Point left_card;
+  recognition::Point right_card;
 };
 
 using LandmarkRequestDataArray = std::array<LandmarkRequestData, LANDMARK_SIZE>;

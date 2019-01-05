@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-namespace image_recognition {
+namespace recognition {
 
 struct Point {
   int x;  // pixel location
@@ -13,6 +13,6 @@ struct Point {
 
 std::ostream& operator<<(std::ostream& os, const Point& point);
 
-}  // namespace image_recognition
+}  // namespace recognition
 
 #endif  // IMAGE_RECOGNITION_DEFS_H_
