@@ -25,6 +25,7 @@ class ImageUploader {
 
   void RemoveAllImages();
 
+  /// returns the image names that are stored
   const std::vector<std::string>& StoredImages() const;
 
   const Image& GetImage(const std::string& image_name) const;

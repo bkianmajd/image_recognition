@@ -1,8 +1,10 @@
 !contains(included_modules, $$PWD ) {
 included_modules += $$PWD
 HEADERS += $${WORKSPACE}/libraries/image_comparer/comparer.h
+HEADERS += $${WORKSPACE}/libraries/image_comparer/compare_algorithm.h
 
 SOURCES += $${WORKSPACE}/libraries/image_comparer/comparer.cpp
+SOURCES += $${WORKSPACE}/libraries/image_comparer/compare_algorithm.cpp
 
 LIBS += /usr/local/lib/libopencv_core.so \
         /usr/local/lib/libopencv_core.so.3.4 \
@@ -12,4 +14,6 @@ LIBS += /usr/local/lib/libopencv_core.so \
 
 include($${WORKSPACE}/helpers/file_manager/file_manager.pri)
 include($${WORKSPACE}/libraries/image_def/utility/utility.pri)
+include($${WORKSPACE}/libraries/image_uploader/image_uploader.pri)
+include($${WORKSPACE}/helpers/helpers.pri)
 }
