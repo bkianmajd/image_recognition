@@ -46,6 +46,9 @@ std::ostream& operator<<(std::ostream& ss, Card card) {
     case SUIT_HEART:
       ss << "H";
       break;
+    case SUIT_HIDDEN:
+      ss << "HIDDEN";
+      break;
   }
   return ss;
 }

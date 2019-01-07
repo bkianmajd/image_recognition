@@ -7,4 +7,6 @@ SOURCES += $${WORKSPACE}/components/poker/poker_game_controller/landmark_finder/
 include($${WORKSPACE}/libraries/screenshot_creator/screenshot_creator.pri)
 include($${WORKSPACE}/libraries/image_recognition/image_recognition.pri)
 include($${WORKSPACE}/components/poker/entities/entities.pri)
+include($${WORKSPACE}/helpers/helpers.pri)
+
 }

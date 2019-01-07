@@ -12,4 +12,4 @@ LIBS += $${WORKSPACE}/external_libraries/googletest/lib/libgtest.a
 SOURCES += $${WORKSPACE}/google_test/main.cpp
 SOURCES += $${WORKSPACE}/libraries/image_trainer/trainer_test.cpp
 
-include($${WORKSPACE}/libraries/image_trainer/trainer.pri)
+include($${WORKSPACE}/libraries/image_trainer/image_trainer.pri)

@@ -37,8 +37,8 @@ bool Compare(const cv::Mat& mat_one, const cv::Mat& mat_two) {
 
   for (int i = 0; i < mat_one.rows; ++i) {
     for (int j = 0; j < mat_one.cols; ++j) {
-      const cv::Vec3b& intensity_one = mat_one.at<cv::Vec3b>(cv::Point(i, j));
-      const cv::Vec3b& intensity_two = mat_two.at<cv::Vec3b>(cv::Point(i, j));
+      const cv::Vec3b& intensity_one = mat_one.at<cv::Vec3b>(cv::Point(j, i));
+      const cv::Vec3b& intensity_two = mat_two.at<cv::Vec3b>(cv::Point(j, i));
       if (!CompareIntensity(intensity_one, intensity_two)) {
         return false;
       }

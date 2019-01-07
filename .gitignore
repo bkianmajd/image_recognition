@@ -1,6 +1,7 @@
 build/*
 builds/*
 **/ignore_images/*
+**/ignore_cards/*
 *.user
 *.user.4.8-pre1
 *.autosave

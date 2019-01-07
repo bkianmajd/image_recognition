@@ -12,4 +12,4 @@ LIBS += $${WORKSPACE}/external_libraries/googletest/lib/libgtest.a
 SOURCES += $${WORKSPACE}/google_test/main.cpp
 SOURCES += $${WORKSPACE}/libraries/image_pipeline/pipeline_test.cpp
 
-include($${WORKSPACE}/libraries/image_pipeline/pipeline.pri)
+include($${WORKSPACE}/libraries/image_pipeline/image_pipeline.pri)

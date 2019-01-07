@@ -1,5 +1,6 @@
 #include "components/poker/poker_game_controller/landmark_finder/card_reader/card_reader.h"
 
+#include "helpers/directory_finder.h"
 #include "helpers/file_manager/file_manager.h"
 
 namespace poker {
@@ -27,7 +28,7 @@ CardReader::CardReader()
     : template_directory_(
           helpers::CreateDirectoryFinderFromWorkspace(kTemplateDirectory)),
       suit_recognition_(
-          helpers::CreateDirectoryFinderFromWorkspace(kTemplateDirectory),
+          helpers::CreateDirectoryFinderFromWorkspace(kTemplateDirectory)),
       value_recognition_(
           helpers::CreateDirectoryFinderFromWorkspace(kTemplateDirectory)) {
   std::vector<char> big_image_bytes = helpers::FileManager::ReadFile(
@@ -54,8 +55,7 @@ Card CardReader::ConvertToCard(const std::vector<char>& card_bytes) {
 
 Suit CardReader::FindSuit() {
   suit_recognition_.AddTemplateImage(suit_, kTemplateName);
-  recognition::Point point =
-      suit_recognition_.TemplateMatch(kTemplateName);
+  recognition::Point point = suit_recognition_.TemplateMatch(kTemplateName);
   if (!point.valid) {
     return SUIT_UNKNOWN;
   }
@@ -75,8 +75,7 @@ Suit CardReader::FindSuit() {
 CardValue CardReader::FindValue() {
   value_recognition_.AddTemplateImage(suit_, kTemplateName);
   // Get the pixel location
-  recognition::Point point =
-      value_recognition_.TemplateMatch(kTemplateName);
+  recognition::Point point = value_recognition_.TemplateMatch(kTemplateName);
   // Ignore the pixel if its not valid
   if (!point.valid) {
     return CARD_VALUE_UNKNOWN;

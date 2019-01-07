@@ -30,6 +30,19 @@ class ComparerTest : public testing::Test {
 };
 TEST_F(ComparerTest, ConstructDestruct) {}
 
+TEST_F(ComparerTest, CompareImageTest2) {
+  Image image = helpers::FileManager::ReadFile(
+      directory_finder_.GetAbsPathOfTargetFile("img_a.jpg"));
+
+  ASSERT_GT(image.size(), 0);
+  EXPECT_TRUE(comparer_.LoadCache());
+
+  // Expect to see img_1.jpg
+  std::string found_name = comparer_.FindImageInDirectory(image);
+  std::cout << found_name << std::endl;
+  EXPECT_EQ("similar_img_a.jpg", found_name);
+}
+
 TEST_F(ComparerTest, CompareImageTest) {
   Image image = helpers::FileManager::ReadFile(
       directory_finder_.GetAbsPathOfTargetFile(kFileName1));
