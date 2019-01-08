@@ -18,7 +18,7 @@ std::string Comparer::FindImageInDirectory(const Image& image) {
 
   for (index = 0; index < matricies_.size(); ++index) {
     // Found match
-    if (Compare(matrix, matricies_[index])) {
+    if (CompareWithPercentage(matrix, matricies_[index])) {
       // the index corresponds to the image name
       const std::vector<std::string>& image_names =
           image_uplodaer_.StoredImages();

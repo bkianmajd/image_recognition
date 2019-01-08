@@ -8,6 +8,8 @@ namespace image {
 namespace {
 constexpr int kStartFrequency = 1;
 constexpr char kSplitIndicator = '_';
+
+constexpr int kFrequencyThresholdLimit = 1000;
 }  // namespace
 
 Trainer::Trainer(helpers::DirectoryFinder session_directory)
@@ -15,39 +17,52 @@ Trainer::Trainer(helpers::DirectoryFinder session_directory)
       comparer_(session_directory),
       last_image_name_(0) {}
 
-void Trainer::AddImage(const Image& image) {
+bool Trainer::AddImage(const Image& image) {
   comparer_.LoadCache();
   std::string file_name = comparer_.FindImageInDirectory(image);
   if (file_name.empty()) {
     RecordWithNewFileName(image);
-    return;
+    return false;
   }
   AddOneFrequency(image, file_name);
+  return true;
 }
 
 void Trainer::RecordWithNewFileName(const Image& image) {
   last_image_name_++;
-  std::string file_name = CreateFileName(kStartFrequency, last_image_name_);
+  std::string file_name = CreateFileName(last_image_name_, kStartFrequency);
   helpers::FileManager::StoreFile(
       image.data(), image.size(),
       session_directory_.GetAbsPathOfTargetFile(file_name));
 }
 
-std::string Trainer::CreateFileName(int frequency, int image_name) const {
+std::string Trainer::CreateFileName(int image_name, int frequency) const {
   // File name is frequency_imageName.jpg
   std::stringstream ss;
-  ss << frequency << kSplitIndicator << image_name << ".jpg";
+  ss << image_name << kSplitIndicator << frequency << ".jpg";
+  return ss.str();
+}
+
+std::string Trainer::CreateFileName(const std::string& image_name,
+                                    int frequency) const {
+  // File name is frequency_imageName.jpg
+  std::stringstream ss;
+  ss << image_name << kSplitIndicator << frequency << ".jpg";
   return ss.str();
 }
 
 void Trainer::AddOneFrequency(const Image& image, const FileName& file_name) {
   // Find the new file name
   std::pair<std::string, std::string> split = SplitString(file_name);
-  int frequency = ConvertStringToInt(split.first);
+  int frequency = ConvertStringToInt(split.second);
   frequency++;
 
-  int image_name = ConvertStringToInt(split.second);
-  std::string new_file_name = CreateFileName(frequency, image_name);
+  // Limit the recording
+  if (frequency > kFrequencyThresholdLimit) {
+    return;
+  }
+
+  std::string new_file_name = CreateFileName(split.first, frequency);
 
   // Delete the file
   helpers::FileManager::DeleteFile(

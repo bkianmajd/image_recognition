@@ -9,6 +9,7 @@
 #include "components/poker/poker_game_controller/landmark_finder/table_locator/table_locator.h"
 #include "components/poker/poker_game_controller/poker_game_controller_interface.h"
 #include "helpers/directory_finder.h"
+#include "libraries/image_def/image_def.h"
 #include "libraries/image_pipeline/pipeline.h"
 #include "libraries/image_trainer/trainer.h"
 #include "libraries/screenshot_creator/screenshot_creator.h"
@@ -30,6 +31,9 @@ class TrainingGameController : public PokerGameControllerInterface {
   void RecordCards(const std::vector<char>& big_image_raw_data);
   void TakeScreenshots(const std::vector<char>& big_image_raw_data);
   void ReadCards(const std::vector<char>& big_image_raw_data);
+
+  // Return true if the card was recognized already
+  bool AddCardToTrainer(const image::Image& image);
 
   helpers::DirectoryFinder directory_finder_;
   int image_counter_;

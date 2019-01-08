@@ -9,7 +9,7 @@
 
 namespace image {
 namespace {
-constexpr int kThreshold = 100;
+constexpr int kThreshold = 110;
 
 void FlattenColors(cv::Vec3b* vec) {
   if (vec->val[kBlueIndex] + vec->val[kGreenIndex] + vec->val[kRedIndex] >

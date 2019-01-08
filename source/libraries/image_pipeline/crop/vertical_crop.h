@@ -9,11 +9,15 @@ namespace image {
 
 // Takes a single image and splits it into several images defined on some edge
 // detected limits
-std::vector<cv::Mat> VerticalCrop(const cv::Mat& img);
+std::vector<cv::Mat> SingleCrop(const cv::Mat& img);
 
 // Takes several images and splits it into several more images defined on some
 // edge detected limits
 void VerticalCrop(std::vector<cv::Mat>* img_vector);
+
+void TopLeftAlign(cv::Mat* img_vector);
+
+void TopLeftAlign(std::vector<cv::Mat>* img_vector);
 
 }  // namespace image
 

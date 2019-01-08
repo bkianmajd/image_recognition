@@ -9,7 +9,8 @@ namespace image {
 namespace {
 
 constexpr bool debug = false;
-constexpr float kThreshold = 5.0;
+constexpr float kThreshold = 50.0;
+constexpr double kPassPercentageThreshold = .95;
 
 inline bool CompareIntensity(const cv::Vec3b& intensity_one,
                              const cv::Vec3b& intensity_two) {
@@ -46,6 +47,31 @@ bool Compare(const cv::Mat& mat_one, const cv::Mat& mat_two) {
   }
 
   return true;
+}
+
+bool CompareWithPercentage(const cv::Mat& mat_one, const cv::Mat& mat_two) {
+  if (mat_one.rows != mat_two.rows) {
+    return false;
+  }
+  if (mat_one.cols != mat_two.cols) {
+    return false;
+  }
+
+  int total = 0;
+  double fail_counter = 0;
+  for (int i = 0; i < mat_one.rows; ++i) {
+    for (int j = 0; j < mat_one.cols; ++j) {
+      total++;
+      const cv::Vec3b& intensity_one = mat_one.at<cv::Vec3b>(cv::Point(j, i));
+      const cv::Vec3b& intensity_two = mat_two.at<cv::Vec3b>(cv::Point(j, i));
+      if (!CompareIntensity(intensity_one, intensity_two)) {
+        fail_counter++;
+      }
+    }
+  }
+
+  double fail_percentage = fail_counter / static_cast<double>(total);
+  return (1.0 - fail_percentage) > kPassPercentageThreshold;
 }
 
 }  // namespace image

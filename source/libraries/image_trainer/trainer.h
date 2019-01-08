@@ -15,7 +15,9 @@ class Trainer {
  public:
   explicit Trainer(helpers::DirectoryFinder session_directory);
 
-  void AddImage(const Image& image);
+  /// Returns true if the image was already recognized
+  /// False if the image was new
+  bool AddImage(const Image& image);
 
  private:
   FRIEND_TEST(TrainerTest, SplitTest);
@@ -29,7 +31,8 @@ class Trainer {
   void AddOneFrequency(const Image& image, const FileName& file_name);
 
   int ConvertStringToInt(const std::string& str) const;
-  std::string CreateFileName(int frequency, int image_name) const;
+  std::string CreateFileName(int image_name, int frequency) const;
+  std::string CreateFileName(const std::string& image_name, int frequency) const;
   std::pair<std::string, std::string> SplitString(const std::string& str) const;
 
   const helpers::DirectoryFinder session_directory_;

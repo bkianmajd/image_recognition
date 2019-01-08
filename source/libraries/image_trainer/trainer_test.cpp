@@ -48,7 +48,7 @@ TEST_F(TrainerTest, ConvertStringToIntTest) {
 
 TEST_F(TrainerTest, IntegrationTest) {
   Image image = helpers::FileManager::ReadFile(
-      test_directory_.GetAbsPathOfTargetFile("input.jpg"));
+      test_directory_.GetAbsPathOfTargetFile("eight-hearts-r1_1.jpg"));
   ASSERT_GT(image.size(), 0);
 
   trainer_.AddImage(image);

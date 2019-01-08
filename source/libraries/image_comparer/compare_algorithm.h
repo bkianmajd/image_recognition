@@ -10,6 +10,8 @@ namespace image {
 
 bool Compare(const cv::Mat& mat_one, const cv::Mat& mat_two);
 
+bool CompareWithPercentage(const cv::Mat& mat_one, const cv::Mat& mat_two);
+
 }  // namespace image
 
 #endif  // COMPARE_ALGORITHM_H_

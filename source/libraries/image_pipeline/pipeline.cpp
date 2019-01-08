@@ -2,9 +2,9 @@
 
 #include <iostream>
 
+#include "libraries/image_def/utility/utility.h"
 #include "libraries/image_pipeline/crop/vertical_crop.h"
 #include "libraries/image_pipeline/filter/noise_reducer.h"
-#include "libraries/image_def/utility/utility.h"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 
@@ -32,6 +32,9 @@ std::vector<Image> Pipeline::Run(const Image& image) {
         break;
       case PipelineType::VERTICAL_CROPPING:
         VerticalCrop(&matrix_vector);
+        break;
+      case PipelineType::TOP_LEFT_ALIGNMENT:
+        TopLeftAlign(&matrix_vector);
         break;
       default:
         std::cerr << "type not handled " << static_cast<int>(type) << std::endl;

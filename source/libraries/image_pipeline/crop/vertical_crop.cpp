@@ -57,7 +57,7 @@ cv::Mat ConvertRangeToMatrix(const Range& range, const cv::Mat& mat) {
 
 }  // namespace
 
-std::vector<cv::Mat> VerticalCrop(const cv::Mat& img) {
+std::vector<cv::Mat> SingleCrop(const cv::Mat& img) {
   std::vector<cv::Mat> return_vector;
 
   std::vector<Range> ranges;
@@ -92,13 +92,28 @@ void VerticalCrop(std::vector<cv::Mat>* img_vector) {
   std::vector<cv::Mat> return_vector;
 
   for (const cv::Mat& mat : *img_vector) {
-    std::vector<cv::Mat> cropped_matricies = VerticalCrop(mat);
+    std::vector<cv::Mat> cropped_matricies = SingleCrop(mat);
     for (cv::Mat& cropped_mat : cropped_matricies) {
       return_vector.push_back(std::move(cropped_mat));
     }
   }
 
   std::swap(return_vector, *img_vector);
+}
+
+void TopLeftAlign(cv::Mat* img) {
+  int start_index = 0;
+  // Find the start of the dark image
+  start_index = FindDarkIndexCol(start_index, *img);
+  Range range = std::make_pair(start_index, kEnd);
+  cv::Mat matrix = ConvertRangeToMatrix(range, *img);
+  std::swap(matrix, *img);
+}
+
+void TopLeftAlign(std::vector<cv::Mat>* img_vector) {
+  for (cv::Mat& mat : *img_vector) {
+    TopLeftAlign(&mat);
+  }
 }
 
 }  // namespace image

@@ -18,6 +18,8 @@ enum class PipelineType {
   HORIZONTAL_CROPPING,
   // Splits images into several images
   VERTICAL_CROPPING,
+  // Alingns the top left of the image
+  TOP_LEFT_ALIGNMENT,
 };
 
 class Pipeline {
