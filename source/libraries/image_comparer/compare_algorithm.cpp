@@ -10,7 +10,7 @@ namespace {
 
 constexpr bool debug = false;
 constexpr float kThreshold = 50.0;
-constexpr double kPassPercentageThreshold = .95;
+constexpr double kPassPercentageThreshold = .92;
 
 inline bool CompareIntensity(const cv::Vec3b& intensity_one,
                              const cv::Vec3b& intensity_two) {
@@ -71,6 +71,7 @@ bool CompareWithPercentage(const cv::Mat& mat_one, const cv::Mat& mat_two) {
   }
 
   double fail_percentage = fail_counter / static_cast<double>(total);
+  // std::cout << "fail percentage " << fail_percentage << std::endl;
   return (1.0 - fail_percentage) > kPassPercentageThreshold;
 }
 

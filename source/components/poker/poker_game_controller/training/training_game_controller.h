@@ -28,7 +28,8 @@ class TrainingGameController : public PokerGameControllerInterface {
   bool ProcessNextWorkflow(const GameStatus& game_status) override;
 
  private:
-  void RecordCards(const std::vector<char>& big_image_raw_data);
+  void RecordTable(const std::vector<char>& big_image_raw_data);
+  void RecordPlayers(const std::vector<char>& big_image_raw_data);
   void TakeScreenshots(const std::vector<char>& big_image_raw_data);
   void ReadCards(const std::vector<char>& big_image_raw_data);
 

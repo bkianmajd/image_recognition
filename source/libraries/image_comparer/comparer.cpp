@@ -16,12 +16,15 @@ std::string Comparer::FindImageInDirectory(const Image& image) {
   cv::Mat matrix = ConvertImageToMatrix(image);
   std::size_t index;
 
+  // the index corresponds to the image name
+  const std::vector<std::string>& image_names = image_uplodaer_.StoredImages();
+
   for (index = 0; index < matricies_.size(); ++index) {
+    // print out image name for debugging
+    // std::cout << image_names[index] << std::endl;
+
     // Found match
     if (CompareWithPercentage(matrix, matricies_[index])) {
-      // the index corresponds to the image name
-      const std::vector<std::string>& image_names =
-          image_uplodaer_.StoredImages();
       return image_names[index];
     }
     // Didn't find match

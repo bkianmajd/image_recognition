@@ -20,11 +20,12 @@ enum Mode {
   MODE_UNKNOWN = 0,
   MODE_SCREENSHOT,
   MODE_READ_CARDS,
-  MODE_RECORD_CARDS,
+  MODE_RECORD_TABLE,
+  MODE_RECORD_PLAYERS,
 };
 
 constexpr int kTableSize = 6;
-constexpr Mode kMode = MODE_RECORD_CARDS;
+constexpr Mode kMode = MODE_RECORD_PLAYERS;
 const std::chrono::milliseconds kPrintPeriod = std::chrono::milliseconds(500);
 
 }  // namespace
@@ -38,7 +39,7 @@ TrainingGameController::TrainingGameController()
       table_locator_(kTableSize),
       trainer_(
           helpers::CreateDirectoryFinderFromWorkspace(kCardRecordDirectory)) {
-  if (kMode == MODE_RECORD_CARDS) {
+  if (kMode == MODE_RECORD_PLAYERS) {
     directory_finder_ =
         helpers::CreateDirectoryFinderFromWorkspace(kCardRecordDirectory);
   }
@@ -59,15 +60,15 @@ void TrainingGameController::UpdateBigImage(
     case MODE_READ_CARDS:
       ReadCards(big_image_raw_data);
       break;
-    case MODE_RECORD_CARDS:
-      RecordCards(big_image_raw_data);
+    case MODE_RECORD_PLAYERS:
+      RecordPlayers(big_image_raw_data);
       break;
     default:
       break;
   }
 }
 
-void TrainingGameController::RecordCards(
+void TrainingGameController::RecordTable(
     const std::vector<char>& big_image_raw_data) {
   screenshot_creator_.Capture(big_image_raw_data);
 
@@ -82,6 +83,11 @@ void TrainingGameController::RecordCards(
       TakeScreenshots(big_image_raw_data);
     }
   }
+}
+
+void TrainingGameController::RecordPlayers(
+    const std::vector<char>& big_image_raw_data) {
+  screenshot_creator_.Capture(big_image_raw_data);
 
   // Record player cards
   for (PlayerLocator& player_locator : player_locator_) {

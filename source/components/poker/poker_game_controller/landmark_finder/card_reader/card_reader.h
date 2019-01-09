@@ -8,6 +8,8 @@
 #include "gtest/gtest_prod.h"
 #include "helpers/directory_finder.h"
 #include "libraries/screenshot_creator/screenshot_creator.h"
+#include "libraries/image_comparer/comparer.h"
+#include "libraries/image_pipeline/pipeline.h"
 
 namespace poker {
 class CardReaderTest;
@@ -28,7 +30,8 @@ class CardReader {
   helpers::DirectoryFinder template_directory_;
   template_recognition::ScreenshotCreator screenshot_creator_;
   recognition::ImageRecognitionApi suit_recognition_;
-  recognition::ImageRecognitionApi value_recognition_;
+  image::Pipeline pipeline_;
+  image::Comparer value_comparer_;
   std::vector<char> value_;
   std::vector<char> suit_;
 };
