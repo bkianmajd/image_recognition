@@ -31,9 +31,9 @@ std::pair<int, int> GetSixPlayerReference(PlayerLocation player_location) {
     case PLAYERLOC_PLAYER_ZERO:
       return std::make_pair(x_axis_second - 1, 381);
     case PLAYERLOC_PLAYER_ONE:
-      return std::make_pair(x_axis_first, y_axis_first);
-    case PLAYERLOC_PLAYER_TWO:
       return std::make_pair(x_axis_first, y_axis_second);
+    case PLAYERLOC_PLAYER_TWO:
+      return std::make_pair(x_axis_first, y_axis_first);
     case PLAYERLOC_PLAYER_THREE:
       return std::make_pair(x_axis_second, 53);
     case PLAYERLOC_PLAYER_FOUR:

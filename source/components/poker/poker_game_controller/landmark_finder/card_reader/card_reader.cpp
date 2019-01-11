@@ -58,6 +58,13 @@ Card CardReader::ConvertToCard(const std::vector<char>& card_bytes) {
     card.value = CARD_VALUE_HIDDEN;
   }
 
+  // If the value is unknown then the suit must be unknown
+  if (card.value == CARD_VALUE_UNKNOWN) {
+    card.suit = SUIT_UNKNOWN;
+  }
+
+  // TODO (do sanity checks here and return error)
+
   return card;
 }
 

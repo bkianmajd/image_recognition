@@ -25,7 +25,7 @@ enum Mode {
 };
 
 constexpr int kTableSize = 6;
-constexpr Mode kMode = MODE_RECORD_PLAYERS;
+constexpr Mode kMode = MODE_RECORD_TABLE;
 const std::chrono::milliseconds kPrintPeriod = std::chrono::milliseconds(500);
 
 }  // namespace
@@ -39,7 +39,8 @@ TrainingGameController::TrainingGameController()
       table_locator_(kTableSize),
       trainer_(
           helpers::CreateDirectoryFinderFromWorkspace(kCardRecordDirectory)) {
-  if (kMode == MODE_RECORD_PLAYERS) {
+  // Record big image screenshots in the card record directory
+  if (kMode == MODE_RECORD_PLAYERS || kMode == MODE_RECORD_TABLE) {
     directory_finder_ =
         helpers::CreateDirectoryFinderFromWorkspace(kCardRecordDirectory);
   }
@@ -63,7 +64,12 @@ void TrainingGameController::UpdateBigImage(
     case MODE_RECORD_PLAYERS:
       RecordPlayers(big_image_raw_data);
       break;
+    case MODE_RECORD_TABLE:
+      RecordTable(big_image_raw_data);
+      RecordPlayers(big_image_raw_data);
+      break;
     default:
+      std::cerr << "mode not handled" << std::endl;
       break;
   }
 }
@@ -141,31 +147,37 @@ void TrainingGameController::ReadCards(
     const std::vector<char>& big_image_raw_data) {
   landmark_finder_.UpdateBigImage(big_image_raw_data);
 
-  last_print_time_ = std::chrono::system_clock::now();
-  if (std::chrono::system_clock::now() - last_print_time_ > kPrintPeriod) {
-    last_print_time_ = std::chrono::system_clock::now();
+  auto start = std::chrono::system_clock::now();
+  // if (std::chrono::system_clock::now() - last_print_time_ > kPrintPeriod) {
+  //  last_print_time_ = std::chrono::system_clock::now();
 
-    ClearScreen();
-    std::cout << "Player zero " << std::endl;
-    std::cout
-        << "L: "
-        << landmark_finder_.FindLeftCard(PlayerLocation::PLAYERLOC_PLAYER_ZERO)
-        << " R: "
-        << landmark_finder_.FindRightCard(PlayerLocation::PLAYERLOC_PLAYER_ZERO)
-        << std::endl;
-    std::cout << "Dealer cards " << std::endl;
-    std::cout << "1: "
-              << landmark_finder_.FindDealerCard(DealerLocation::DEALER_ONE)
-              << " 2: "
-              << landmark_finder_.FindDealerCard(DealerLocation::DEALER_TWO)
-              << " 3: "
-              << landmark_finder_.FindDealerCard(DealerLocation::DEALER_THREE)
-              << " 4: "
-              << landmark_finder_.FindDealerCard(DealerLocation::DEALER_FOUR)
-              << " 5: "
-              << landmark_finder_.FindDealerCard(DealerLocation::DEALER_FIVE)
+  ClearScreen();
+  std::cout << "Players " << std::endl;
+  for (int i = 0; i < kTableSize; ++i) {
+    std::cout << "L" << i << " "
+              << landmark_finder_.FindLeftCard(static_cast<PlayerLocation>(i))
+              << " ";
+    std::cout << " "
+              << landmark_finder_.FindRightCard(static_cast<PlayerLocation>(i))
               << std::endl;
   }
+
+  std::cout << "Dealer cards " << std::endl;
+  std::cout << "1: "
+            << landmark_finder_.FindDealerCard(DealerLocation::DEALER_ONE)
+            << "  "
+            << landmark_finder_.FindDealerCard(DealerLocation::DEALER_TWO)
+            << "  "
+            << landmark_finder_.FindDealerCard(DealerLocation::DEALER_THREE)
+            << "  "
+            << landmark_finder_.FindDealerCard(DealerLocation::DEALER_FOUR)
+            << "  "
+            << landmark_finder_.FindDealerCard(DealerLocation::DEALER_FIVE)
+            << std::endl;
+  auto now = std::chrono::system_clock::now();
+  std::chrono::milliseconds ms =
+      std::chrono::duration_cast<std::chrono::milliseconds>(now - start);
+  std::cout << "run time(ms) " << ms.count() << std::endl;
 }
 
 bool TrainingGameController::ProcessNextWorkflow(

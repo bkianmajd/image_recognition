@@ -10,7 +10,7 @@ namespace {
 
 constexpr bool debug = false;
 constexpr float kThreshold = 50.0;
-constexpr double kPassPercentageThreshold = .92;
+constexpr double kPassPercentageThreshold = .95;
 
 inline bool CompareIntensity(const cv::Vec3b& intensity_one,
                              const cv::Vec3b& intensity_two) {

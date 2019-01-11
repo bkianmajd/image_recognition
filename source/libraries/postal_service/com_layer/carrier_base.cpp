@@ -89,7 +89,7 @@ void CarrierBase::OnReadyRead() {
     return;
   }
   QByteArray byte_array = socket_->readAll();
-  qDebug() << "Incoming message! " << byte_array.size();
+  // qDebug() << "Incoming message! " << byte_array.size();
 
   ProcessReadBytes(byte_array);
 }

@@ -18,16 +18,19 @@ std::ostream& operator<<(std::ostream& ss, Card card) {
       ss << "UNOWN_VALUE ";
       break;
     case 11:
-      ss << "J ";
+      ss << "J";
       break;
     case 12:
-      ss << "Q ";
+      ss << "Q";
       break;
     case 13:
-      ss << "K ";
+      ss << "K";
+      break;
+    case 14:
+      ss << "HIDDEN ";
       break;
     default:
-      ss << card.value << " ";
+      ss << card.value;
   }
 
   switch (card.suit) {
