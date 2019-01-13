@@ -1,6 +1,6 @@
 #include "components/poker/poker_game_controller/landmark_finder/card_reader/card_reader.h"
 
-#include "components/poker/poker_game_controller/landmark_finder/map_images/value_comparer/value_comparer.h"
+#include "components/poker/poker_game_controller/landmark_finder/map_images/value_comparer.h"
 #include "helpers/directory_finder.h"
 #include "helpers/file_manager/file_manager.h"
 

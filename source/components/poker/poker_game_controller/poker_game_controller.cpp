@@ -33,7 +33,7 @@ bool PokerGameController::ProcessNextWorkflow(const GameStatus& game_status) {
     return true;
   }
 
-  poker_workflow_callbacks->
+  // poker_workflow_callbacks_->
 
   // Checks to see if the player status has changed
   return CheckPlayerStatus();

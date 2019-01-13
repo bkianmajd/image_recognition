@@ -5,12 +5,14 @@
 
 #include "components/image_service/server/ipc_server.h"
 #include "components/poker/app_finder/app_finder.h"
-#include "components/poker/poker_workflow.h"
 #include "executables/ipc_server_runner/static_config.h"
 #include "helpers/memory_helper.hpp"
 
-void RunControllerThread(QCoreApplication* a, ipc::IpcServer* ipc_server,
-                         poker::PokerWorkflow* poker_workflow) {
+void RThread(QCoreApplication* a, ipc::IpcServer* ipc_server) {
+  poker::PokerWorkflow test;
+  std::vector<char> test_image;
+  test.ConsumeImage(test_image);
+
   poker::AppFinder app_finder;
   auto start_time = std::chrono::system_clock::now();
   while (!ipc_server->IsInit()) {
@@ -51,8 +53,16 @@ void RunControllerThread(QCoreApplication* a, ipc::IpcServer* ipc_server,
   a->quit();
 }
 
+void ServerThreadMain(QCoreApplication* a,
+                     postal_service::PostalService* postal_service) {
+
+}
+
 int Main(int argc, char* argv[]) {
   QApplication a(argc, argv);
+
+  // Construction - Mailbox
+  postal_service::PostalService server_;
 
   // Construction - IpcServer
   std::unique_ptr<ipc::IpcServer> ipc_server =
