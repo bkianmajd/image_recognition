@@ -10,6 +10,7 @@ INCLUDEPATH += $${WORKSPACE}/external_libraries/googletest/include
 LIBS += $${WORKSPACE}/external_libraries/googletest/lib/libgtest.a
 
 SOURCES += $${WORKSPACE}/google_test/main.cpp
-SOURCES += $${WORKSPACE}components/poker/poker_workflow_test.cpp
+SOURCES += $${WORKSPACE}/components/poker/poker_workflow_test.cpp
+SOURCES += $${WORKSPACE}/components/poker/workflow_session_thread_test.cpp
 
 include(poker_workflow.pri)
