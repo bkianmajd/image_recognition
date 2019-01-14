@@ -11,6 +11,8 @@
 #include <base/task_runner.h>
 
 #include "components/poker/poker_game_controller/poker_game_controller_interface.h"
+#include "libraries/image_def/image_def.h"
+#include "components/poker/workflow_session.h"
 
 namespace poker {
 
@@ -21,6 +23,7 @@ class WorkflowSessionThread {
 
   bool StartSession();
   bool EndSessionAndJoin();
+  bool ProcessImage(const image::Image& image) const;
 
  private:
   void Session();
@@ -28,6 +31,7 @@ class WorkflowSessionThread {
   scoped_refptr<base::SingleThreadTaskRunner> task_runner_;
   base::Closure closure_;
   base::Optional<std::thread> thread_;
+  std::unique_ptr<WorkflowSession> workflow_session_;
 };
 
 }  // namespace poker

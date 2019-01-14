@@ -26,7 +26,6 @@ bool WorkflowSessionThread::StartSession() {
     std::cerr << "thread is in session" << std::endl;
     return false;
   }
-
   thread_ = std::thread(&WorkflowSessionThread::Session, this);
   assert(thread_.has_value());
   return true;
@@ -36,9 +35,15 @@ void WorkflowSessionThread::Session() {
   base::MessageLoop message_loop;
   base::RunLoop run_loop;
   closure_ = run_loop.QuitClosure();
-
   task_runner_ = message_loop.task_runner();
+
+  // Start the session
+  workflow_session_ = std::make_unique<WorkflowSession>();
+
   run_loop.Run();
+
+  // Destruct the object
+  workflow_session_.reset();
 }
 
 bool WorkflowSessionThread::EndSessionAndJoin() {
@@ -59,6 +64,22 @@ bool WorkflowSessionThread::EndSessionAndJoin() {
   thread_.reset();
   task_runner_.reset();
   closure_.Reset();
+  return true;
+}
+
+bool WorkflowSessionThread::ProcessImage(const image::Image& image) const {
+  if (!thread_.has_value()) {
+    std::cerr << "Can only be called after session has started" << std::endl;
+    return false;
+  }
+
+  while (workflow_session_ == nullptr) {
+    base::PlatformThread::Sleep(base::TimeDelta::FromMicroseconds(500));
+  }
+
+  task_runner_->PostTask(
+      FROM_HERE, base::Bind(&WorkflowSession::ProcessImage,
+                            base::Unretained(workflow_session_.get()), image));
   return true;
 }
 
