@@ -51,16 +51,8 @@ WorkflowSession::WorkflowSession() : image_id_(0), last_image_id_(0) {
 }
 
 void WorkflowSession::ProcessImage(const image::Image& image) {
-  {
-    std::lock_guard<std::mutex> lock(image_mutex_);
-    if (image_id_ == last_image_id_) {
-      return;
-    }
-    image_id_ = last_image_id_;
-    poker_game_controller_->UpdateBigImage(consumed_image_);
-    // No longer need the image data
-    consumed_image_.clear();
-  }
+  poker_game_controller_->UpdateBigImage(consumed_image_);
+
 
   // Work on image inside the game controller
   int running_counter = 0;
@@ -73,6 +65,7 @@ void WorkflowSession::ProcessImage(const image::Image& image) {
 
   std::cerr << "Timeout occured, workflow stuck" << std::endl;
 }
+
 
 void WorkflowSession::OnFlop(Card first_card, Card second_card,
                              Card third_card) {

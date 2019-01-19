@@ -7,6 +7,7 @@
 #include "components/poker/entities/poker_workflow_callbacks.h"
 #include "components/poker/poker_game_controller/poker_game_controller_interface.h"
 #include "libraries/image_def/image_def.h"
+#include "libraries/session_thread/session_thread.h"
 
 namespace poker {
 
@@ -31,13 +32,15 @@ class WorkflowSession {
   // Player actions
   void OnPlayerFold();
 
-  std::mutex image_mutex_;
   std::vector<char> consumed_image_;
   int image_id_;
   int last_image_id_;
 
+  // Entities
   PokerWorkflowCallbacks poker_workflow_callbacks_;
-  std::unique_ptr<PokerGameControllerInterface> poker_game_controller_;
+
+  // Interactors
+  SessionThread<PokerGameController> poker_game_controller_;
 
   // TODO(): Change this to game state
   GameStatus game_status_;
