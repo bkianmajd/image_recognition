@@ -52,7 +52,7 @@ bool ScreenshotCreator::Capture(const ScreenArea& screen_area) {
 }
 
 bool ScreenshotCreator::SaveLastCaptureToFile(
-    const std::string& abs_file_path) {
+    const std::string& abs_file_path) const {
   if (!original_pixmap_.save(abs_file_path.c_str())) {
     std::cerr << "Could not save" << abs_file_path << std::endl;
     return false;
@@ -72,12 +72,12 @@ bool ScreenshotCreator::Capture(const std::vector<char>& big_image) {
   return true;
 }
 
-std::vector<char> ScreenshotCreator::GetLastCapture() {
+std::vector<char> ScreenshotCreator::GetLastCapture() const {
   return ConvertPixmapToBytes(original_pixmap_);
 }
 
 std::vector<char> ScreenshotCreator::GetLastCapture(
-    const ScreenArea& screen_area) {
+    const ScreenArea& screen_area) const {
   QPixmap pixmap = original_pixmap_.copy(screen_area.x, screen_area.y,
                                          screen_area.width, screen_area.height);
 

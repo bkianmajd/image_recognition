@@ -4,14 +4,24 @@
 
 #include "gtest/gtest.h"
 
+class TestFoo {
+ public:
+  TestFoo() = default;
+};
+
 class TestClass {
  public:
-  TestClass() = default;
+  TestClass(const TestFoo& test1, const TestFoo& test2)
+      : test1_(test1), test2_(test2) {}
 
   void PrintTest() {
     std::cout << "test" << std::endl;
     std::flush(std::cout);
   }
+
+ private:
+  TestFoo test1_;
+  TestFoo test2_;
 };
 
 class SessionThreadTest : public testing::Test {
@@ -25,7 +35,9 @@ class SessionThreadTest : public testing::Test {
 TEST_F(SessionThreadTest, ConstructDestruct) {}
 
 TEST_F(SessionThreadTest, StartAndEndTest) {
-  test_class_thread_.StartSession<TestClass>();
+  TestFoo test1;
+  TestFoo test2;
+  test_class_thread_.StartSession<TestClass>(test1, test2);
 
   test_class_thread_.task_runner()->PostTask(
       FROM_HERE, base::Bind(&TestClass::PrintTest,

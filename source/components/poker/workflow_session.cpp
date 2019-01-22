@@ -11,19 +11,26 @@ namespace {
 constexpr int kTimeout = 100;
 constexpr bool training = true;
 
-std::unique_ptr<PokerGameControllerInterface> GameControllerFactory(
-    PokerWorkflowCallbacks* workflow_callbacks) {
-  if (training) {
-    return std::make_unique<TrainingGameController>();
-  }
-
-  return std::make_unique<PokerGameController>(workflow_callbacks);
-}
-
 }  // namespace
 
-WorkflowSession::WorkflowSession() : image_id_(0), last_image_id_(0) {
-  consumed_image_.clear();
+WorkflowSession::WorkflowSession(
+    scoped_refptr<base::SingleThreadTaskRunner> task_runner)
+    : workflow_task_runner_(task_runner) {
+  // Starting threads
+  if (training) {
+    game_controller_session_.StartSession<TrainingGameController>();
+    return;
+  }
+
+  // Create game controller
+  base::Callback<void(const Card&)> new_hand_callback =
+      base::Bind(&WorkflowSession::OnNewHand, base::Unretained(this));
+  base::Callback<void(const GameModel&)> status_change_callback =
+      base::Bind(&WorkflowSession::OnGameModelUpdate, base::Unretained(this));
+
+  //  PokerGameController poker(status_change_callback);
+  game_controller_session_.StartSession<PokerGameController>(
+      new_hand_callback, status_change_callback, workflow_task_runner_);
 
   // TODO(): Use callbacks
   // base::Callback<void()> test = base::Bind([](){});
@@ -51,21 +58,12 @@ WorkflowSession::WorkflowSession() : image_id_(0), last_image_id_(0) {
 }
 
 void WorkflowSession::ProcessImage(const image::Image& image) {
-  poker_game_controller_->UpdateBigImage(consumed_image_);
-
-
-  // Work on image inside the game controller
-  int running_counter = 0;
-  while (running_counter++ < kTimeout) {
-    // This should invoke some callbacks on this thread
-    if (!poker_game_controller_->ProcessNextWorkflow(game_status_)) {
-      return;
-    }
-  }
-
-  std::cerr << "Timeout occured, workflow stuck" << std::endl;
+  // This should invoke some callbacks on this thread
+  game_controller_session_.task_runner()->PostTask(
+      FROM_HERE,
+      base::Bind(&PokerGameControllerInterface::UpdateBigImage,
+                 base::Unretained(game_controller_session_.get()), image));
 }
-
 
 void WorkflowSession::OnFlop(Card first_card, Card second_card,
                              Card third_card) {

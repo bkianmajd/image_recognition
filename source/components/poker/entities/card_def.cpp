@@ -56,4 +56,18 @@ std::ostream& operator<<(std::ostream& ss, Card card) {
   return ss;
 }
 
+bool operator==(Card left_card, Card right_card) {
+  if (left_card.suit != right_card.suit) {
+    return false;
+  }
+  if (left_card.value != right_card.value) {
+    return false;
+  }
+  return true;
+}
+
+bool operator!=(Card left_card, Card right_card) {
+  return !(left_card == right_card);
+}
+
 }  // namespace poker

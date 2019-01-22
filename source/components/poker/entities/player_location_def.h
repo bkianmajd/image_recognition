@@ -36,6 +36,7 @@ enum DealerLocation {
   DEALER_FOUR,
   // This is the river
   DEALER_FIVE,
+  DEALER_MAX_SIZE,
 };
 
 }  // poker

@@ -40,7 +40,6 @@ struct Card {
 };
 
 struct PlayerHand {
-  bool in_hand = false;
   Card first_card;
   Card second_card;
 };
@@ -62,6 +61,8 @@ struct Table {
 };
 
 std::ostream& operator<<(std::ostream& ss, Card card);
+bool operator==(Card left_card, Card right_card);
+bool operator!=(Card left_card, Card right_card);
 
 }  // namespace poker
 

@@ -28,19 +28,23 @@ class ScreenshotCreator : QWidget {
  public:
   ScreenshotCreator();
 
+  // loads a screenshot of the desktop window
   bool Capture();
 
+  // loads a screenshot of the screen area of the desktop window
   bool Capture(const ScreenArea& screen_area);
 
-  // Captures a raw data image instead of taking a screenshot
+  // loads a raw data image instead of taking a screenshot
   bool Capture(const std::vector<char>& big_image);
 
-  bool SaveLastCaptureToFile(const std::string& abs_path);
+  // saves the last capture to a file
+  bool SaveLastCaptureToFile(const std::string& abs_path) const;
 
-  std::vector<char> GetLastCapture();
+  // converts the last capture to bytes
+  std::vector<char> GetLastCapture() const;
 
-  // Gets a subset of the last capture
-  std::vector<char> GetLastCapture(const ScreenArea& screen_area);
+  // Gets a subset of the last capture and returns its bytes
+  std::vector<char> GetLastCapture(const ScreenArea& screen_area) const;
 
  private:
   QScreen* GetScreen();

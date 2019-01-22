@@ -8,15 +8,20 @@
 namespace poker {
 namespace {
 
+std::vector<PlayerLocator> CreatePlayerLocator(int table_size) {
+  std::vector<PlayerLocator> player_locators;
+  for (int i = 0; i < table_size; ++i) {
+    player_locators.push_back(
+        PlayerLocator(table_size, static_cast<PlayerLocation>(i)));
+  }
+  return player_locators;
+}
+
 }  // namespace
 
 LandmarkFinder::LandmarkFinder(int table_size)
-    : table_locator_(std::make_unique<TableLocator>(table_size)) {
-  for (int i = 0; i < table_size; ++i) {
-    player_locators_.push_back(
-        PlayerLocator(table_size, static_cast<PlayerLocation>(i)));
-  }
-}
+    : table_locator_(std::make_unique<TableLocator>(table_size)),
+      player_locators_(CreatePlayerLocator(table_size)) {}
 
 bool LandmarkFinder::UpdateBigImage(const std::vector<char>& big_image) {
   // Set the screenshot to capture the big image
@@ -67,6 +72,11 @@ Card LandmarkFinder::FindCardFromRawScreenArea(
   }
 
   return card_reader_.ConvertToCard(card_raw_bytes);
+}
+
+bool LandmarkFinder::FindDecisionEvent() const {
+  // TODO(): use |decision_event_searcher_|
+  return false;
 }
 
 }  // namespace poker

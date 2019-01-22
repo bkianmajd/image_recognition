@@ -13,12 +13,16 @@ namespace poker {
 
 class WorkflowSession {
  public:
-  WorkflowSession();
+  explicit WorkflowSession(scoped_refptr<base::SingleThreadTaskRunner> task_runner);
 
   /// Process the image
   void ProcessImage(const image::Image& big_image_raw_data);
 
  private:
+  void OnNewHand(const Card& card);
+  void OnGameModelUpdate(const GameModel& game_model);
+  void OnError();
+
   // Dealer actions
   void OnFlop(Card first_card, Card second_card, Card third_card);
   void OnTurn(Card fourth_card);
@@ -32,18 +36,13 @@ class WorkflowSession {
   // Player actions
   void OnPlayerFold();
 
-  std::vector<char> consumed_image_;
-  int image_id_;
-  int last_image_id_;
+  GameStatus game_status_;
 
-  // Entities
-  PokerWorkflowCallbacks poker_workflow_callbacks_;
+  // The workflow's thread corresponding taskrunner
+  scoped_refptr<base::SingleThreadTaskRunner> workflow_task_runner_;
 
   // Interactors
-  SessionThread<PokerGameController> poker_game_controller_;
-
-  // TODO(): Change this to game state
-  GameStatus game_status_;
+  SessionThread<PokerGameControllerInterface> game_controller_session_;
 };
 
 }  // namespace poker

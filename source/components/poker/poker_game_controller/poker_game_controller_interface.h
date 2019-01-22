@@ -16,9 +16,6 @@ class PokerGameControllerInterface {
 
   // Sets the data to process the image pipeline
   virtual void UpdateBigImage(const std::vector<char>& big_image_raw_data) = 0;
-
-  // Returns true if there is still more to progress through the workflow
-  virtual bool ProcessNextWorkflow(const GameStatus& game_status) = 0;
 };
 
 }  // namespace poker

@@ -3,40 +3,49 @@
 
 #include "components/poker/poker_game_controller/poker_game_controller_interface.h"
 
+#include <vector>
+
 #include "components/poker/entities/game_model_def.h"
 #include "components/poker/entities/poker_workflow_callbacks.h"
 #include "components/poker/poker_game_controller/landmark_finder/landmark_finder.h"
+
+#include <base/callback.h>
+#include <base/single_thread_task_runner.h>
+#include <base/task_runner.h>
 
 namespace poker {
 
 // Converts images to decipher the workflow of a poker game
 class PokerGameController : public PokerGameControllerInterface {
  public:
-  explicit PokerGameController(
-      PokerWorkflowCallbacks* poker_workflow_callbacks);
+  PokerGameController(
+      base::Callback<void(const Card&)> new_hand_callback,
+      base::Callback<void(const GameModel&)> status_change_callback,
+      scoped_refptr<base::SingleThreadTaskRunner> task_runner);
+
+  ~PokerGameController() override = default;
 
   // Sets the data to process the image pipeline
   void UpdateBigImage(const std::vector<char>& big_image_raw_data) override;
 
-  // Returns true if there is still more to progress through the workflow
-  bool ProcessNextWorkflow(const GameStatus& game_status) override;
+  // Updates the model
+  void UpdateModel();
 
  private:
-  bool CheckPlayerStatus();
-  bool CheckForNewHandEvent();
-  bool CheckForDecisionEvent();
-
-  bool CheckTableStatus();
-  bool CheckForFlopEvent();
-  bool CheckForTurnEvent();
-  bool CheckForRiverEvent();
-  bool CheckForRoundEndEvent();
+  void CompareModelandNotify();
+  bool CheckModelDifferent() const;
+  bool CheckNewHand() const;
 
   PokerWorkflowCallbacks* poker_workflow_callbacks_;
   LandmarkFinder landmark_finder_;
 
-  GameStatus current_game_status_;
-  GameStatus last_game_status_;
+  GameModel last_game_model_;
+  GameModel game_model_;
+
+  base::Callback<void(const Card&)> new_hand_callback_;
+  base::Callback<void(const GameModel&)> status_change_callback_;
+  base::Callback<void()> error_callback_;
+  scoped_refptr<base::SingleThreadTaskRunner> task_runner_;
 };
 
 }  // namespace poker

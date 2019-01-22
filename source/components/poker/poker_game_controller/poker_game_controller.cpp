@@ -8,149 +8,117 @@ namespace {
 // TODO(): Generate mocks here through a factory
 constexpr int kDefualtChairs = 6;
 
+GameModel InitialGameModel() {
+  GameModel game_model;
+  game_model.game_status.number_of_chairs = kDefualtChairs;
+  return game_model;
+}
+
 }  // namespace
 
 PokerGameController::PokerGameController(
-    PokerWorkflowCallbacks* poker_workflow_callbacks)
-    : poker_workflow_callbacks_(poker_workflow_callbacks),
-      landmark_finder_(kDefualtChairs) {}
+    base::Callback<void(const Card&)> new_hand_callback,
+    base::Callback<void(const GameModel&)> status_change_callback,
+    scoped_refptr<base::SingleThreadTaskRunner> task_runner)
+    : landmark_finder_(kDefualtChairs),
+      last_game_model_(InitialGameModel()),
+      game_model_(InitialGameModel()),
+      new_hand_callback_(new_hand_callback),
+      status_change_callback_(status_change_callback),
+      task_runner_(task_runner) {}
 
 void PokerGameController::UpdateBigImage(
     const std::vector<char>& big_image_raw_data) {
   // Updates the landmark_finder with the new screenshot
   landmark_finder_.UpdateBigImage(big_image_raw_data);
+  UpdateModel();
+
+  // Sanity check Model
+  // if(!sanity_check_.Check(last_game_model_, &game_model_)) {
+  // Post error
+  // return;
+  //}
+
+  CompareModelandNotify();
+
+  // Swap the |last_game_model_| becasue the next update is going to change the
+  // current game model anyways.
+  std::swap(last_game_model_, game_model_);
 }
 
-bool PokerGameController::ProcessNextWorkflow(const GameStatus& game_status) {
-  std::swap(last_game_status_, current_game_status_);
-  current_game_status_ = game_status;
-
-  // TODO() : Consider doing game states here, i.e. player_waiting_preflop,
-  // player_waiting_flop, or player_betting_preflop...etc,
-
-  // Checks to see if the dealer dealt a new card on the table
-  if (CheckTableStatus()) {
-    return true;
+void PokerGameController::UpdateModel() {
+  for (int i = 0; i < kDefualtChairs; ++i) {
+    PlayerHand& player_hand = game_model_.player_hands[static_cast<size_t>(i)];
+    player_hand.first_card =
+        landmark_finder_.FindLeftCard(static_cast<PlayerLocation>(i));
+    player_hand.second_card =
+        landmark_finder_.FindRightCard(static_cast<PlayerLocation>(i));
   }
 
-  // poker_workflow_callbacks_->
-
-  // Checks to see if the player status has changed
-  return CheckPlayerStatus();
+  for (int i = 0; i <= DEALER_FIVE; ++i) {
+    Card& dealer_card = game_model_.dealer_cards[static_cast<size_t>(i)];
+    dealer_card =
+        landmark_finder_.FindDealerCard(static_cast<DealerLocation>(i));
+  }
 }
 
-bool PokerGameController::CheckPlayerStatus() {
-  bool event_triggered = false;
-
-  switch (current_game_status_.player_status[0]) {
-    case PlayerStatus::PLAYER_STATUS_FOLDED:
-      event_triggered = CheckForNewHandEvent();
-      break;
-    case PlayerStatus::PLAYER_STATUS_IN_HAND:
-      event_triggered = CheckForDecisionEvent();
-      break;
-    case PlayerStatus::PLAYER_STATUS_OUTSIDE:
-      break;
-    default:
-      break;
+void PokerGameController::CompareModelandNotify() {
+  if (CheckNewHand()) {
+    // post task
+    return;
   }
 
-  return event_triggered;
+  if (CheckModelDifferent()) {
+    // post task
+    return;
+  }
+
+  if (landmark_finder_.FindDecisionEvent()) {
+    // post task
+    return;
+  }
 }
 
-bool PokerGameController::CheckForDecisionEvent() {
-  // TODO(): Checks to see if the player needs to check, fold, raise, or bet
-  return false;
-}
-
-bool PokerGameController::CheckForNewHandEvent() {
-  Card left_card = landmark_finder_.FindLeftCard(PLAYERLOC_PLAYER_ZERO);
-  if (left_card.value == CARD_VALUE_UNKNOWN) {
-    return false;
+bool PokerGameController::CheckModelDifferent() const {
+  for (int i = 0; i < kDefualtChairs; ++i) {
+    const PlayerHand& player_hand =
+        game_model_.player_hands[static_cast<size_t>(i)];
+    const PlayerHand& old_player_hand =
+        last_game_model_.player_hands[static_cast<size_t>(i)];
+    if (player_hand.first_card != old_player_hand.first_card) {
+      return true;
+    }
+    if (player_hand.second_card != old_player_hand.second_card) {
+      return true;
+    }
   }
 
-  Card right_card = landmark_finder_.FindLeftCard(PLAYERLOC_PLAYER_ZERO);
-  if (right_card.value == CARD_VALUE_UNKNOWN) {
-    return false;
+  for (int i = DEALER_ONE; i < DEALER_MAX_SIZE; ++i) {
+    const Card& dealer_card = game_model_.dealer_cards[static_cast<size_t>(i)];
+    const Card& old_dealer_card =
+        last_game_model_.dealer_cards[static_cast<size_t>(i)];
+
+    if (dealer_card != old_dealer_card) {
+      return true;
+    }
   }
 
-  poker_workflow_callbacks_->OnPlayerDeal(left_card, right_card);
+  // Model is the same
   return true;
 }
 
-bool PokerGameController::CheckTableStatus() {
-  bool event_triggered = false;
-
-  // Check the game_model for the next steps
-  switch (current_game_status_.table_status) {
-    case TABLE_STATUS_UNKNOWN:
-    case TABLE_STATUS_PREFLOP:
-      event_triggered = CheckForFlopEvent();
-    break;
-    case TABLE_STATUS_FLOP:
-      event_triggered = CheckForTurnEvent();
-      break;
-    case TABLE_STATUS_TURN:
-      event_triggered = CheckForRiverEvent();
-      break;
-    case TABLE_STATUS_RIVER:
-      event_triggered = CheckForRoundEndEvent();
-      break;
-    default:
-      std::cerr << "Switch statement not handled!" << std::endl;
-  }
-
-  return event_triggered;
-}
-
-bool PokerGameController::CheckForRoundEndEvent() {
-  Card card_one = landmark_finder_.FindDealerCard(DealerLocation::DEALER_ONE);
-  if (card_one.value != CARD_VALUE_UNKNOWN) {
+bool PokerGameController::CheckNewHand() const {
+  // if this is unknown, the right card and suit should be unknown as well
+  if (game_model_.player_hands[PLAYERLOC_PLAYER_ZERO].first_card.value ==
+      CARD_VALUE_UNKNOWN) {
     return false;
   }
 
-  poker_workflow_callbacks_->OnReset();
-  return true;
-}
-
-bool PokerGameController::CheckForFlopEvent() {
-  Card card_one = landmark_finder_.FindDealerCard(DealerLocation::DEALER_ONE);
-  if (card_one.value == CARD_VALUE_UNKNOWN) {
+  if (game_model_.player_hands[PLAYERLOC_PLAYER_ZERO].first_card ==
+      last_game_model_.player_hands[PLAYERLOC_PLAYER_ZERO].first_card) {
     return false;
   }
 
-  Card card_two = landmark_finder_.FindDealerCard(DealerLocation::DEALER_TWO);
-  if (card_two.value == CARD_VALUE_UNKNOWN) {
-    return false;
-  }
-
-  Card card_three =
-      landmark_finder_.FindDealerCard(DealerLocation::DEALER_THREE);
-  if (card_three.value == CARD_VALUE_UNKNOWN) {
-    return false;
-  }
-
-  poker_workflow_callbacks_->OnFlop(card_one, card_two, card_three);
-  return true;
-}
-
-bool PokerGameController::CheckForTurnEvent() {
-  Card card = landmark_finder_.FindDealerCard(DealerLocation::DEALER_FOUR);
-  if (card.value == CARD_VALUE_UNKNOWN) {
-    return false;
-  }
-
-  poker_workflow_callbacks_->OnTurn(card);
-  return true;
-}
-
-bool PokerGameController::CheckForRiverEvent() {
-  Card card = landmark_finder_.FindDealerCard(DealerLocation::DEALER_FIVE);
-  if (card.value == CARD_VALUE_UNKNOWN) {
-    return false;
-  }
-
-  poker_workflow_callbacks_->OnRiver(card);
   return true;
 }
 

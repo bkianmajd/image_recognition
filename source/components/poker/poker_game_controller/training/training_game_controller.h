@@ -25,7 +25,7 @@ class TrainingGameController : public PokerGameControllerInterface {
   void UpdateBigImage(const std::vector<char>& big_image_raw_data) override;
 
   // Returns true if there is still more to progress through the workflow
-  bool ProcessNextWorkflow(const GameStatus& game_status) override;
+  bool ProcessNextWorkflow(const GameStatus& game_status);
 
  private:
   void RecordTable(const std::vector<char>& big_image_raw_data);

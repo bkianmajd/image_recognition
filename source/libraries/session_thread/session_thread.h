@@ -33,8 +33,9 @@ class SessionThread {
       std::cerr << "thread is in session" << std::endl;
       return false;
     }
-    thread_ = std::thread(&SessionThread::Session<Concrete_T, Args&...>, this,
-                          std::forward<Args>(args)...);
+    auto temp = std::bind(&SessionThread::Session<Concrete_T, Args...>, this,
+                          std::forward<Args&>(args)...);
+    thread_ = std::thread(temp);
     assert(thread_.has_value());
 
     // Edge case when thread starts and immediately is called close

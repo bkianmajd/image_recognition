@@ -38,7 +38,7 @@ void WorkflowSessionThread::Session() {
   task_runner_ = message_loop.task_runner();
 
   // Start the session
-  workflow_session_ = std::make_unique<WorkflowSession>();
+  workflow_session_ = std::make_unique<WorkflowSession>(task_runner_);
 
   run_loop.Run();
 
