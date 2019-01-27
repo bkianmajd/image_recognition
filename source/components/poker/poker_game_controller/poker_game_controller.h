@@ -20,9 +20,11 @@ namespace poker {
 class PokerGameController : public PokerGameControllerInterface {
  public:
   PokerGameController(
-      base::Callback<void(const PlayerHand&)> new_hand_callback,
+      base::Callback<void(const GameModel&)> new_hand_callback,
       base::Callback<void(const GameModel&)> status_change_callback,
       base::Callback<void()> decision_callback,
+      base::Callback<void(const image::Image&, const std::string& error_str)>
+          error_callback,
       scoped_refptr<base::SingleThreadTaskRunner> callback_task_runner);
 
   ~PokerGameController() override = default;
@@ -46,9 +48,12 @@ class PokerGameController : public PokerGameControllerInterface {
 
   LandmarkFinder landmark_finder_;
 
-  const base::Callback<void(const PlayerHand&)> new_hand_callback_;
+  // Callbacks to be run on the callback_task_runner
+  const base::Callback<void(const GameModel&)> new_hand_callback_;
   const base::Callback<void(const GameModel&)> status_change_callback_;
   const base::Callback<void()> decision_callback_;
+  const base::Callback<void(const image::Image&, const std::string& error_str)>
+      error_callback_;
   scoped_refptr<base::SingleThreadTaskRunner> callback_task_runner_;
 };
 

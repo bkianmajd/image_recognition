@@ -19,9 +19,11 @@ GameModel InitialGameModel() {
 }  // namespace
 
 PokerGameController::PokerGameController(
-    base::Callback<void(const PlayerHand&)> new_hand_callback,
+    base::Callback<void(const GameModel&)> new_hand_callback,
     base::Callback<void(const GameModel&)> status_change_callback,
     base::Callback<void()> decision_callback,
+    base::Callback<void(const image::Image&, const std::string& error_str)>
+        error_callback,
     scoped_refptr<base::SingleThreadTaskRunner> callback_task_runner)
     : last_game_model_(InitialGameModel()),
       game_model_(InitialGameModel()),
@@ -29,6 +31,7 @@ PokerGameController::PokerGameController(
       new_hand_callback_(new_hand_callback),
       status_change_callback_(status_change_callback),
       decision_callback_(decision_callback),
+      error_callback_(error_callback),
       callback_task_runner_(callback_task_runner) {
   assert(callback_task_runner != nullptr);
 }
@@ -73,8 +76,7 @@ void PokerGameController::UpdateModel() {
 void PokerGameController::CompareModelandNotify() {
   if (CheckNewHand()) {
     callback_task_runner_->PostTask(
-        FROM_HERE, base::Bind(new_hand_callback_,
-                              game_model_.player_hands[PLAYERLOC_PLAYER_ZERO]));
+        FROM_HERE, base::Bind(new_hand_callback_, game_model_));
     return;
   }
 
