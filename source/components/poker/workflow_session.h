@@ -11,32 +11,24 @@
 
 namespace poker {
 
+/// High level poker workflow. Instantiated from WorkflowSessionThread
 class WorkflowSession {
  public:
-  explicit WorkflowSession(scoped_refptr<base::SingleThreadTaskRunner> task_runner);
+  explicit WorkflowSession(scoped_refptr<base::SingleThreadTaskRunner> workflow_task_runner);
 
-  /// Process the image
+  /// Process the image and start the image pipeline
   void ProcessImage(const image::Image& big_image_raw_data);
 
  private:
-  void OnNewHand(const Card& card);
-  void OnGameModelUpdate(const GameModel& game_model);
   void OnError();
 
-  // Dealer actions
-  void OnFlop(Card first_card, Card second_card, Card third_card);
-  void OnTurn(Card fourth_card);
-  void OnRiver(Card fifth_card);
+  // Updates from the poker game controller thread
+  void OnNewHand(const PlayerHand& player_hand);
+  void OnGameModelUpdate(const GameModel& game_model);
+  void OnPokerDecision();
 
-  // Game actions
-  void OnPlayerDeal(Card left_card, Card right_card);
-  // Resets mean the game hand has ended
-  void OnReset();
-
-  // Player actions
-  void OnPlayerFold();
-
-  GameStatus game_status_;
+  // Entities
+  GameModel game_model_;
 
   // The workflow's thread corresponding taskrunner
   scoped_refptr<base::SingleThreadTaskRunner> workflow_task_runner_;

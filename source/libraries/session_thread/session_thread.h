@@ -33,13 +33,17 @@ class SessionThread {
       std::cerr << "thread is in session" << std::endl;
       return false;
     }
-    auto temp = std::bind(&SessionThread::Session<Concrete_T, Args...>, this,
-                          std::forward<Args&>(args)...);
-    thread_ = std::thread(temp);
+
+    // We instantiate the unique ptr here because were unable to move the
+    // arguments to function
+    session_ = std::make_unique<Concrete_T>(std::forward<Args>(args)...);
+
+    running_ = false;
+    thread_ = std::thread(std::bind(&SessionThread::Session, this));
     assert(thread_.has_value());
 
     // Edge case when thread starts and immediately is called close
-    while (session_ == nullptr) {
+    while (running_ == false) {
       base::PlatformThread::Sleep(base::TimeDelta::FromMicroseconds(50));
     }
 
@@ -69,26 +73,27 @@ class SessionThread {
   T* get() const { return session_.get(); }
 
  private:
-  template <typename Concrete_T, typename... Args>
-  void Session(Args&&... args) {
+  void Session() {
     base::MessageLoop message_loop;
     base::RunLoop run_loop;
     closure_ = run_loop.QuitClosure();
     task_runner_ = message_loop.task_runner();
 
     // Start the session
-    session_ = std::make_unique<Concrete_T>(std::forward<Args>(args)...);
+    running_.store(true);
 
     run_loop.Run();
 
     // Destruct the object
     session_.reset();
+    running_.store(false);
   }
 
   scoped_refptr<base::SingleThreadTaskRunner> task_runner_;
   base::Closure closure_;
   base::Optional<std::thread> thread_;
   std::unique_ptr<T> session_;
+  std::atomic_bool running_;
 };
 
 #endif  // SESSION_THREAD_H_

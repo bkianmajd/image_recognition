@@ -12,6 +12,12 @@ Card::Card(CardValue arg_value, Suit arg_suit) {
   suit = arg_suit;
 }
 
+std::ostream& operator<<(std::ostream& ss, PlayerHand hand) {
+  ss << "[" << hand.first_card << "] ";
+  ss << "[" << hand.second_card << "]" <<std::endl;
+  return ss;
+}
+
 std::ostream& operator<<(std::ostream& ss, Card card) {
   switch (card.value) {
     case 0:
@@ -68,6 +74,12 @@ bool operator==(Card left_card, Card right_card) {
 
 bool operator!=(Card left_card, Card right_card) {
   return !(left_card == right_card);
+}
+
+Card& Card::operator=(const Card& from) {
+  this->suit = from.suit;
+  this->value = from.value;
+  return *this;
 }
 
 }  // namespace poker

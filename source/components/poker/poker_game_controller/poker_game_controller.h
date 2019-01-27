@@ -12,6 +12,7 @@
 #include <base/callback.h>
 #include <base/single_thread_task_runner.h>
 #include <base/task_runner.h>
+#include <gtest/gtest_prod.h>
 
 namespace poker {
 
@@ -19,9 +20,10 @@ namespace poker {
 class PokerGameController : public PokerGameControllerInterface {
  public:
   PokerGameController(
-      base::Callback<void(const Card&)> new_hand_callback,
+      base::Callback<void(const PlayerHand&)> new_hand_callback,
       base::Callback<void(const GameModel&)> status_change_callback,
-      scoped_refptr<base::SingleThreadTaskRunner> task_runner);
+      base::Callback<void()> decision_callback,
+      scoped_refptr<base::SingleThreadTaskRunner> callback_task_runner);
 
   ~PokerGameController() override = default;
 
@@ -32,20 +34,22 @@ class PokerGameController : public PokerGameControllerInterface {
   void UpdateModel();
 
  private:
+  FRIEND_TEST(PokerGameControllerTest, NewHandTest);
+  FRIEND_TEST(PokerGameControllerTest, GameModelTest);
+
   void CompareModelandNotify();
   bool CheckModelDifferent() const;
   bool CheckNewHand() const;
 
-  PokerWorkflowCallbacks* poker_workflow_callbacks_;
-  LandmarkFinder landmark_finder_;
-
   GameModel last_game_model_;
   GameModel game_model_;
 
-  base::Callback<void(const Card&)> new_hand_callback_;
-  base::Callback<void(const GameModel&)> status_change_callback_;
-  base::Callback<void()> error_callback_;
-  scoped_refptr<base::SingleThreadTaskRunner> task_runner_;
+  LandmarkFinder landmark_finder_;
+
+  const base::Callback<void(const PlayerHand&)> new_hand_callback_;
+  const base::Callback<void(const GameModel&)> status_change_callback_;
+  const base::Callback<void()> decision_callback_;
+  scoped_refptr<base::SingleThreadTaskRunner> callback_task_runner_;
 };
 
 }  // namespace poker

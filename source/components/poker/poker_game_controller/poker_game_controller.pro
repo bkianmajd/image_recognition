@@ -9,7 +9,7 @@ INCLUDEPATH += $${WORKSPACE}/external_libraries/googletest/include
 
 LIBS += $${WORKSPACE}/external_libraries/googletest/lib/libgtest.a
 
-SOURCES += $${WORKSPACE}/google_test/main.cpp
+SOURCES += $${WORKSPACE}/google_test/widget_main.cpp
 SOURCES += $${WORKSPACE}components/poker/poker_game_controller/poker_game_controller_test.cpp
 
 include(poker_game_controller.pri)

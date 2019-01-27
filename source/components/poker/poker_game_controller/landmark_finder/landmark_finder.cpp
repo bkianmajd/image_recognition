@@ -33,6 +33,7 @@ bool LandmarkFinder::UpdateBigImage(const std::vector<char>& big_image) {
 }
 
 Card LandmarkFinder::FindLeftCard(PlayerLocation player_location) {
+  assert(player_location < player_locators_.size());
   template_recognition::ScreenArea screen_area =
       player_locators_.at(static_cast<size_t>(player_location))
           .GetLeftCardArea();
@@ -41,6 +42,7 @@ Card LandmarkFinder::FindLeftCard(PlayerLocation player_location) {
 }
 
 Card LandmarkFinder::FindRightCard(PlayerLocation player_location) {
+  assert(player_location < player_locators_.size());
   template_recognition::ScreenArea screen_area =
       player_locators_.at(static_cast<size_t>(player_location))
           .GetRightCardArea();
@@ -55,6 +57,7 @@ ChairStatus LandmarkFinder::FindChairStatus(PlayerLocation player_location) {
 }
 
 Card LandmarkFinder::FindDealerCard(DealerLocation dealer_location) {
+  assert(table_locator_.get());
   template_recognition::ScreenArea screen_area =
       table_locator_->GetDealerArea(dealer_location);
   return FindCardFromRawScreenArea(screen_area);

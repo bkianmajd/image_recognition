@@ -37,6 +37,7 @@ struct Card {
   Suit suit;
   Card();
   Card(CardValue, Suit);
+  Card& operator=(const Card& from);
 };
 
 struct PlayerHand {
@@ -61,6 +62,7 @@ struct Table {
 };
 
 std::ostream& operator<<(std::ostream& ss, Card card);
+std::ostream& operator<<(std::ostream& ss, PlayerHand hand);
 bool operator==(Card left_card, Card right_card);
 bool operator!=(Card left_card, Card right_card);
 

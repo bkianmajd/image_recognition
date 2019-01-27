@@ -53,6 +53,7 @@ template_recognition::ScreenArea TableLocator::GetDealerArea(
       std::cerr << "Dealer location invalid" << std::endl;
       screen_area.height = 0;
       screen_area.width = 0;
+      assert(false);
       break;
   }
   return screen_area;

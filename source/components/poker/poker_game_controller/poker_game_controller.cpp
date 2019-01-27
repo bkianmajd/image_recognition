@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include <base/bind.h>
+
 namespace poker {
 namespace {
 
@@ -17,15 +19,19 @@ GameModel InitialGameModel() {
 }  // namespace
 
 PokerGameController::PokerGameController(
-    base::Callback<void(const Card&)> new_hand_callback,
+    base::Callback<void(const PlayerHand&)> new_hand_callback,
     base::Callback<void(const GameModel&)> status_change_callback,
-    scoped_refptr<base::SingleThreadTaskRunner> task_runner)
-    : landmark_finder_(kDefualtChairs),
-      last_game_model_(InitialGameModel()),
+    base::Callback<void()> decision_callback,
+    scoped_refptr<base::SingleThreadTaskRunner> callback_task_runner)
+    : last_game_model_(InitialGameModel()),
       game_model_(InitialGameModel()),
+      landmark_finder_(kDefualtChairs),
       new_hand_callback_(new_hand_callback),
       status_change_callback_(status_change_callback),
-      task_runner_(task_runner) {}
+      decision_callback_(decision_callback),
+      callback_task_runner_(callback_task_runner) {
+  assert(callback_task_runner != nullptr);
+}
 
 void PokerGameController::UpdateBigImage(
     const std::vector<char>& big_image_raw_data) {
@@ -33,12 +39,14 @@ void PokerGameController::UpdateBigImage(
   landmark_finder_.UpdateBigImage(big_image_raw_data);
   UpdateModel();
 
+  // TODO(B): Finish this
   // Sanity check Model
   // if(!sanity_check_.Check(last_game_model_, &game_model_)) {
   // Post error
   // return;
   //}
 
+  // Post tasks based on inferring from the game model
   CompareModelandNotify();
 
   // Swap the |last_game_model_| becasue the next update is going to change the
@@ -55,7 +63,7 @@ void PokerGameController::UpdateModel() {
         landmark_finder_.FindRightCard(static_cast<PlayerLocation>(i));
   }
 
-  for (int i = 0; i <= DEALER_FIVE; ++i) {
+  for (int i = DEALER_ONE; i < DEALER_MAX_SIZE; ++i) {
     Card& dealer_card = game_model_.dealer_cards[static_cast<size_t>(i)];
     dealer_card =
         landmark_finder_.FindDealerCard(static_cast<DealerLocation>(i));
@@ -64,17 +72,21 @@ void PokerGameController::UpdateModel() {
 
 void PokerGameController::CompareModelandNotify() {
   if (CheckNewHand()) {
-    // post task
+    callback_task_runner_->PostTask(
+        FROM_HERE, base::Bind(new_hand_callback_,
+                              game_model_.player_hands[PLAYERLOC_PLAYER_ZERO]));
     return;
   }
 
   if (CheckModelDifferent()) {
-    // post task
+    callback_task_runner_->PostTask(
+        FROM_HERE, base::Bind(status_change_callback_, game_model_));
+
     return;
   }
 
   if (landmark_finder_.FindDecisionEvent()) {
-    // post task
+    callback_task_runner_->PostTask(FROM_HERE, decision_callback_);
     return;
   }
 }
@@ -104,7 +116,7 @@ bool PokerGameController::CheckModelDifferent() const {
   }
 
   // Model is the same
-  return true;
+  return false;
 }
 
 bool PokerGameController::CheckNewHand() const {

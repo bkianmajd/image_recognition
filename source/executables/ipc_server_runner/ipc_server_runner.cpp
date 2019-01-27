@@ -5,12 +5,12 @@
 
 #include "components/image_service/server/ipc_server.h"
 #include "components/poker/app_finder/app_finder.h"
-#include "components/poker/poker_workflow.h"
+#include "components/poker/workflow_session_thread.h"
 #include "executables/ipc_server_runner/static_config.h"
 #include "helpers/memory_helper.hpp"
 
-void RunControllerThread(QCoreApplication* a, ipc::IpcServer* ipc_server,
-                         poker::PokerWorkflow* poker_workflow) {
+void RunServerThread(QCoreApplication* a, ipc::IpcServer* ipc_server,
+                     poker::WorkflowSessionThread* workflow_session_thread) {
   poker::AppFinder app_finder;
   auto start_time = std::chrono::system_clock::now();
   while (!ipc_server->IsInit()) {
@@ -22,6 +22,8 @@ void RunControllerThread(QCoreApplication* a, ipc::IpcServer* ipc_server,
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
 
+  std::cout << "Initializing IPC server and starting session" << std::endl;
+  workflow_session_thread->StartSession();
   bool run_mode = true;
   while (run_mode) {
     std::vector<char> image_bytes;
@@ -37,17 +39,16 @@ void RunControllerThread(QCoreApplication* a, ipc::IpcServer* ipc_server,
 
     // Send the image to the poker workflow
     if (narrowed_image.size() != 0) {
-      std::cout << "poker image recognized" << std::endl;
-      poker_workflow->ConsumeImage(narrowed_image);
+      // std::cout << "poker image recognized" << std::endl;
       // This runs the backend workflow
-      // TODO(): Consider running this in a separate thread
-      poker_workflow->ProcessImage();
+      workflow_session_thread->ProcessImage(narrowed_image);
     }
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1));
   }
 
   std::cout << "Stopping running thread" << std::endl;
+  workflow_session_thread->EndSessionAndJoin();
   a->quit();
 }
 
@@ -61,8 +62,8 @@ int Main(int argc, char* argv[]) {
   // Construction - poker component
   // Widgets must be created in main thread
   // template_recognition::ScreenshotCreator screenshot_creator;
-  std::unique_ptr<poker::PokerWorkflow> poker_workflow =
-      std::make_unique<poker::PokerWorkflow>();
+  std::unique_ptr<poker::WorkflowSessionThread> poker_session_thread =
+      std::make_unique<poker::WorkflowSessionThread>();
 
   // Initialization - has to be done on main thread
   com_layer::ConnectionInfo connection_info;
@@ -71,8 +72,8 @@ int Main(int argc, char* argv[]) {
   ipc_server->AsyncInit(connection_info);
 
   // Start thread and transfer ownership
-  std::thread t1(RunControllerThread, &a, ipc_server.get(),
-                 poker_workflow.get());
+  std::thread t1(RunServerThread, &a, ipc_server.get(),
+                 poker_session_thread.get());
 
   // Run the main thread in the background
   a.exec();

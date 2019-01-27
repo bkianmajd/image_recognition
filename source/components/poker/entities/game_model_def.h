@@ -10,21 +10,6 @@
 
 namespace poker {
 
-enum PlayerStatus {
-  PLAYER_STATUS_UNKNOWN = 0,
-  PLAYER_STATUS_IN_HAND,
-  PLAYER_STATUS_FOLDED,
-  PLAYER_STATUS_OUTSIDE,
-};
-
-enum TableStatus {
-  TABLE_STATUS_UNKNOWN = 0,
-  TABLE_STATUS_PREFLOP,
-  TABLE_STATUS_FLOP,
-  TABLE_STATUS_TURN,
-  TABLE_STATUS_RIVER,
-};
-
 /// @struct GameStatus
 /// Entity
 /// Contains the temporal information for a single game
@@ -35,7 +20,7 @@ struct GameStatus {
 struct GameModel {
   GameStatus game_status;
   std::array<PlayerHand, PLAYERLOC_MAXSIZE> player_hands;
-  std::array<Card, TABLE_STATUS_RIVER> dealer_cards;
+  std::array<Card, DEALER_MAX_SIZE> dealer_cards;
 };
 
 }  // poker
