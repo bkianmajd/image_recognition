@@ -8,7 +8,7 @@
 #include "components/poker/entities/game_model_def.h"
 #include "components/poker/entities/poker_workflow_callbacks.h"
 #include "components/poker/poker_game_controller/landmark_finder/landmark_finder.h"
-#include "components/poker/poker_game_controller/sanity_check/sanity_check.h"
+#include "components/poker/poker_game_controller/sanity_check/sanity_checker.h"
 
 #include <base/callback.h>
 #include <base/single_thread_task_runner.h>

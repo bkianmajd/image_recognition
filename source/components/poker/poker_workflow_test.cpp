@@ -1,4 +1,4 @@
-#include "components/poker/poker_workflow.h"
+#include "components/poker/workflow_session.h"
 
 #include <iostream>
 

@@ -20,6 +20,11 @@ Card CreateTestCard() {
 
 void OnDecisionCallback() {}
 
+void OnErrorCallback(const image::Image& image, const std::string& error_str) {
+  (void)image;
+  (void)error_str;
+}
+
 }  // namespace
 
 class PokerGameControllerTest : public testing::Test {
@@ -30,9 +35,12 @@ class PokerGameControllerTest : public testing::Test {
                        base::Unretained(this)),
             base::Bind(&PokerGameControllerTest::OnStatusChange,
                        base::Unretained(this)),
-            base::Bind(&OnDecisionCallback), message_loop_.task_runner()) {}
+            base::Bind(&OnDecisionCallback), base::Bind(&OnErrorCallback),
+            message_loop_.task_runner()) {}
 
-  void OnNewHand(const PlayerHand& player_hand) { player_hand_ = player_hand; }
+  void OnNewHand(const GameModel& game_model) {
+    player_hand_ = game_model.player_hands[PLAYERLOC_PLAYER_ZERO];
+  }
 
   void OnStatusChange(const GameModel& game_model) { game_model_ = game_model; }
 

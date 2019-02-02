@@ -75,7 +75,7 @@ void PokerGameController::UpdateModel() {
 }
 
 void PokerGameController::CompareModelandNotify() {
-  if (CheckNewHand(last_game_model_, game_model_)) {
+  if (CheckForNewHand(last_game_model_, game_model_)) {
     callback_task_runner_->PostTask(
         FROM_HERE, base::Bind(new_hand_callback_, game_model_));
     return;
