@@ -1,5 +1,7 @@
 #include "components/poker/poker_game_controller/poker_game_controller.h"
 
+#include "components/poker/entities/comparator/comparator.h"
+
 #include <algorithm>
 
 #include <base/bind.h>
@@ -42,12 +44,11 @@ void PokerGameController::UpdateBigImage(
   landmark_finder_.UpdateBigImage(big_image_raw_data);
   UpdateModel();
 
-  // TODO(B): Finish this
-  // Sanity check Model
-  // if(!sanity_check_.Check(last_game_model_, &game_model_)) {
-  // Post error
-  // return;
-  //}
+  if (!sanity_check_.Check(last_game_model_, &game_model_)) {
+    callback_task_runner_->PostTask(
+        FROM_HERE, base::Bind(error_callback_, big_image_raw_data,
+                              sanity_check_.ErrorStr()));
+  }
 
   // Post tasks based on inferring from the game model
   CompareModelandNotify();
@@ -74,7 +75,7 @@ void PokerGameController::UpdateModel() {
 }
 
 void PokerGameController::CompareModelandNotify() {
-  if (CheckNewHand()) {
+  if (CheckNewHand(last_game_model_, game_model_)) {
     callback_task_runner_->PostTask(
         FROM_HERE, base::Bind(new_hand_callback_, game_model_));
     return;
@@ -119,21 +120,6 @@ bool PokerGameController::CheckModelDifferent() const {
 
   // Model is the same
   return false;
-}
-
-bool PokerGameController::CheckNewHand() const {
-  // if this is unknown, the right card and suit should be unknown as well
-  if (game_model_.player_hands[PLAYERLOC_PLAYER_ZERO].first_card.value ==
-      CARD_VALUE_UNKNOWN) {
-    return false;
-  }
-
-  if (game_model_.player_hands[PLAYERLOC_PLAYER_ZERO].first_card ==
-      last_game_model_.player_hands[PLAYERLOC_PLAYER_ZERO].first_card) {
-    return false;
-  }
-
-  return true;
 }
 
 }  // namespace poker

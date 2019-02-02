@@ -7,6 +7,8 @@ HEADERS += $${WORKSPACE}/components/poker/poker_game_controller/poker_game_contr
 SOURCES += $${WORKSPACE}/components/poker/poker_game_controller/poker_game_controller.cpp
 
 include($${WORKSPACE}/components/poker/entities/entities.pri)
+include($${WORKSPACE}/components/poker/entities/comparator/comparator.pri)
 include($${WORKSPACE}/components/poker/poker_game_controller/landmark_finder/landmark_finder.pri)
+include($${WORKSPACE}/components/poker/poker_game_controller/sanity_check/sanity_check.pri)
 include($${WORKSPACE}/external_libraries/libchrome_output/libchrome_output.pri)
 }

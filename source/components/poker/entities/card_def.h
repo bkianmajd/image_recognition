@@ -61,6 +61,8 @@ struct Table {
   Card fifth_card;
 };
 
+int CardToUniqueId(const Card& card);
+
 std::ostream& operator<<(std::ostream& ss, Card card);
 std::ostream& operator<<(std::ostream& ss, PlayerHand hand);
 bool operator==(Card left_card, Card right_card);

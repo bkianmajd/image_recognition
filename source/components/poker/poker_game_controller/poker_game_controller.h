@@ -8,6 +8,7 @@
 #include "components/poker/entities/game_model_def.h"
 #include "components/poker/entities/poker_workflow_callbacks.h"
 #include "components/poker/poker_game_controller/landmark_finder/landmark_finder.h"
+#include "components/poker/poker_game_controller/sanity_check/sanity_check.h"
 
 #include <base/callback.h>
 #include <base/single_thread_task_runner.h>
@@ -41,12 +42,14 @@ class PokerGameController : public PokerGameControllerInterface {
 
   void CompareModelandNotify();
   bool CheckModelDifferent() const;
-  bool CheckNewHand() const;
 
+  // Entities
   GameModel last_game_model_;
   GameModel game_model_;
 
+  // Interactors
   LandmarkFinder landmark_finder_;
+  SanityCheck sanity_check_;
 
   // Callbacks to be run on the callback_task_runner
   const base::Callback<void(const GameModel&)> new_hand_callback_;

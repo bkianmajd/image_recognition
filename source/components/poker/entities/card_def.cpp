@@ -14,7 +14,7 @@ Card::Card(CardValue arg_value, Suit arg_suit) {
 
 std::ostream& operator<<(std::ostream& ss, PlayerHand hand) {
   ss << "[" << hand.first_card << "] ";
-  ss << "[" << hand.second_card << "]" <<std::endl;
+  ss << "[" << hand.second_card << "]" << std::endl;
   return ss;
 }
 
@@ -62,24 +62,19 @@ std::ostream& operator<<(std::ostream& ss, Card card) {
   return ss;
 }
 
-bool operator==(Card left_card, Card right_card) {
-  if (left_card.suit != right_card.suit) {
-    return false;
-  }
-  if (left_card.value != right_card.value) {
-    return false;
-  }
-  return true;
-}
-
-bool operator!=(Card left_card, Card right_card) {
-  return !(left_card == right_card);
-}
-
 Card& Card::operator=(const Card& from) {
   this->suit = from.suit;
   this->value = from.value;
   return *this;
+}
+
+int CardToUniqueId(const Card& card) {
+  // Hidden card value is 53, the suit is assumed hidden automatically
+  if (card.value == CARD_VALUE_HIDDEN || card.suit == SUIT_HIDDEN) {
+    return 53;
+  }
+  // Unkown value is 0, the suit is also assumed unknown
+  return static_cast<int>(card.value) * static_cast<int>(card.suit);
 }
 
 }  // namespace poker
