@@ -74,7 +74,8 @@ int CardToUniqueId(const Card& card) {
     return 53;
   }
   // Unkown value is 0, the suit is also assumed unknown
-  return static_cast<int>(card.value) * static_cast<int>(card.suit);
+  return static_cast<int>(card.value) +
+         (13 * (static_cast<int>(card.suit) - 1));
 }
 
 }  // namespace poker

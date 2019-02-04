@@ -20,22 +20,22 @@ class StatisticCalculator {
   void UpdateGameModel(const GameModel& game_model);
 
   /// Calculates the probability that the card comes on the next turn
-  double CalculateProbability(Card card);
+  double CalculateProbability(Card card) const;
 
   /// Calculates the probability that the suit comes on the next turn
-  double CalculateProbability(Suit suit);
+  double CalculateProbability(Suit suit) const;
 
   /// Calculates the probability that the value comes on the next turn
-  double CalculateProbability(CardValue value);
+  double CalculateProbability(CardValue value) const;
 
   /// Calculates the probability that the value comes at least once
-  double CalculateProbabilityAtLeastOnce(CardValue value);
+  double CalculateProbabilityAtLeastOnce(CardValue value) const;
 
   /// Calculates the probability that the card comes at least once
-  double CalculateProbabilityAtLeastOnce(Card card);
+  double CalculateProbabilityAtLeastOnce(Card card) const;
 
   /// Calculates the probability that the suit comes at least once
-  double CalculateProbabilityAtLeastOnce(Suit suit);
+  double CalculateProbabilityAtLeastOnce(Suit suit) const;
 
  private:
   struct EnumHash {

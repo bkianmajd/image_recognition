@@ -8,10 +8,23 @@ constexpr int kSuitSize = 13;
 // There are 4 values
 constexpr int kValueSize = 4;
 
+// The map by default does not hold all 52 indexes. This function simply returns
+// 0 if its unable to find the key in the counter map. Otherwise access the map
+// to get the number of suits, or number of values (i.e. if 4 aces are on the
+// field, will return 4)
+template <typename T, typename Hash>
+int GetCount(const std::unordered_map<T, int, Hash>& map, T key) {
+  if (map.find(key) == map.end()) {
+    return 0;
+  }
+
+  return map.at(key);
+}
+
 }  // namespace
 
 StatisticCalculator::StatisticCalculator()
-    : cards_remaining_(50), turns_left_(0) {}
+    : cards_remaining_(52), turns_left_(0) {}
 
 void StatisticCalculator::UpdateGameModel(const GameModel& game_model) {
   // Reset members
@@ -40,51 +53,55 @@ void StatisticCalculator::UpdateGameModel(const GameModel& game_model) {
   }
 }
 
-double StatisticCalculator::CalculateProbability(Card card) {
+double StatisticCalculator::CalculateProbability(Card card) const {
   int id = CardToUniqueId(card);
   // The card is already here! Technically should not be called
   if (active_cards_.find(id) != active_cards_.end()) {
     return 0;
   }
   // Probability is 1 / cards_remaining
-  return 1 / cards_remaining_;
+  return 1.0 / static_cast<double>(cards_remaining_);
 }
 
-double StatisticCalculator::CalculateProbability(Suit suit) {
+double StatisticCalculator::CalculateProbability(Suit suit) const {
   // First find how many suits are remaining
-  int suit_remaining = kSuitSize - suit_counter_[suit];
+  int suit_remaining = kSuitSize - GetCount(suit_counter_, suit);
 
   assert(suit_remaining > -1);
   // Probability is suit_remaining / cards_remaining
-  return suit_remaining / cards_remaining_;
+  return static_cast<double>(suit_remaining) /
+         static_cast<double>(cards_remaining_);
 }
 
-double StatisticCalculator::CalculateProbability(CardValue value) {
+double StatisticCalculator::CalculateProbability(CardValue value) const {
   // First find how many of the same number are remaining
-  int value_remaining = kValueSize - value_counter_[value];
+  int value_remaining = kValueSize - GetCount(value_counter_, value);
   assert(value_remaining > -1);
 
   // Probability is value_remaining / cards_remaining
-  return value_remaining / cards_remaining_;
+  return static_cast<double>(value_remaining) /
+         static_cast<double>(cards_remaining_);
 }
 
-double StatisticCalculator::CalculateProbabilityAtLeastOnce(CardValue value) {
+double StatisticCalculator::CalculateProbabilityAtLeastOnce(
+    CardValue value) const {
   // First find how many of the same number are remaining
-  int value_remaining = kValueSize - value_counter_[value];
+  int value_remaining = kValueSize - GetCount(value_counter_, value);
   assert(value_remaining > -1);
   assert(cards_remaining_ > turns_left_);
 
   // The probability is equal to 1 - the probability the value never appears
-  double p = 1;
+  double p = 1.0;
   int cards_remaining = cards_remaining_;
   for (int i = 0; i < turns_left_; ++i) {
-    p = p * value_remaining / cards_remaining;
+    p = p * static_cast<double>(cards_remaining - value_remaining) /
+        static_cast<double>(cards_remaining);
     cards_remaining--;
   }
-  return 1 - p;
+  return 1.0 - p;
 }
 
-double StatisticCalculator::CalculateProbabilityAtLeastOnce(Card card) {
+double StatisticCalculator::CalculateProbabilityAtLeastOnce(Card card) const {
   int id = CardToUniqueId(card);
   // The card is already here! Technically should not be called
   if (active_cards_.find(id) != active_cards_.end()) {
@@ -98,25 +115,27 @@ double StatisticCalculator::CalculateProbabilityAtLeastOnce(Card card) {
   double p = 1;
   int cards_remaining = cards_remaining_;
   for (int i = 0; i < turns_left_; ++i) {
-    p = p * (cards_remaining - 1) / cards_remaining;
+    p = p * static_cast<double>(cards_remaining - 1) /
+        static_cast<double>(cards_remaining);
     cards_remaining--;
   }
-  return 1 - p;
+  return 1.0 - p;
 }
 
-double StatisticCalculator::CalculateProbabilityAtLeastOnce(Suit suit) {
+double StatisticCalculator::CalculateProbabilityAtLeastOnce(Suit suit) const {
   // First find how many suits are remaining
-  int suit_remaining = kSuitSize - suit_counter_[suit];
+  int suit_remaining = kSuitSize - GetCount(suit_counter_, suit);
 
   assert(cards_remaining_ > turns_left_);
   // The probability is equal to 1 - the probability the suit never appears
   double p = 1;
   int cards_remaining = cards_remaining_;
   for (int i = 0; i < turns_left_; ++i) {
-    p = p * suit_remaining / cards_remaining;
+    p = p * static_cast<double>(cards_remaining - suit_remaining) /
+        static_cast<double>(cards_remaining);
     cards_remaining--;
   }
-  return 1 - p;
+  return 1.0 - p;
 }
 
 void StatisticCalculator::AddCardToSet(const Card& card) {
