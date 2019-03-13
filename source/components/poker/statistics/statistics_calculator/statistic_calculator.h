@@ -37,6 +37,11 @@ class StatisticCalculator {
   /// Calculates the probability that the suit comes at least once
   double CalculateProbabilityAtLeastOnce(Suit suit) const;
 
+  /// Calculates the probability that the palyer has a card
+  double CalculatePlayerProbability(Card card) const;
+  double CalculatePlayerProbability(CardValue value) const;
+  double CalculatePlayerProbability(Suit suit) const;
+
  private:
   struct EnumHash {
     template <typename T>

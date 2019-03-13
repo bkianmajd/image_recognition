@@ -4,6 +4,8 @@
 #include <iostream>
 
 namespace poker {
+constexpr int kStartingId = 1;
+constexpr int kEndingId = 53;
 
 enum Suit {
   SUIT_UNKNOWN = 0,
@@ -41,6 +43,7 @@ struct Card {
 };
 
 struct PlayerHand {
+  PlayerHand(Card fc, Card sc);
   Card first_card;
   Card second_card;
 };
@@ -53,6 +56,8 @@ enum TableState {
 };
 
 struct Table {
+  Table(Card first_card, Card second_card, Card third_card, Card fourth_card,
+        Card fifth_card);
   TableState table_state = TABLE_STATE_PRE_FLOP;
   Card first_card;
   Card second_card;
@@ -62,11 +67,12 @@ struct Table {
 };
 
 int CardToUniqueId(const Card& card);
+Card UniqueIdToCard(int);
 
 std::ostream& operator<<(std::ostream& ss, Card card);
 std::ostream& operator<<(std::ostream& ss, PlayerHand hand);
-bool operator==(Card left_card, Card right_card);
-bool operator!=(Card left_card, Card right_card);
+bool operator==(const Card& left_card, const Card& right_card);
+bool operator!=(const Card& left_card, const Card& right_card);
 
 }  // namespace poker
 

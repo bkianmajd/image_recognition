@@ -138,6 +138,54 @@ double StatisticCalculator::CalculateProbabilityAtLeastOnce(Suit suit) const {
   return 1.0 - p;
 }
 
+double StatisticCalculator::CalculatePlayerProbability(CardValue value) const {
+  // First find how many of the same number are remaining
+  int value_remaining = kValueSize - GetCount(value_counter_, value);
+  assert(value_remaining > -1);
+
+  // The probability is equal to 1 - the probability the value never appears
+  double p = 1.0;
+  int cards_remaining = cards_remaining_;
+  for (int i = 0; i < 2; ++i) {
+    p = p * static_cast<double>(cards_remaining - value_remaining) /
+        static_cast<double>(cards_remaining);
+    cards_remaining--;
+  }
+  return 1.0 - p;
+}
+
+double StatisticCalculator::CalculatePlayerProbability(Suit suit) const {
+  // First find how many suits are remaining
+  int suit_remaining = kSuitSize - GetCount(suit_counter_, suit);
+
+  // The probability is equal to 1 - the probability the suit never appears
+  double p = 1;
+  int cards_remaining = cards_remaining_;
+  for (int i = 0; i < 2; ++i) {
+    p = p * static_cast<double>(cards_remaining - suit_remaining) /
+        static_cast<double>(cards_remaining);
+    cards_remaining--;
+  }
+  return 1.0 - p;
+}
+
+double StatisticCalculator::CalculatePlayerProbability(Card card) const {
+  int id = CardToUniqueId(card);
+  // The card is already here! Technically should not be called
+  if (active_cards_.find(id) != active_cards_.end()) {
+    return 0;
+  }
+  // Probability is 1 - probability of not having it in hand
+  double p = 1;
+  int cards_remaining = cards_remaining_;
+  for (int i = 0; i < 2; ++i) {
+    p = p * static_cast<double>(cards_remaining - 1) /
+        static_cast<double>(cards_remaining);
+    cards_remaining--;
+  }
+  return 1.0 - p;
+}
+
 void StatisticCalculator::AddCardToSet(const Card& card) {
   // ignore if card is hidden or unknown because the caller is expecting a 52
   // card deck
