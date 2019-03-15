@@ -10,4 +10,5 @@ SOURCES += $${WORKSPACE}/components/poker/statistics/brute_force_generator/hand_
 SOURCES += $${WORKSPACE}/components/poker/statistics/brute_force_generator/table_generator.cpp
 
 include($${WORKSPACE}/components/poker/simulator/simulator.pri)
+include($${WORKSPACE}/helpers/helpers.pri)
 }

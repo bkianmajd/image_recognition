@@ -17,10 +17,10 @@ class HandGenerator {
   std::vector<PlayerHand> GenerateCombinations();
 
  private:
-  void AddCombinationSet();
+  void AddCombinationSet(std::stack<Card>* deck);
 
-  DeckStackFactory deck_factory_;
-  std::stack<Card> deck_;
+  const DeckStackFactory deck_factory_;
+
   std::vector<PlayerHand> combinations_;
 };
 
