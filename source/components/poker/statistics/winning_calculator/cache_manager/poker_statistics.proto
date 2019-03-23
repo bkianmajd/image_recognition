@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package poker;
+
+// Retrieves stored statistics of the probability of losing
+// with one other player, for a given hand 
+message PreflopStatistic {
+  int32 left_id = 1;
+  int32 right_id = 2;
+  double losing_probability = 3;
+}
+
+message PreflopStatistics {
+  repeated PreflopStatistic preflop_statistics = 4;
+}
