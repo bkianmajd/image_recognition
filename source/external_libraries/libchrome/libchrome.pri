@@ -3,6 +3,7 @@ included_modules += $$_FILE_
 
 QMAKE_CXXFLAGS += -fno-exceptions
 
+INCLUDEPATH += $${WORKSPACE}/external_libraries/googletest/include
 INCLUDEPATH += $${WORKSPACE}/external_libraries/libchrome
 INCLUDEPATH += $${WORKSPACE}/external_libraries/libchrome/base/third_party
 

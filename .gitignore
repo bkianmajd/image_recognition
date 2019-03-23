@@ -1,5 +1,6 @@
 build/*
 builds/*
+**/build/*
 **/ignore_images/*
 **/ignore_cards/*
 *.user

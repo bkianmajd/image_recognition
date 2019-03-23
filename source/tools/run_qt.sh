@@ -1,5 +1,5 @@
 #add image key
 ssh-add ~/image_key
 
-cd /home/babak/Qt/Tools/QtCreator/bin
+cd ~/Qt/Tools/QtCreator/bin
 ./qtcreator.sh
