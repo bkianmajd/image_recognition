@@ -2,15 +2,7 @@
   included_modules += $$PWD
 
 #libraries
-LIBS += /usr/local/lib/libopencv_core.so \
-        /usr/local/lib/libopencv_core.so.3.4 \
-        /usr/local/lib/libopencv_highgui.so \
-        /usr/local/lib/libopencv_imgproc.so \
-        /usr/local/lib/libopencv_imgcodecs.so
-
-#include path
-INCLUDEPATH +=  $${WORKSPACE}/ \
-                $${WORKSPACE}/external_libraries/opencv-3.4.1/include
+include($${WORKSPACE}/external_libraries/opencv_output/opencv_output.pri)
 
 HEADERS += $${WORKSPACE}/libraries/image_recognition/template_recognition/simple/simple_recognition.h
 

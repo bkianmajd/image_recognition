@@ -38,11 +38,12 @@ struct Card {
   CardValue value;
   Suit suit;
   Card();
-  Card(CardValue, Suit);
+  explicit Card(CardValue, Suit);
   Card& operator=(const Card& from);
 };
 
 struct PlayerHand {
+  PlayerHand() = default;
   PlayerHand(Card fc, Card sc);
   Card first_card;
   Card second_card;

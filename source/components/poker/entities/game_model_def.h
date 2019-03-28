@@ -23,6 +23,6 @@ struct GameModel {
   std::array<Card, DEALER_MAX_SIZE> dealer_cards;
 };
 
-}  // poker
+}  // namespace poker
 
 #endif  // GAME_MODEL_DEF_H_

@@ -2,20 +2,6 @@
 
 namespace poker {
 
-bool operator==(Card left_card, Card right_card) {
-  if (left_card.suit != right_card.suit) {
-    return false;
-  }
-  if (left_card.value != right_card.value) {
-    return false;
-  }
-  return true;
-}
-
-bool operator!=(Card left_card, Card right_card) {
-  return !(left_card == right_card);
-}
-
 bool CheckForNewHand(const GameModel& last_game_model,
                      const GameModel& game_model) {
   // HIDDEN -> show -> HIDDEN
