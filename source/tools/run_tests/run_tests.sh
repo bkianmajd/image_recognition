@@ -1,4 +1,4 @@
-qmake_dir="/home/babak/Qt5.7.0/5.7/gcc_64/bin"
+source ../env_variables.sh
 build_dir="$PWD/../../../build"
 source_dir="$PWD/../.."
 
@@ -31,7 +31,7 @@ do
   #echo $PWD
 
   #compiling
-  $qmake_dir/qmake -o $abs_build_dir $abs_path
+  $QMAKE_DIR/qmake -o $abs_build_dir $abs_path
 
   # making the file
   cd $abs_build_dir
