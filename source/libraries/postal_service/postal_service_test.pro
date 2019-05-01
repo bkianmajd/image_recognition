@@ -6,9 +6,9 @@ CONFIG += warn_off
 
 WORKSPACE = $$_PRO_FILE_PWD_/../../../source/
 INCLUDEPATH += $${WORKSPACE}
-INCLUDEPATH += $${WORKSPACE}/external_libraries/googletest/include
 
-LIBS += $${WORKSPACE}/external_libraries/googletest/lib/libgtest.a
+
+include($${WORKSPACE}/external_libraries/googletest_output/googletest_output.pri)
 
 SOURCES += $${WORKSPACE}/libraries/postal_service/postal_service_test.cpp
 

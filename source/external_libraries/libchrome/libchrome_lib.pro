@@ -10,6 +10,6 @@ target.path = $${WORKSPACE}/external_libraries/libchrome_output
 INSTALLS += target
 
 
-LIBS += $${WORKSPACE}/external_libraries/googletest/lib/libgtest.a
+include($${WORKSPACE}/external_libraries/googletest_output/googletest_output.pri)
 
 include($${WORKSPACE}/external_libraries/libchrome/libchrome.pri)
