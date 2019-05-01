@@ -119,11 +119,8 @@ std::string CreateTestPro(const DirectoryFinder& directory_finder,
   stream << "WORKSPACE = $$_PRO_FILE_PWD_/"
          << directory_finder.GetBackSlashWorkspace() << std::endl;
   stream << "INCLUDEPATH += $${WORKSPACE}" << std::endl;
-  stream << "INCLUDEPATH += $${WORKSPACE}/external_libraries/googletest/include"
-         << std::endl;
-  stream << std::endl;
 
-  stream << "LIBS += $${WORKSPACE}/external_libraries/googletest/lib/libgtest.a"
+  stream << "include($${WORKSPACE}/external_libraries/googletest_output/googletest_output.pri)"
          << std::endl;
   stream << std::endl;
 
