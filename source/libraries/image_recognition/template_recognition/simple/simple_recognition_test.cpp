@@ -6,7 +6,7 @@
 #include "external_libraries/googletest/include/gtest/gtest.h"
 #include "google_test/testing_def.h"
 #include "helpers/directory_finder.h"
-#include "helpers/file_manager/file_manager.h"
+#include "helpers/file_manager.h"
 #include "libraries/image_recognition/template_recognition/template_recognition_interface.h"
 
 namespace recognition {

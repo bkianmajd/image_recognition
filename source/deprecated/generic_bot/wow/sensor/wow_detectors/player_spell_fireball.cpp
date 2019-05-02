@@ -1,6 +1,6 @@
 #include "generic_bot/wow/sensor/wow_detectors/player_spell_fireball.h"
 
-#include "helpers/file_manager/file_manager.h"
+#include "helpers/file_manager.h"
 
 namespace bot {
 namespace wow {

@@ -6,7 +6,7 @@ HEADERS += $${WORKSPACE}/libraries/image_comparer/compare_algorithm.h
 SOURCES += $${WORKSPACE}/libraries/image_comparer/comparer.cpp
 SOURCES += $${WORKSPACE}/libraries/image_comparer/compare_algorithm.cpp
 
-include($${WORKSPACE}/helpers/file_manager/file_manager.pri)
+include($${WORKSPACE}/helpers/helpers.pri)
 include($${WORKSPACE}/libraries/image_def/utility/utility.pri)
 include($${WORKSPACE}/libraries/image_uploader/image_uploader.pri)
 include($${WORKSPACE}/helpers/helpers.pri)

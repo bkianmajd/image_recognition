@@ -7,7 +7,7 @@ SOURCES += $${WORKSPACE}/components/poker/poker_game_controller/training/trainin
 
 include($${WORKSPACE}/components/poker/poker_game_controller/poker_game_controller.pri)
 include($${WORKSPACE}/components/poker/entities/entities.pri)
-include($${WORKSPACE}/helpers/file_manager/file_manager.pri)
+include($${WORKSPACE}/helpers/helpers.pri)
 include($${WORKSPACE}/libraries/image_trainer/image_trainer.pri)
 include($${WORKSPACE}/libraries/image_pipeline/image_pipeline.pri)
 }

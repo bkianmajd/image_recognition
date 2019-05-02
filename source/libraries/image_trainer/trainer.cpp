@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "helpers/file_manager/file_manager.h"
+#include "helpers/file_manager.h"
 
 namespace image {
 namespace {

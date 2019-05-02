@@ -8,5 +8,5 @@ SOURCES += $${WORKSPACE}/components/image_service/client/ipc_client.cpp
 include($${WORKSPACE}/libraries/postal_service/postal_service.pri)
 include($${WORKSPACE}/libraries/postal_service/utility/utility.pri)
 include($${WORKSPACE}/schema/proto_schema.pri)
-include($${WORKSPACE}/helpers/file_manager/file_manager.pri)
+include($${WORKSPACE}/helpers/helpers.pri)
 }

@@ -2,7 +2,7 @@
 
 #include "components/poker/poker_game_controller/landmark_finder/map_images/value_comparer.h"
 #include "helpers/directory_finder.h"
-#include "helpers/file_manager/file_manager.h"
+#include "helpers/file_manager.h"
 
 namespace poker {
 namespace {

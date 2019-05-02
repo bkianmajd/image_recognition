@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include "gtest/gtest_prod.h"
 #include "helpers/directory_finder.h"
-#include "helpers/file_manager/file_manager.h"
+#include "helpers/file_manager.h"
 #include "schema/compiled_files/image_request_response_commands.pb.h"
 #include "template_recognition/template_recognition_interface.h"
 

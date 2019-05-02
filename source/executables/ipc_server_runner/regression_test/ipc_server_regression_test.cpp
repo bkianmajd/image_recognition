@@ -6,7 +6,7 @@
 #include "google_test/testing_def.h"
 #include "helpers/directory_finder.h"
 #include "helpers/memory_helper.hpp"
-#include "helpers/file_manager/file_manager.h"
+#include "helpers/file_manager.h"
 #include "postal_service/postal_service.h"
 #include "postal_service/utility/mail_distributor_queue.h"
 #include "postal_service/utility/post_card_queue.h"

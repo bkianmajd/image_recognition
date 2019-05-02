@@ -9,5 +9,5 @@ SOURCES += $${WORKSPACE}/image_ipc/ipc_server/image_command_dispatcher.cpp
 include($${WORKSPACE}/postal_service/postal_service.pri)
 include($${WORKSPACE}/postal_service/utility/utility.pri)
 include($${WORKSPACE}/schema/proto_schema.pri)
-include($${WORKSPACE}/helpers/file_manager/file_manager.pri)
+include($${WORKSPACE}/helpers/helpers.pri)
 include($${WORKSPACE}/template_recognition/template_recognition.pri)

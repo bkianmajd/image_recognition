@@ -6,7 +6,7 @@
 
 #include "gtest/gtest_prod.h"
 #include "helpers/directory_finder.h"
-#include "helpers/file_manager/file_manager.h"
+#include "helpers/file_manager.h"
 #include "libraries/image_file_manager/image_file_manager_interface.h"
 
 namespace image_recognition {

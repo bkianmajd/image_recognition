@@ -4,7 +4,7 @@
 
 #include "gtest/gtest.h"
 #include "helpers/directory_finder.h"
-#include "helpers/file_manager/file_manager.h"
+#include "helpers/file_manager.h"
 #include "libraries/image_def/image_def.h"
 #include "libraries/image_def/utility/utility.h"
 

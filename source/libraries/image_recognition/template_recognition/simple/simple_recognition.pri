@@ -9,7 +9,7 @@ HEADERS += $${WORKSPACE}/libraries/image_recognition/template_recognition/simple
 SOURCES += $${WORKSPACE}/libraries/image_recognition/template_recognition/simple/simple_recognition.cpp
 
 include($${WORKSPACE}/libraries/image_recognition/template_recognition/template_recognition.pri)
-include($${WORKSPACE}/helpers/file_manager/file_manager.pri)
+include($${WORKSPACE}/helpers/helpers.pri)
 include($${WORKSPACE}/helpers/helpers.pri)
 include($${WORKSPACE}/libraries/image_def/utility/utility.pri)
 }

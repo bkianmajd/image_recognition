@@ -2,7 +2,7 @@
 
 #include "gtest/gtest_prod.h"
 #include "helpers/directory_finder.h"
-#include "helpers/file_manager/file_manager.h"
+#include "helpers/file_manager.h"
 #include "helpers/memory_helper.hpp"
 #include "libraries/image_file_manager/image_file_manager.h"
 #include "libraries/image_recognition/template_converter/template_converter.h"

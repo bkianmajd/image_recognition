@@ -3,7 +3,7 @@
 #include <cstdio>
 #include <string>
 
-#include "helpers/file_manager/file_manager.h"
+#include "helpers/file_manager.h"
 #include "libraries/image_def/image_def.h"
 
 #define ClearScreen() printf("\033[H\033[J")

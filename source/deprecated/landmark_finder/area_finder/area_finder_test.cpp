@@ -7,7 +7,7 @@
 #include "google_test/testing_def.h"
 #include "gtest/gtest.h"
 #include "helpers/directory_finder.h"
-#include "helpers/file_manager/file_manager.h"
+#include "helpers/file_manager.h"
 
 namespace poker {
 namespace {

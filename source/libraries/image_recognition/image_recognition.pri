@@ -8,7 +8,7 @@ HEADERS += $${WORKSPACE}/libraries/image_recognition/image_recognition_defs.h
 SOURCES += $${WORKSPACE}/libraries/image_recognition/image_recognition_api.cpp
 SOURCES += $${WORKSPACE}/libraries/image_recognition/image_recognition_defs.cpp
 
-include($${WORKSPACE}/helpers/file_manager/file_manager.pri)
+include($${WORKSPACE}/helpers/helpers.pri)
 include($${WORKSPACE}/helpers/helpers.pri)
 
 # Feature dependencies

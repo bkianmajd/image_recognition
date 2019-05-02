@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "helpers/file_manager/file_manager.h"
+#include "helpers/file_manager.h"
 #include "libraries/image_comparer/compare_algorithm.h"
 #include "libraries/image_def/utility/utility.h"
 #include "libraries/image_def/utility/utility.h"

@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-#include "helpers/file_manager/file_manager.h"
+#include "helpers/file_manager.h"
 #include "helpers/memory_helper.hpp"
 
 namespace poker {

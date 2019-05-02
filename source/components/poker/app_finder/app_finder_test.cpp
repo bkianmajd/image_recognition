@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "gtest/gtest.h"
-#include "helpers/file_manager/file_manager.h"
+#include "helpers/file_manager.h"
 
 namespace poker {
 namespace {

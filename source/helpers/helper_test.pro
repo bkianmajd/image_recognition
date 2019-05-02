@@ -9,5 +9,6 @@ include($${WORKSPACE}/external_libraries/googletest_output/googletest_output.pri
 
 SOURCES += $${WORKSPACE}/google_test/main.cpp
 SOURCES += $${WORKSPACE}/helpers/helper_testers.cpp
+SOURCES += $${WORKSPACE}/helpers/file_manager_test.cpp
 
 include(helpers.pri)
