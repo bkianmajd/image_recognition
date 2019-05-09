@@ -1,11 +1,17 @@
 #include "components/poker/entities/card_def.h"
 
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+
 namespace poker {
 
 Card::Card() {
   value = CARD_VALUE_UNKNOWN;
   suit = SUIT_UNKNOWN;
 }
+
+Card::Card(int uniqueId) { *this = UniqueIdToCard(uniqueId); }
 
 Card::Card(CardValue arg_value, Suit arg_suit)
     : value(arg_value), suit(arg_suit) {}
@@ -85,6 +91,12 @@ bool operator!=(const Card& left_card, const Card& right_card) {
   return !(left_card == right_card);
 }
 
+bool operator<(const Card& left_card, const Card& right_card) {
+  int x = CardToUniqueId(left_card);
+  int y = CardToUniqueId(right_card);
+  return x < y;
+}
+
 int CardToUniqueId(const Card& card) {
   // Hidden card value is 53, the suit is assumed hidden automatically
   if (card.value == CARD_VALUE_HIDDEN || card.suit == SUIT_HIDDEN) {
@@ -116,6 +128,33 @@ Card UniqueIdToCard(int id) {
   card.value = static_cast<CardValue>(value);
   card.suit = static_cast<Suit>(suit + 1);
   return card;
+}
+
+int64_t CardsToUniqueId(const std::vector<Card>& cards) {
+  std::vector<Card> sorted_cards(cards);
+  std::sort(sorted_cards.begin(), sorted_cards.end());
+
+  if (cards.size() > 7) {
+    std::cerr << "Max is 7" << std::endl;
+    assert(false);
+  }
+
+  if (sorted_cards.size() == 0) {
+    return 0;
+  }
+
+  int64_t sorted_id = 0;
+  for (size_t i = 0; i < sorted_cards.size(); ++i) {
+    // The cards are sorted - the first card gets put into the left. e.g 01xxxx.
+    // We do this by multiplying by an offset
+    size_t effective_size = sorted_cards.size() - i;
+    int64_t offset =
+        static_cast<int64_t>(std::pow(10, 2 * (effective_size - 1)));
+
+    sorted_id = CardToUniqueId(sorted_cards[i]) * offset + sorted_id;
+  }
+
+  return sorted_id;
 }
 
 }  // namespace poker

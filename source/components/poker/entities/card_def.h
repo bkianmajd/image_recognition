@@ -2,6 +2,7 @@
 #define CARD_DEF_H_
 
 #include <iostream>
+#include <vector>
 
 namespace poker {
 constexpr int kStartingId = 1;
@@ -16,6 +17,8 @@ enum Suit {
   SUIT_HIDDEN,
 };
 
+// These must be in congruent order as many of the code base assumes this such
+// as the point calculator.
 enum CardValue {
   CARD_VALUE_UNKNOWN = 0,
   CARD_VALUE_ACE = 1,
@@ -40,6 +43,7 @@ struct Card {
   Card();
   explicit Card(CardValue, Suit);
   Card& operator=(const Card& from);
+  Card(int unique_id);
 };
 
 struct PlayerHand {
@@ -69,11 +73,13 @@ struct Table {
 
 int CardToUniqueId(const Card& card);
 Card UniqueIdToCard(int);
+int64_t CardsToUniqueId(const std::vector<Card>& cards);
 
 std::ostream& operator<<(std::ostream& ss, Card card);
 std::ostream& operator<<(std::ostream& ss, PlayerHand hand);
 bool operator==(const Card& left_card, const Card& right_card);
 bool operator!=(const Card& left_card, const Card& right_card);
+bool operator<(const Card& left_card, const Card& right_card);
 
 }  // namespace poker
 
