@@ -228,7 +228,7 @@ Points PointCalculator::GetPoints() {
 PointCalculator::MinorPoint PointCalculator::RoyalFlush() const {
   // Check for royal straight
   if (!RoyalStraight()) {
-    return false;
+    return kFalse;
   }
 
   int spade_counter = 0;
@@ -322,7 +322,7 @@ PointCalculator::MinorPoint PointCalculator::FullHouse() const {
     minorPoint = ThreeOfAKind();
   }
   if (minorPoint == kFalse) {
-    return false;
+    return kFalse;
   }
 
   // Convert the minor point to a card
@@ -602,6 +602,11 @@ PointCalculator::MinorPoint PointCalculator::TwoPair() const {
   // a 2 pair value system should consist of the highest pair followed by the
   // next highest. e.g. C 2
   MinorPoint two_pair_value = 0;
+
+  if(pair_point_ == kUnknown) {
+    std::cerr << "this should not happen" << std::endl;
+    assert(false);
+  }
 
   // Get the highest pair
   MinorPoint highest_pair_value = pair_point_;
