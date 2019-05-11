@@ -63,7 +63,7 @@ enum TableState {
 struct Table {
   Table(Card first_card, Card second_card, Card third_card, Card fourth_card,
         Card fifth_card);
-  TableState table_state = TABLE_STATE_PRE_FLOP;
+  TableState table_state = TABLE_STATE_RIVER;
   Card first_card;
   Card second_card;
   Card third_card;

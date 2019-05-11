@@ -12,11 +12,12 @@ namespace poker {
 namespace simulator {
 
 using Points = int;
+enum GameResult { GAME_RESULT_WIN, GAME_RESULT_LOST, GAME_RESULT_TIE };
 
 /// Returns true when player beats opponent
-bool ModeratePlayerWon(const PlayerHand& player_hand,
-                       const PlayerHand& opponent_hand,
-                       const std::vector<Card>& table);
+GameResult ModeratePlayerWon(const PlayerHand& player_hand,
+                             const PlayerHand& opponent_hand,
+                             const Table& table);
 
 }  // namespace simulator
 }  // namespace poker

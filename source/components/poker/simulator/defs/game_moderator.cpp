@@ -3,26 +3,46 @@
 /// File uses a point system to determine who wins.
 namespace poker {
 namespace simulator {
+namespace {
+
+inline void PopulateSevenCards(const PlayerHand& player_hand,
+                               const Table& table, std::vector<Card>* player) {
+  player->at(0) = player_hand.first_card;
+  player->at(1) = player_hand.second_card;
+  player->at(2) = table.first_card;
+  player->at(3) = table.second_card;
+  player->at(4) = table.third_card;
+  player->at(5) = table.fourth_card;
+  player->at(6) = table.fifth_card;
+}
+
+}  // namespace
 
 using Points = int;
 
 /// Returns true when player beats opponent
-bool ModeratePlayerWon(const PlayerHand& player_hand,
-                       const PlayerHand& opponent_hand,
-                       const std::vector<Card>& table) {
-  assert(table.size() == 5);
-  std::vector<Card> first_player(table);
-  std::vector<Card> second_player(table);
-  first_player.push_back(player_hand.first_card);
-  first_player.push_back(player_hand.second_card);
-  second_player.push_back(opponent_hand.first_card);
-  second_player.push_back(opponent_hand.second_card);
+GameResult ModeratePlayerWon(const PlayerHand& player_hand,
+                             const PlayerHand& opponent_hand,
+                             const Table& table) {
+  assert(table.table_state == TABLE_STATE_RIVER);
+  std::vector<Card> player(7);
+  std::vector<Card> opponent(7);
 
-  PointCalculator first_points(first_player);
-  PointCalculator second_points(second_player);
-  return first_points.GetPoints() > second_points.GetPoints();
+  PopulateSevenCards(player_hand, table, &player);
+  PopulateSevenCards(opponent_hand, table, &opponent);
+
+  PointCalculator player_calculator(player);
+  PointCalculator opponent_calculator(opponent);
+  Points player_points = player_calculator.GetPoints();
+  Points opponent_points = opponent_calculator.GetPoints();
+  if (player_points < opponent_points) {
+    return GAME_RESULT_LOST;
+  }
+  if (player_points > opponent_points) {
+    return GAME_RESULT_WIN;
+  }
+  return GAME_RESULT_TIE;
 }
 
 }  // namespace simulator
 }  // namespace poker
-
