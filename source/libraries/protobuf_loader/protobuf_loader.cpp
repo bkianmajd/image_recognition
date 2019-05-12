@@ -23,7 +23,6 @@ bool ProtobufLoader::LoadProtobuf(google::protobuf::Message* message) {
   std::vector<char> binary_data = helpers::FileManager::ReadFile(
       directory_.GetAbsPathOfTargetFile(target_file_));
   if (binary_data.size() == 0) {
-    std::cerr << "Failed to read file" << std::endl;
     return false;
   }
 

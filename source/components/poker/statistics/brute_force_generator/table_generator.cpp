@@ -61,7 +61,6 @@ TableGenerator::TableGenerator(const std::vector<Card>& exclusions)
 
 std::vector<Table> TableGenerator::GenerateCombinations() {
   std::vector<Table> combinations;
-  std::cout << __LINE__ << std::endl;
   std::vector<Combo3> first_three_combos = GenerateFirstThreeCombinations();
 
   // Generate last two combinations (ignoring the first three card combos)

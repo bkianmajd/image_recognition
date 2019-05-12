@@ -17,6 +17,9 @@ CacheManager::~CacheManager() {
 }
 
 void CacheManager::InitializeLoad() {
+  if(initialized_) {
+    return;
+  }
   initialized_ = true;
   PreflopStatistics preflop_statistics;
   PostFlopStatistics post_flop_statistics;
@@ -96,6 +99,17 @@ base::Optional<double> CacheManager::GetLosingProbability(const Card& left,
   }
 
   return it->second;
+}
+
+void CacheManager::Reset() {
+  initialized_ = true;
+  preflop_map_.clear();
+  postflop_map_.clear();
+  ShutdownStore();
+}
+
+bool CacheManager::HasInitialized() const {
+  return initialized_;
 }
 
 void CacheManager::StoreLosingProbability(const Card& left, const Card& right,

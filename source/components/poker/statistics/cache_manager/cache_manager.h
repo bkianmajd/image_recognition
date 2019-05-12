@@ -12,6 +12,7 @@
 
 namespace poker {
 namespace statistics {
+
 class CacheManager {
  public:
   CacheManager(const helpers::DirectoryFinder& directory_finder,
@@ -19,6 +20,11 @@ class CacheManager {
                const std::string& postflop_file_name);
 
   ~CacheManager();
+
+  // Resets the binary data file
+  void Reset();
+
+  bool HasInitialized() const;
 
   void InitializeLoad();
 
@@ -41,11 +47,15 @@ class CacheManager {
  private:
   FRIEND_TEST(CacheManagerTest, LoadTest);
   FRIEND_TEST(CacheManagerTest, ShutdownTest);
+  FRIEND_TEST(CacheStorageTest, PreflopTest);
 
   using SortedId = int;
   using PostFlopSortedId = int64_t;
   using LosingProbability = double;
 
+  // This is a custom SortedId for the cache manager. Order of the hand and
+  // table matters, and are unique. E.g. Player has Ace Two, Table has 3 4 5...
+  // is different than Player has 4 5, Table has Three Ace Two.
   PostFlopSortedId ConvertToSortedId(int hand_sorted_id, int table_sorted_id);
 
   bool initialized_;
