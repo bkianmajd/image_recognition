@@ -17,7 +17,9 @@ class DeckStackFactory {
   std::stack<Card> CreateSimpleStack() const;
 
  private:
-  bool IsExcluded(Card card) const;
+  void Populate(Suit suit, std::stack<Card>* stack) const;
+
+  bool IsExcluded(const Card& card) const;
 
   const std::unordered_set<int> exclusions_;
 };

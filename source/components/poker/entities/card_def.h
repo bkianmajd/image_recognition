@@ -1,12 +1,11 @@
 #ifndef CARD_DEF_H_
 #define CARD_DEF_H_
 
+#include <array>
 #include <iostream>
 #include <vector>
 
 namespace poker {
-constexpr int kStartingId = 1;
-constexpr int kEndingId = 53;
 
 enum Suit {
   SUIT_UNKNOWN = 0,
@@ -17,8 +16,6 @@ enum Suit {
   SUIT_HIDDEN,
 };
 
-// These must be in congruent order as many of the code base assumes this such
-// as the point calculator.
 enum CardValue {
   CARD_VALUE_UNKNOWN = 0,
   CARD_VALUE_ACE = 1,
@@ -37,46 +34,61 @@ enum CardValue {
   CARD_VALUE_HIDDEN,
 };
 
+// Both id's are sorted
+using CardId = unsigned char;
+using CardsId = uint64_t;
+
 struct Card {
   CardValue value;
   Suit suit;
   Card();
-  explicit Card(CardValue, Suit);
+  Card(CardValue, Suit);
+  Card(CardId unique_id);
   Card& operator=(const Card& from);
-  Card(int unique_id);
+
+  CardId UniqueId() const;
 };
 
 struct PlayerHand {
   PlayerHand() = default;
-  PlayerHand(Card fc, Card sc);
-  Card first_card;
-  Card second_card;
-};
+  PlayerHand(const Card& fc, const Card& sc);
+  PlayerHand(CardsId id);
+  Card& FirstCard();
+  Card& SecondCard();
+  const Card& FirstCard() const;
+  const Card& SecondCard() const;
 
-enum TableState {
-  TABLE_STATE_PRE_FLOP = 0,
-  TABLE_STATE_FLOP,
-  TABLE_STATE_TURN,
-  TABLE_STATE_RIVER,
+  CardsId UniqueId() const;
+  std::array<Card, 2> cards_{};
 };
 
 struct Table {
+  Table();
   Table(Card first_card, Card second_card, Card third_card, Card fourth_card,
         Card fifth_card);
-  TableState table_state = TABLE_STATE_RIVER;
-  Card first_card;
-  Card second_card;
-  Card third_card;
-  Card fourth_card;
-  Card fifth_card;
+  Table(CardsId id);
+
+  CardsId UniqueId() const;
+  std::array<Card, 5> cards_{};
 };
 
-int CardToUniqueId(const Card& card);
-Card UniqueIdToCard(int);
-int64_t CardsToUniqueId(const std::vector<Card>& cards);
+struct CardCombo {
+  CardCombo() = default;
+  CardCombo(const PlayerHand& player_hand);
+  CardCombo(const Table& table);
+  CardCombo(const PlayerHand& player_hand, const Table& table);
+  CardCombo(CardsId id);
+  CardCombo(CardId hand_id, CardId table_id);
+
+  CardsId UniqueId();
+  std::array<Card, 7> cards_{};
+};
+
+Card UniqueIdToCard(CardId card_id);
+CardId CardToUniqueId(const Card& card);
 
 std::ostream& operator<<(std::ostream& ss, Card card);
-std::ostream& operator<<(std::ostream& ss, PlayerHand hand);
+std::ostream& operator<<(std::ostream& ss, const PlayerHand& hand);
 bool operator==(const Card& left_card, const Card& right_card);
 bool operator!=(const Card& left_card, const Card& right_card);
 bool operator<(const Card& left_card, const Card& right_card);

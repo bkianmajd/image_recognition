@@ -24,6 +24,16 @@ class TestProtoDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<TestProto>
       _instance;
 } _TestProto_default_instance_;
+class TestMap_Map1Entry_DoNotUseDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<TestMap_Map1Entry_DoNotUse>
+      _instance;
+} _TestMap_Map1Entry_DoNotUse_default_instance_;
+class TestMapDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<TestMap>
+      _instance;
+} _TestMap_default_instance_;
 namespace protobuf_test_5fproto_2eproto {
 void InitDefaultsTestProtoImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -46,7 +56,49 @@ void InitDefaultsTestProto() {
   ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsTestProtoImpl);
 }
 
-::google::protobuf::Metadata file_level_metadata[1];
+void InitDefaultsTestMap_Map1Entry_DoNotUseImpl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
+#else
+  ::google::protobuf::internal::InitProtobufDefaults();
+#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  {
+    void* ptr = &::_TestMap_Map1Entry_DoNotUse_default_instance_;
+    new (ptr) ::TestMap_Map1Entry_DoNotUse();
+  }
+  ::TestMap_Map1Entry_DoNotUse::InitAsDefaultInstance();
+}
+
+void InitDefaultsTestMap_Map1Entry_DoNotUse() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsTestMap_Map1Entry_DoNotUseImpl);
+}
+
+void InitDefaultsTestMapImpl() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
+#else
+  ::google::protobuf::internal::InitProtobufDefaults();
+#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  protobuf_test_5fproto_2eproto::InitDefaultsTestMap_Map1Entry_DoNotUse();
+  {
+    void* ptr = &::_TestMap_default_instance_;
+    new (ptr) ::TestMap();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::TestMap::InitAsDefaultInstance();
+}
+
+void InitDefaultsTestMap() {
+  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsTestMapImpl);
+}
+
+::google::protobuf::Metadata file_level_metadata[3];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -56,13 +108,32 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TestProto, test_bool_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TestProto, test_int_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TestMap_Map1Entry_DoNotUse, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TestMap_Map1Entry_DoNotUse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TestMap_Map1Entry_DoNotUse, key_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TestMap_Map1Entry_DoNotUse, value_),
+  0,
+  1,
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TestMap, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::TestMap, map1_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::TestProto)},
+  { 7, 14, sizeof(::TestMap_Map1Entry_DoNotUse)},
+  { 16, -1, sizeof(::TestMap)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::_TestProto_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::_TestMap_Map1Entry_DoNotUse_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::_TestMap_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -81,17 +152,20 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 1);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 3);
 }
 
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\020test_proto.proto\"0\n\tTestProto\022\021\n\ttest_"
-      "bool\030\001 \001(\010\022\020\n\010test_int\030\002 \001(\005b\006proto3"
+      "bool\030\001 \001(\010\022\020\n\010test_int\030\002 \001(\005\"X\n\007TestMap\022"
+      " \n\004map1\030\001 \003(\0132\022.TestMap.Map1Entry\032+\n\tMap"
+      "1Entry\022\013\n\003key\030\001 \001(\004\022\r\n\005value\030\002 \001(\t:\0028\001b\006"
+      "proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 76);
+      descriptor, 166);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "test_proto.proto", &protobuf_RegisterTypes);
 }
@@ -381,6 +455,366 @@ void TestProto::InternalSwap(TestProto* other) {
 }
 
 ::google::protobuf::Metadata TestProto::GetMetadata() const {
+  protobuf_test_5fproto_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_test_5fproto_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+TestMap_Map1Entry_DoNotUse::TestMap_Map1Entry_DoNotUse() {}
+TestMap_Map1Entry_DoNotUse::TestMap_Map1Entry_DoNotUse(::google::protobuf::Arena* arena) : SuperType(arena) {}
+void TestMap_Map1Entry_DoNotUse::MergeFrom(const TestMap_Map1Entry_DoNotUse& other) {
+  MergeFromInternal(other);
+}
+::google::protobuf::Metadata TestMap_Map1Entry_DoNotUse::GetMetadata() const {
+  ::protobuf_test_5fproto_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_test_5fproto_2eproto::file_level_metadata[1];
+}
+void TestMap_Map1Entry_DoNotUse::MergeFrom(
+    const ::google::protobuf::Message& other) {
+  ::google::protobuf::Message::MergeFrom(other);
+}
+
+
+// ===================================================================
+
+void TestMap::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int TestMap::kMap1FieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+TestMap::TestMap()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    ::protobuf_test_5fproto_2eproto::InitDefaultsTestMap();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:TestMap)
+}
+TestMap::TestMap(const TestMap& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  map1_.MergeFrom(from.map1_);
+  // @@protoc_insertion_point(copy_constructor:TestMap)
+}
+
+void TestMap::SharedCtor() {
+  _cached_size_ = 0;
+}
+
+TestMap::~TestMap() {
+  // @@protoc_insertion_point(destructor:TestMap)
+  SharedDtor();
+}
+
+void TestMap::SharedDtor() {
+}
+
+void TestMap::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* TestMap::descriptor() {
+  ::protobuf_test_5fproto_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_test_5fproto_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const TestMap& TestMap::default_instance() {
+  ::protobuf_test_5fproto_2eproto::InitDefaultsTestMap();
+  return *internal_default_instance();
+}
+
+TestMap* TestMap::New(::google::protobuf::Arena* arena) const {
+  TestMap* n = new TestMap;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void TestMap::Clear() {
+// @@protoc_insertion_point(message_clear_start:TestMap)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  map1_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool TestMap::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:TestMap)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // map<uint64, string> map1 = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          TestMap_Map1Entry_DoNotUse::Parser< ::google::protobuf::internal::MapField<
+              TestMap_Map1Entry_DoNotUse,
+              ::google::protobuf::uint64, ::std::string,
+              ::google::protobuf::internal::WireFormatLite::TYPE_UINT64,
+              ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+              0 >,
+            ::google::protobuf::Map< ::google::protobuf::uint64, ::std::string > > parser(&map1_);
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+              input, &parser));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            parser.value().data(), static_cast<int>(parser.value().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "TestMap.Map1Entry.value"));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:TestMap)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:TestMap)
+  return false;
+#undef DO_
+}
+
+void TestMap::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:TestMap)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // map<uint64, string> map1 = 1;
+  if (!this->map1().empty()) {
+    typedef ::google::protobuf::Map< ::google::protobuf::uint64, ::std::string >::const_pointer
+        ConstPtr;
+    typedef ::google::protobuf::internal::SortItem< ::google::protobuf::uint64, ConstPtr > SortItem;
+    typedef ::google::protobuf::internal::CompareByFirstField<SortItem> Less;
+    struct Utf8Check {
+      static void Check(ConstPtr p) {
+        ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          p->second.data(), static_cast<int>(p->second.length()),
+          ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+          "TestMap.Map1Entry.value");
+      }
+    };
+
+    if (output->IsSerializationDeterministic() &&
+        this->map1().size() > 1) {
+      ::google::protobuf::scoped_array<SortItem> items(
+          new SortItem[this->map1().size()]);
+      typedef ::google::protobuf::Map< ::google::protobuf::uint64, ::std::string >::size_type size_type;
+      size_type n = 0;
+      for (::google::protobuf::Map< ::google::protobuf::uint64, ::std::string >::const_iterator
+          it = this->map1().begin();
+          it != this->map1().end(); ++it, ++n) {
+        items[static_cast<ptrdiff_t>(n)] = SortItem(&*it);
+      }
+      ::std::sort(&items[0], &items[static_cast<ptrdiff_t>(n)], Less());
+      ::google::protobuf::scoped_ptr<TestMap_Map1Entry_DoNotUse> entry;
+      for (size_type i = 0; i < n; i++) {
+        entry.reset(map1_.NewEntryWrapper(
+            items[static_cast<ptrdiff_t>(i)].second->first, items[static_cast<ptrdiff_t>(i)].second->second));
+        ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+            1, *entry, output);
+        Utf8Check::Check(items[static_cast<ptrdiff_t>(i)].second);
+      }
+    } else {
+      ::google::protobuf::scoped_ptr<TestMap_Map1Entry_DoNotUse> entry;
+      for (::google::protobuf::Map< ::google::protobuf::uint64, ::std::string >::const_iterator
+          it = this->map1().begin();
+          it != this->map1().end(); ++it) {
+        entry.reset(map1_.NewEntryWrapper(
+            it->first, it->second));
+        ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+            1, *entry, output);
+        Utf8Check::Check(&*it);
+      }
+    }
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:TestMap)
+}
+
+::google::protobuf::uint8* TestMap::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:TestMap)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // map<uint64, string> map1 = 1;
+  if (!this->map1().empty()) {
+    typedef ::google::protobuf::Map< ::google::protobuf::uint64, ::std::string >::const_pointer
+        ConstPtr;
+    typedef ::google::protobuf::internal::SortItem< ::google::protobuf::uint64, ConstPtr > SortItem;
+    typedef ::google::protobuf::internal::CompareByFirstField<SortItem> Less;
+    struct Utf8Check {
+      static void Check(ConstPtr p) {
+        ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+          p->second.data(), static_cast<int>(p->second.length()),
+          ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+          "TestMap.Map1Entry.value");
+      }
+    };
+
+    if (deterministic &&
+        this->map1().size() > 1) {
+      ::google::protobuf::scoped_array<SortItem> items(
+          new SortItem[this->map1().size()]);
+      typedef ::google::protobuf::Map< ::google::protobuf::uint64, ::std::string >::size_type size_type;
+      size_type n = 0;
+      for (::google::protobuf::Map< ::google::protobuf::uint64, ::std::string >::const_iterator
+          it = this->map1().begin();
+          it != this->map1().end(); ++it, ++n) {
+        items[static_cast<ptrdiff_t>(n)] = SortItem(&*it);
+      }
+      ::std::sort(&items[0], &items[static_cast<ptrdiff_t>(n)], Less());
+      ::google::protobuf::scoped_ptr<TestMap_Map1Entry_DoNotUse> entry;
+      for (size_type i = 0; i < n; i++) {
+        entry.reset(map1_.NewEntryWrapper(
+            items[static_cast<ptrdiff_t>(i)].second->first, items[static_cast<ptrdiff_t>(i)].second->second));
+        target = ::google::protobuf::internal::WireFormatLite::
+                   InternalWriteMessageNoVirtualToArray(
+                       1, *entry, deterministic, target);
+;
+        Utf8Check::Check(items[static_cast<ptrdiff_t>(i)].second);
+      }
+    } else {
+      ::google::protobuf::scoped_ptr<TestMap_Map1Entry_DoNotUse> entry;
+      for (::google::protobuf::Map< ::google::protobuf::uint64, ::std::string >::const_iterator
+          it = this->map1().begin();
+          it != this->map1().end(); ++it) {
+        entry.reset(map1_.NewEntryWrapper(
+            it->first, it->second));
+        target = ::google::protobuf::internal::WireFormatLite::
+                   InternalWriteMessageNoVirtualToArray(
+                       1, *entry, deterministic, target);
+;
+        Utf8Check::Check(&*it);
+      }
+    }
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:TestMap)
+  return target;
+}
+
+size_t TestMap::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:TestMap)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // map<uint64, string> map1 = 1;
+  total_size += 1 *
+      ::google::protobuf::internal::FromIntSize(this->map1_size());
+  {
+    ::google::protobuf::scoped_ptr<TestMap_Map1Entry_DoNotUse> entry;
+    for (::google::protobuf::Map< ::google::protobuf::uint64, ::std::string >::const_iterator
+        it = this->map1().begin();
+        it != this->map1().end(); ++it) {
+      entry.reset(map1_.NewEntryWrapper(it->first, it->second));
+      total_size += ::google::protobuf::internal::WireFormatLite::
+          MessageSizeNoVirtual(*entry);
+    }
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void TestMap::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:TestMap)
+  GOOGLE_DCHECK_NE(&from, this);
+  const TestMap* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const TestMap>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:TestMap)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:TestMap)
+    MergeFrom(*source);
+  }
+}
+
+void TestMap::MergeFrom(const TestMap& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:TestMap)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  map1_.MergeFrom(from.map1_);
+}
+
+void TestMap::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:TestMap)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void TestMap::CopyFrom(const TestMap& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:TestMap)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool TestMap::IsInitialized() const {
+  return true;
+}
+
+void TestMap::Swap(TestMap* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void TestMap::InternalSwap(TestMap* other) {
+  using std::swap;
+  map1_.Swap(&other->map1_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata TestMap::GetMetadata() const {
   protobuf_test_5fproto_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_test_5fproto_2eproto::file_level_metadata[kIndexInFileMessages];
 }

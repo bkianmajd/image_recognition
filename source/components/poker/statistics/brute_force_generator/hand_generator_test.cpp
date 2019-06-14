@@ -37,8 +37,8 @@ TEST_F(HandGeneratorTest, CombinationTest) {
   // Test for duplications
   std::unordered_set<int> set;
   for (const PlayerHand& hand : combinations) {
-    int first_card = CardToUniqueId(hand.first_card);
-    int second_card = CardToUniqueId(hand.second_card);
+    int first_card = CardToUniqueId(hand.FirstCard());
+    int second_card = CardToUniqueId(hand.SecondCard());
     // Shift the first card by 2 digits to the left
     int key = first_card * 1000 + second_card;
     auto it = set.find(key);

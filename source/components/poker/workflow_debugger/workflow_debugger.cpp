@@ -63,8 +63,8 @@ void WorkflowDebugger::StoreError(const image::Image& image_error,
 void WorkflowDebugger::PrintNewHand(const GameModel& game_model) {
   const PlayerHand& player_hand =
       game_model.player_hands[PLAYERLOC_PLAYER_ZERO];
-  std::cout << "Player deal " << player_hand.first_card << " "
-            << player_hand.second_card << std::endl
+  std::cout << "Player deal " << player_hand.FirstCard() << " "
+            << player_hand.SecondCard() << std::endl
             << std::endl;
 }
 

@@ -27,7 +27,7 @@ class SessionThread {
   }
 
   /// Concrete T allows polymoprhism if T is the base class
-  template <typename Concrete_T, typename... Args>
+  template <typename Concrete_T = T, typename... Args>
   bool StartSession(Args&&... args) {
     if (thread_.has_value()) {
       std::cerr << "thread is in session" << std::endl;

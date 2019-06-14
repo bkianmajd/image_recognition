@@ -44,15 +44,15 @@ TEST_F(WinningCalculatorTest, ConstructDestruct) {}
 TEST_F(WinningCalculatorTest, PreflopTest) {
   // Expect nothing here
   base::Optional<double> result = cache_manager_->GetLosingProbability(
-      player_hand_.first_card, player_hand_.second_card);
+      player_hand_.FirstCard(), player_hand_.SecondCard());
   ASSERT_FALSE(result.has_value());
 
   // Expect this to calculate - takes  along time
   /*
     double winning_probability =
     winning_calculator_.GetWinningProbability(player_hand_, table_, 1); result =
-    cache_manager_->GetLosingProbability(player_hand_.first_card,
-    player_hand_.second_card); ASSERT_TRUE(result.has_value());
+    cache_manager_->GetLosingProbability(player_hand_.FirstCard(),
+    player_hand_.SecondCard()); ASSERT_TRUE(result.has_value());
 
 
     // Stored in cache manager properly
@@ -61,10 +61,10 @@ TEST_F(WinningCalculatorTest, PreflopTest) {
 
   // overwrite the cache manager
   const double kMockProb = .2;
-  cache_manager_->StoreLosingProbability(player_hand_.first_card,
-                                         player_hand_.second_card, kMockProb);
-  result = cache_manager_->GetLosingProbability(player_hand_.first_card,
-                                                player_hand_.second_card);
+  cache_manager_->StoreLosingProbability(player_hand_.FirstCard(),
+                                         player_hand_.SecondCard(), kMockProb);
+  result = cache_manager_->GetLosingProbability(player_hand_.FirstCard(),
+                                                player_hand_.SecondCard());
   ASSERT_TRUE(result.has_value());
   double mock_winning_probability =
       winning_calculator_.GetWinningProbability(player_hand_, table_, 1);

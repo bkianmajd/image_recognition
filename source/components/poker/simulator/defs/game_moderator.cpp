@@ -5,17 +5,6 @@ namespace poker {
 namespace simulator {
 namespace {
 
-inline void PopulateSevenCards(const PlayerHand& player_hand,
-                               const Table& table, std::vector<Card>* player) {
-  player->at(0) = player_hand.first_card;
-  player->at(1) = player_hand.second_card;
-  player->at(2) = table.first_card;
-  player->at(3) = table.second_card;
-  player->at(4) = table.third_card;
-  player->at(5) = table.fourth_card;
-  player->at(6) = table.fifth_card;
-}
-
 }  // namespace
 
 using Points = int;
@@ -24,15 +13,11 @@ using Points = int;
 GameResult ModeratePlayerWon(const PlayerHand& player_hand,
                              const PlayerHand& opponent_hand,
                              const Table& table) {
-  assert(table.table_state == TABLE_STATE_RIVER);
-  std::vector<Card> player(7);
-  std::vector<Card> opponent(7);
-
-  PopulateSevenCards(player_hand, table, &player);
-  PopulateSevenCards(opponent_hand, table, &opponent);
-
-  PointCalculator player_calculator(player);
-  PointCalculator opponent_calculator(opponent);
+  CardCombo player(player_hand, table);
+  CardCombo opponent(opponent_hand, table);
+// avoid a copy by passing player_hand and table into point calculator directly
+  PointCalculator player_calculator(player.cards_);
+  PointCalculator opponent_calculator(opponent.cards_);
   Points player_points = player_calculator.GetPoints();
   Points opponent_points = opponent_calculator.GetPoints();
   if (player_points < opponent_points) {

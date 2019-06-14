@@ -6,7 +6,8 @@ package poker;
 // with one other player, for a given hand 
 message PreFlopStatistic {
   int32 hand_sorted_id = 1;
-  double losing_probability = 3;
+  double losing_probability = 2;
+  double tie_probability = 3;
 }
 
 message PreflopStatistics {

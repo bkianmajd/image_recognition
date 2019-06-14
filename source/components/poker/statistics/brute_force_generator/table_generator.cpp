@@ -163,7 +163,7 @@ TableGenerator::GenerateLastTwoComboinations(
   // For each combo, add to the vector.
   // Each combo is gauranteed to be unique
   for (PlayerHand hand : hands) {
-    last_two_combos.push_back({hand.first_card, hand.second_card});
+    last_two_combos.push_back({hand.FirstCard(), hand.SecondCard()});
   }
   return last_two_combos;
 }
@@ -193,8 +193,8 @@ TableGenerator::GenerateFirstThreeCombinations() {
     // For each combo, add to the vector.
     // Each combo is gauranteed to be unique
     for (PlayerHand hand : second_third_combo) {
-      Card second_card = hand.first_card;
-      Card third_card = hand.second_card;
+      Card second_card = hand.FirstCard();
+      Card third_card = hand.SecondCard();
       first_three_combos.push_back({first_card, second_card, third_card});
     }
   }

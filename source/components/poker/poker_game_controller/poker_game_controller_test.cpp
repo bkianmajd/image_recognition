@@ -57,16 +57,16 @@ TEST_F(PokerGameControllerTest, ConstructDestruct) {}
 
 TEST_F(PokerGameControllerTest, NewHandTest) {
   PlayerHand player_hand;
-  player_hand.first_card = CreateTestCard();
-  player_hand.second_card = CreateTestCard();
+  player_hand.FirstCard() = CreateTestCard();
+  player_hand.SecondCard() = CreateTestCard();
   poker_game_controller_.game_model_.player_hands[PLAYERLOC_PLAYER_ZERO] =
       player_hand;
   poker_game_controller_.CompareModelandNotify();
 
   run_loop_.RunUntilIdle();
 
-  EXPECT_EQ(player_hand_.first_card, player_hand.first_card);
-  EXPECT_EQ(player_hand_.second_card, player_hand.second_card);
+  EXPECT_EQ(player_hand_.FirstCard(), player_hand.FirstCard());
+  EXPECT_EQ(player_hand_.SecondCard(), player_hand.SecondCard());
 }
 
 TEST_F(PokerGameControllerTest, GameModelTest) {

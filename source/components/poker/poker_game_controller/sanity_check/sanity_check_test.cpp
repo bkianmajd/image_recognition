@@ -45,8 +45,8 @@ TEST_F(SanityCheckTest, PassGameModel) {
   EXPECT_TRUE(sanity_cheker_.Check(kOldGameModel, &game_model));
 
   // Change the game_model and expect true
-  game_model.player_hands[0].first_card = kAceClub;
-  game_model.player_hands[0].second_card = kAceHeart;
+  game_model.player_hands[0].FirstCard() = kAceClub;
+  game_model.player_hands[0].SecondCard() = kAceHeart;
   EXPECT_TRUE(sanity_cheker_.Check(kOldGameModel, &game_model));
 }
 
@@ -62,15 +62,15 @@ TEST_F(SanityCheckTest, FailGameModel) {
   EXPECT_TRUE(sanity_cheker_.Check(kOldGameModel, &game_model));
 
   // Expect false because a new hand was dealt with a dealer card
-  game_model.player_hands[0].first_card = kAceClub;
-  game_model.player_hands[0].second_card = kAceHeart;
+  game_model.player_hands[0].FirstCard() = kAceClub;
+  game_model.player_hands[0].SecondCard() = kAceHeart;
   EXPECT_FALSE(sanity_cheker_.Check(kOldGameModel, &game_model));
   std::cout << sanity_cheker_.ErrorStr();
 
   // Insert duplicates and expect false
   game_model.dealer_cards[DEALER_ONE] = kUnknownCard;
-  game_model.player_hands[0].first_card = kAceClub;
-  game_model.player_hands[0].second_card = kAceClub;
+  game_model.player_hands[0].FirstCard() = kAceClub;
+  game_model.player_hands[0].SecondCard() = kAceClub;
   EXPECT_FALSE(sanity_cheker_.Check(kOldGameModel, &game_model));
   std::cout << sanity_cheker_.ErrorStr();
 }

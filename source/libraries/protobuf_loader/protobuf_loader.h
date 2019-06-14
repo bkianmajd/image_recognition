@@ -14,16 +14,14 @@ namespace proto {
 /// This class stores protobuf binaries and loads them
 class ProtobufLoader {
  public:
-  ProtobufLoader(const helpers::DirectoryFinder& directory,
-                 const std::string& target_file);
+  ProtobufLoader(const std::string& abs_path);
 
   bool StoreProtobuf(const google::protobuf::Message& message);
 
   bool LoadProtobuf(google::protobuf::Message* message);
 
  private:
-  const helpers::DirectoryFinder directory_;
-  const std::string target_file_;
+  const std::string abs_path_;
 };
 
 }  // namespace proto

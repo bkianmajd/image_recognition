@@ -17,7 +17,7 @@ CacheManager::~CacheManager() {
 }
 
 void CacheManager::InitializeLoad() {
-  if(initialized_) {
+  if (initialized_) {
     return;
   }
   initialized_ = true;
@@ -79,19 +79,15 @@ void CacheManager::ShutdownStore() {
   postflop_loader_.StoreProtobuf(post_flop_statistics);
 }
 
-base::Optional<double> CacheManager::GetLosingProbability(const Card& left,
-                                                          const Card& right) {
+base::Optional<double> CacheManager::GetLosingProbability(
+    const PlayerHand& player_hand) {
   // return early becasue we haven't loaded the protobuf
   if (!initialized_) {
     return base::nullopt;
   }
 
   // Sort
-  std::vector<Card> sorted_cards;
-  sorted_cards.push_back(left);
-  sorted_cards.push_back(right);
-  SortedId hand_sorted_id =
-      static_cast<SortedId>(CardsToUniqueId(sorted_cards));
+  SortedId hand_sorted_id = static_cast<SortedId>(player_hand.UniqueId());
 
   auto it = preflop_map_.find(hand_sorted_id);
   if (it == preflop_map_.end()) {
@@ -108,20 +104,14 @@ void CacheManager::Reset() {
   ShutdownStore();
 }
 
-bool CacheManager::HasInitialized() const {
-  return initialized_;
-}
+bool CacheManager::HasInitialized() const { return initialized_; }
 
-void CacheManager::StoreLosingProbability(const Card& left, const Card& right,
+void CacheManager::StoreLosingProbability(const PlayerHand& player_hand,
                                           double probability) {
   if (!initialized_) {
     return;
   }
-  std::vector<Card> sorted_cards;
-  sorted_cards.push_back(left);
-  sorted_cards.push_back(right);
-  SortedId hand_sorted_id =
-      static_cast<SortedId>(CardsToUniqueId(sorted_cards));
+  SortedId hand_sorted_id = static_cast<SortedId>(player_hand.UniqueId());
 
   preflop_map_[hand_sorted_id] = probability;
 }
@@ -132,7 +122,8 @@ base::Optional<double> CacheManager::GetLosingProbability(
   if (!initialized_) {
     return base::nullopt;
   }
-
+  // TODO: Replace this with a table of tables
+/*
   SortedId hand_sorted_id = static_cast<SortedId>(CardsToUniqueId(hand_cards));
   SortedId table_sorted_id =
       static_cast<SortedId>(CardsToUniqueId(table_cards));
@@ -145,6 +136,7 @@ base::Optional<double> CacheManager::GetLosingProbability(
   }
 
   return it->second;
+*/
 }
 
 void CacheManager::StoreLosingProbability(const std::vector<Card>& hand_cards,
@@ -154,7 +146,7 @@ void CacheManager::StoreLosingProbability(const std::vector<Card>& hand_cards,
   if (!initialized_) {
     return;
   }
-
+/*
   SortedId hand_sorted_id = static_cast<SortedId>(CardsToUniqueId(hand_cards));
   SortedId table_sorted_id =
       static_cast<SortedId>(CardsToUniqueId(table_cards));
@@ -162,6 +154,7 @@ void CacheManager::StoreLosingProbability(const std::vector<Card>& hand_cards,
   PostFlopSortedId post_flop_id =
       ConvertToSortedId(hand_sorted_id, table_sorted_id);
   postflop_map_[post_flop_id] = probability;
+*/
 }
 
 CacheManager::PostFlopSortedId CacheManager::ConvertToSortedId(

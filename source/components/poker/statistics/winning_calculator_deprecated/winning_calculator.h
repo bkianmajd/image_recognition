@@ -8,6 +8,7 @@
 #include "components/poker/statistics/brute_force_generator/hand_generator.h"
 #include "components/poker/statistics/brute_force_generator/table_generator.h"
 #include "components/poker/statistics/cache_manager/cache_manager.h"
+#include "helpers/time_analyzer.h"
 
 #include "base/optional.h"
 
@@ -46,13 +47,12 @@ std::vector<Table> GenerateTableCombinations(
 }
 
 double CalculateLosingProbability(const PlayerHand& player_hand,
-                                  const std::vector<Card>& table_cards,
-                                  bool debug = false) {
+                                  const std::vector<Card>& table_cards) {
   // The oponent cannot have any of these cards as they're already played
   std::vector<Card> opponent_card_exclusions;
   opponent_card_exclusions.assign(table_cards.begin(), table_cards.end());
-  opponent_card_exclusions.push_back(player_hand.first_card);
-  opponent_card_exclusions.push_back(player_hand.second_card);
+  opponent_card_exclusions.push_back(player_hand.FirstCard());
+  opponent_card_exclusions.push_back(player_hand.SecondCard());
 
   // Generate all possibilities of the opponents hand
   HandGenerator hand_generator(opponent_card_exclusions);
@@ -71,16 +71,16 @@ double CalculateLosingProbability(const PlayerHand& player_hand,
     // 2, op has 3 4, table is given 5 6 7 8 ) Find all possibilities for the
     // last slot 9, 10, 11 etc...
     std::vector<Card> remainding_table_exclusions(opponent_card_exclusions);
-    remainding_table_exclusions.push_back(opponent_hand.first_card);
-    remainding_table_exclusions.push_back(opponent_hand.second_card);
+    remainding_table_exclusions.push_back(opponent_hand.FirstCard());
+    remainding_table_exclusions.push_back(opponent_hand.SecondCard());
 
     // Generate all the combinations for the table given the first three cards
     TableGenerator table_generator(remainding_table_exclusions);
     std::vector<Table> table_combos =
-        GenerateTableCombinations(table_cards, &table_generator);
+        GenerateTableCombinations(table_cards, &table_generator); // this takes a long time
 
     // debug statement here to look at the progression of the for loops
-    if (debug) {
+    if (kDebug) {
       std::cout << "Opponent hand: " << opponent_hand_progression++
                 << " out of " << opponent_possibilities.size() << " Table size "
                 << table_combos.size() << std::endl;
@@ -88,8 +88,8 @@ double CalculateLosingProbability(const PlayerHand& player_hand,
 
     // Now find winner
     for (const Table& table : table_combos) {
-      simulator::GameResult game_result =
-          simulator::ModeratePlayerWon(player_hand, opponent_hand, table);
+      TIME_ANALYZE(simulator::GameResult game_result =
+                       simulator::ModeratePlayerWon(player_hand, opponent_hand, table))
       if (game_result == simulator::GAME_RESULT_LOST) {
         losing_count++;
       }
@@ -106,7 +106,7 @@ double CalculateLosingProbability(const PlayerHand& player_hand,
 /// Calculates the probability given a players hand
 class WinningCalculator {
  public:
-  WinningCalculator(CacheManager* cache_manager, bool debug = false)
+  WinningCalculator(CacheManager* cache_manager)
       : cache_manager_(cache_manager), initialized_(false) {}
 
   double GetWinningProbability(const PlayerHand& player_hand,
@@ -145,29 +145,28 @@ class WinningCalculator {
 
  private:
   double GetLosingProbPreFlop(const PlayerHand& player_hand) {
-    base::Optional<double> result = cache_manager_->GetLosingProbability(
-        player_hand.first_card, player_hand.second_card);
+    base::Optional<double> result =
+        cache_manager_->GetLosingProbability(player_hand);
     if (result.has_value()) {
       return result.value();
     }
     double losing_probability =
-        CalculateLosingProbability(player_hand, std::vector<Card>(), kDebug);
-    cache_manager_->StoreLosingProbability(
-        player_hand.first_card, player_hand.second_card, losing_probability);
+        CalculateLosingProbability(player_hand, std::vector<Card>());
+    cache_manager_->StoreLosingProbability(player_hand, losing_probability);
     return losing_probability;
   }
 
   double GetLosingProbPostFlop(const PlayerHand& player_hand,
                                const std::vector<Card>& table_cards) {
-    std::vector<Card> player_cards{player_hand.first_card,
-                                   player_hand.second_card};
+    std::vector<Card> player_cards{player_hand.FirstCard(),
+                                   player_hand.SecondCard()};
     base::Optional<double> result =
         cache_manager_->GetLosingProbability(player_cards, table_cards);
     if (result.has_value()) {
       return result.value();
     }
     double losing_probability =
-        CalculateLosingProbability(player_hand, std::vector<Card>(), kDebug);
+        CalculateLosingProbability(player_hand, std::vector<Card>());
     cache_manager_->StoreLosingProbability(player_cards, table_cards,
                                            losing_probability);
     return losing_probability;

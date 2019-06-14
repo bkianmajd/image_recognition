@@ -28,6 +28,9 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/map.h>  // IWYU pragma: export
+#include <google/protobuf/map_entry.h>
+#include <google/protobuf/map_field_inl.h>
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
 
@@ -36,7 +39,7 @@ namespace protobuf_test_5fproto_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[1];
+  static const ::google::protobuf::internal::ParseTable schema[3];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -44,10 +47,22 @@ struct TableStruct {
 void AddDescriptors();
 void InitDefaultsTestProtoImpl();
 void InitDefaultsTestProto();
+void InitDefaultsTestMap_Map1Entry_DoNotUseImpl();
+void InitDefaultsTestMap_Map1Entry_DoNotUse();
+void InitDefaultsTestMapImpl();
+void InitDefaultsTestMap();
 inline void InitDefaults() {
   InitDefaultsTestProto();
+  InitDefaultsTestMap_Map1Entry_DoNotUse();
+  InitDefaultsTestMap();
 }
 }  // namespace protobuf_test_5fproto_2eproto
+class TestMap;
+class TestMapDefaultTypeInternal;
+extern TestMapDefaultTypeInternal _TestMap_default_instance_;
+class TestMap_Map1Entry_DoNotUse;
+class TestMap_Map1Entry_DoNotUseDefaultTypeInternal;
+extern TestMap_Map1Entry_DoNotUseDefaultTypeInternal _TestMap_Map1Entry_DoNotUse_default_instance_;
 class TestProto;
 class TestProtoDefaultTypeInternal;
 extern TestProtoDefaultTypeInternal _TestProto_default_instance_;
@@ -158,6 +173,135 @@ class TestProto : public ::google::protobuf::Message /* @@protoc_insertion_point
   friend struct ::protobuf_test_5fproto_2eproto::TableStruct;
   friend void ::protobuf_test_5fproto_2eproto::InitDefaultsTestProtoImpl();
 };
+// -------------------------------------------------------------------
+
+class TestMap_Map1Entry_DoNotUse : public ::google::protobuf::internal::MapEntry<TestMap_Map1Entry_DoNotUse, 
+    ::google::protobuf::uint64, ::std::string,
+    ::google::protobuf::internal::WireFormatLite::TYPE_UINT64,
+    ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+    0 > {
+public:
+  typedef ::google::protobuf::internal::MapEntry<TestMap_Map1Entry_DoNotUse, 
+    ::google::protobuf::uint64, ::std::string,
+    ::google::protobuf::internal::WireFormatLite::TYPE_UINT64,
+    ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+    0 > SuperType;
+  TestMap_Map1Entry_DoNotUse();
+  TestMap_Map1Entry_DoNotUse(::google::protobuf::Arena* arena);
+  void MergeFrom(const TestMap_Map1Entry_DoNotUse& other);
+  static const TestMap_Map1Entry_DoNotUse* internal_default_instance() { return reinterpret_cast<const TestMap_Map1Entry_DoNotUse*>(&_TestMap_Map1Entry_DoNotUse_default_instance_); }
+  void MergeFrom(const ::google::protobuf::Message& other) PROTOBUF_FINAL;
+  ::google::protobuf::Metadata GetMetadata() const;
+};
+
+// -------------------------------------------------------------------
+
+class TestMap : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:TestMap) */ {
+ public:
+  TestMap();
+  virtual ~TestMap();
+
+  TestMap(const TestMap& from);
+
+  inline TestMap& operator=(const TestMap& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  TestMap(TestMap&& from) noexcept
+    : TestMap() {
+    *this = ::std::move(from);
+  }
+
+  inline TestMap& operator=(TestMap&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const TestMap& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const TestMap* internal_default_instance() {
+    return reinterpret_cast<const TestMap*>(
+               &_TestMap_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    2;
+
+  void Swap(TestMap* other);
+  friend void swap(TestMap& a, TestMap& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline TestMap* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  TestMap* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const TestMap& from);
+  void MergeFrom(const TestMap& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(TestMap* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+
+  // accessors -------------------------------------------------------
+
+  // map<uint64, string> map1 = 1;
+  int map1_size() const;
+  void clear_map1();
+  static const int kMap1FieldNumber = 1;
+  const ::google::protobuf::Map< ::google::protobuf::uint64, ::std::string >&
+      map1() const;
+  ::google::protobuf::Map< ::google::protobuf::uint64, ::std::string >*
+      mutable_map1();
+
+  // @@protoc_insertion_point(class_scope:TestMap)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::MapField<
+      TestMap_Map1Entry_DoNotUse,
+      ::google::protobuf::uint64, ::std::string,
+      ::google::protobuf::internal::WireFormatLite::TYPE_UINT64,
+      ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+      0 > map1_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_test_5fproto_2eproto::TableStruct;
+  friend void ::protobuf_test_5fproto_2eproto::InitDefaultsTestMapImpl();
+};
 // ===================================================================
 
 
@@ -197,9 +341,37 @@ inline void TestProto::set_test_int(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:TestProto.test_int)
 }
 
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// TestMap
+
+// map<uint64, string> map1 = 1;
+inline int TestMap::map1_size() const {
+  return map1_.size();
+}
+inline void TestMap::clear_map1() {
+  map1_.Clear();
+}
+inline const ::google::protobuf::Map< ::google::protobuf::uint64, ::std::string >&
+TestMap::map1() const {
+  // @@protoc_insertion_point(field_map:TestMap.map1)
+  return map1_.GetMap();
+}
+inline ::google::protobuf::Map< ::google::protobuf::uint64, ::std::string >*
+TestMap::mutable_map1() {
+  // @@protoc_insertion_point(field_mutable_map:TestMap.map1)
+  return map1_.MutableMap();
+}
+
 #if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6)
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 

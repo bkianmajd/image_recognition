@@ -1,4 +1,5 @@
 #include "components/poker/statistics/winning_calculator/winning_calculator.h"
+#include "helpers/time_analyzer.h"
 
 #include <iostream>
 
@@ -19,6 +20,11 @@ const std::string kPreflopCache = "genericPreflop.dat";
 const std::string kPostflopCache = "genericPostflop.dat";
 
 }  // namespace
+
+// Reduces the 2 card input
+class FeatureReduction {
+
+};
 
 class CacheStorageTest : public testing::Test {
  public:
@@ -50,10 +56,11 @@ TEST_F(CacheStorageTest, PreflopTest) {
 
   std::vector<Card> empty_table;
   for (const PlayerHand& player_hand : player_hands) {
-    std::cout << "Calculating hand: " << player_hand.first_card << " "
-              << player_hand.second_card << std::endl;
-    winning_calculator_.GetWinningProbability(player_hand, empty_table,
-                                              kOpponents);
+    std::cout << "Calculating hand: " << player_hand.FirstCard() << " "
+              << player_hand.SecondCard() << std::endl;
+
+    TIME_ANALYZE(winning_calculator_.GetWinningProbability(player_hand, empty_table,
+                                                           kOpponents))
   }
   EXPECT_GT(cache_manager_->preflop_map_.size(), 0);
   cache_manager_->ShutdownStore();

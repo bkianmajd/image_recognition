@@ -5,3 +5,6 @@ message TestProto {
   int32 test_int = 2;
 }
 
+message TestMap {
+     map<uint64,string> map1 = 1;
+}

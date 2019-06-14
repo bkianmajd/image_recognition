@@ -30,10 +30,9 @@ class CacheManager {
 
   void ShutdownStore();
 
-  base::Optional<double> GetLosingProbability(const Card& left,
-                                              const Card& right);
+  base::Optional<double> GetLosingProbability(const PlayerHand& player_hand);
 
-  void StoreLosingProbability(const Card& left, const Card& right,
+  void StoreLosingProbability(const PlayerHand& player_hand,
                               double probability);
 
   base::Optional<double> GetLosingProbability(

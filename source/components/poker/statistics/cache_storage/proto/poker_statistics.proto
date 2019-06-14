@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package poker;
+
+message Statistic {
+  double losing_probability = 1;
+  double tie_probability = 2;
+}
+
+// Retrieves stored statistics of the probability of losing
+// with one other player, for a given hand 
+message PreFlopStatistic {
+  map<uint64, Statistic> losing_probability_map = 1;
+}

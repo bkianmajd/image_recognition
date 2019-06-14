@@ -13,9 +13,10 @@ namespace simulator {
 
 using Points = int;
 
+/// Only works on little endian systems due to the way we're bit shifting minor points
 class PointCalculator {
  public:
-  PointCalculator(const std::vector<Card>& unsorted_cards);
+  PointCalculator(const std::array<Card, 7>& unsorted_cards);
 
   Points GetPoints();
 
@@ -52,22 +53,24 @@ class PointCalculator {
   MinorPoint Pair() const;
   MinorPoint HighCard() const;
 
+  void UpdatePair();
+  void UpdateThreeOfKind();
+
   // helper functions
   bool RoyalStraight() const;
   bool HasFlushFromStraight(CardValue begining_value) const;
 
   // Sorts the cards - with the exception of ace, which gets stored as the
   // largest value
-  const std::vector<Card> value_sorted_cards_;
+  const std::array<Card, 7> value_sorted_cards_;
   // Counts the number of values for a particular value
   const std::unordered_map<CardValue, Count> value_map_;
 
-  // Caching the following values for speed. It either equals kUnknown, kFalse,
-  // or some value.
+  // Caching the following values for speed. It either equals kUnknown/Unknown, kFalse/Hidden for doesn't exit.
   MinorPoint flush_point_;
   MinorPoint straight_point_;
-  MinorPoint three_of_kind_point_;
-  MinorPoint pair_point_;
+  CardValue three_of_kind_;
+  CardValue pair_;
 };
 
 }  // namespace simulator

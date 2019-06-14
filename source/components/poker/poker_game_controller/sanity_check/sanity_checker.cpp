@@ -103,11 +103,11 @@ bool SanityCheck::CheckForDuplicates(const GameModel& new_game_model) const {
   // Check if all player hands are unique
   for (size_t i = 0; i < new_game_model.player_hands.size(); ++i) {
     const PlayerHand& player_hand = new_game_model.player_hands[i];
-    if (!CheckSetForUniquenessAndAdd(player_hand.first_card, &set)) {
+    if (!CheckSetForUniquenessAndAdd(player_hand.FirstCard(), &set)) {
       return false;
     }
 
-    if (!CheckSetForUniquenessAndAdd(player_hand.second_card, &set)) {
+    if (!CheckSetForUniquenessAndAdd(player_hand.SecondCard(), &set)) {
       return false;
     }
   }
@@ -128,23 +128,23 @@ bool SanityCheck::CongruencyTest(const GameModel& new_game_model) const {
     const PlayerHand& player_hand = new_game_model.player_hands[i];
 
     // Checking if all the player hands match when unknown
-    if (player_hand.first_card == kUnknown ||
-        player_hand.second_card == kUnknown) {
-      if (player_hand.second_card != kUnknown) {
+    if (player_hand.FirstCard() == kUnknown ||
+        player_hand.SecondCard() == kUnknown) {
+      if (player_hand.SecondCard() != kUnknown) {
         return false;
       }
-      if (player_hand.first_card != kUnknown) {
+      if (player_hand.FirstCard() != kUnknown) {
         return false;
       }
     }
 
     // Checking if all the player hands match when hidden
-    if (player_hand.first_card == kHidden ||
-        player_hand.second_card == kHidden) {
-      if (player_hand.second_card != kHidden) {
+    if (player_hand.FirstCard() == kHidden ||
+        player_hand.SecondCard() == kHidden) {
+      if (player_hand.SecondCard() != kHidden) {
         return false;
       }
-      if (player_hand.first_card != kHidden) {
+      if (player_hand.FirstCard() != kHidden) {
         return false;
       }
     }

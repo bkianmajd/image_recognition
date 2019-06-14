@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package poker;
+
+// The probability that you will lose given your opponent has this hand
+message OpponentHand {
+   map<int32, double> losing_probability = 1;
+}
+
+
+// Key is the preflopHand, the second key is the opponent hand
+message PreflopHandGivenOponnentHand {
+  map<int32, OpponentHand> pre_flop_hand = 1;
+}

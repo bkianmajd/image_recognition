@@ -61,9 +61,9 @@ void PokerGameController::UpdateBigImage(
 void PokerGameController::UpdateModel() {
   for (int i = 0; i < kDefualtChairs; ++i) {
     PlayerHand& player_hand = game_model_.player_hands[static_cast<size_t>(i)];
-    player_hand.first_card =
+    player_hand.FirstCard() =
         landmark_finder_.FindLeftCard(static_cast<PlayerLocation>(i));
-    player_hand.second_card =
+    player_hand.SecondCard() =
         landmark_finder_.FindRightCard(static_cast<PlayerLocation>(i));
   }
 
@@ -100,10 +100,10 @@ bool PokerGameController::CheckModelDifferent() const {
         game_model_.player_hands[static_cast<size_t>(i)];
     const PlayerHand& old_player_hand =
         last_game_model_.player_hands[static_cast<size_t>(i)];
-    if (player_hand.first_card != old_player_hand.first_card) {
+    if (player_hand.FirstCard() != old_player_hand.FirstCard()) {
       return true;
     }
-    if (player_hand.second_card != old_player_hand.second_card) {
+    if (player_hand.SecondCard() != old_player_hand.SecondCard()) {
       return true;
     }
   }

@@ -20,8 +20,9 @@ bool CustomSort(const Card& lhs, const Card& rhs) {
   return lhs.value < rhs.value;
 }
 
-std::vector<Card> SortCardsByValue(const std::vector<Card>& unsorted_cards) {
-  std::vector<Card> retVec(unsorted_cards);
+std::array<Card, 7> SortCardsByValue(
+    const std::array<Card, 7>& unsorted_cards) {
+  std::array<Card, 7> retVec(unsorted_cards);
 
   // Sorts smallest to largest, exception is ace - which gets stored as the
   // largest value
@@ -30,9 +31,9 @@ std::vector<Card> SortCardsByValue(const std::vector<Card>& unsorted_cards) {
 }
 
 std::unordered_map<CardValue, int> PopulateValueMap(
-    const std::vector<Card>& cards) {
+    const std::array<Card, 7>& cards) {
   // count the number of cards
-  std::unordered_map<CardValue, int> value_map;
+  std::unordered_map<CardValue, int> value_map(7);
   for (size_t i = 0; i < cards.size(); ++i) {
     auto it = value_map.find(cards[i].value);
     if (it == value_map.end()) {
@@ -117,48 +118,39 @@ constexpr int GetMinorPoint(CardValue value) {
   }
 }
 
-constexpr CardValue MinorPointToCard(int minorPoint) {
-  switch (minorPoint) {
-    case 0x0E:
-      return CARD_VALUE_ACE;
-    case 0x02:
-      return CARD_VALUE_TWO;
-    case 0x03:
-      return CARD_VALUE_THREE;
-    case 0x04:
-      return CARD_VALUE_FOUR;
-    case 0x05:
-      return CARD_VALUE_FIVE;
-    case 0x06:
-      return CARD_VALUE_SIX;
-    case 0x07:
-      return CARD_VALUE_SEVEN;
-    case 0x08:
-      return CARD_VALUE_EIGHT;
-    case 0x09:
-      return CARD_VALUE_NINE;
-    case 0x0A:
-      return CARD_VALUE_TEN;
-    case 0x0B:
-      return CARD_VALUE_JACK;
-    case 0x0C:
-      return CARD_VALUE_QUEEN;
-    case 0x0D:
-      return CARD_VALUE_KING;
-    default:
-      return CARD_VALUE_UNKNOWN;
+// sorted cards are sorted from lowest to highest. Return from highest to
+// lowest. e.g. ace [0] king[1]
+template <typename Array>
+void GetNextHighestCards(const std::vector<Card>& sorted_cards,
+                         Array* highest_cards) {
+  size_t sz = highest_cards->size();
+  unsigned int storing_index = 0;
+
+  auto high_card_it = sorted_cards.end();
+  while (high_card_it > sorted_cards.begin()) {
+    high_card_it--;
+
+    // Prevent accessing greater than sz, indicates we're done populating into
+    // highest_cards
+    if (storing_index == sz) {
+      return;
+    }
+
+    // store the next highest
+    (*highest_cards)[storing_index] = *high_card_it;
+    storing_index++;
   }
 }
 
 }  // namespace
 
-PointCalculator::PointCalculator(const std::vector<Card>& unsorted_cards)
+PointCalculator::PointCalculator(const std::array<Card, 7>& unsorted_cards)
     : value_sorted_cards_(SortCardsByValue(unsorted_cards)),
       value_map_(PopulateValueMap(unsorted_cards)),
       flush_point_(kUnknown),
       straight_point_(kUnknown),
-      three_of_kind_point_(kUnknown),
-      pair_point_(kUnknown) {
+      three_of_kind_(CARD_VALUE_UNKNOWN),
+      pair_(CARD_VALUE_UNKNOWN) {
   // The caller should not pass hidden or unknown cards
   for (size_t i = 0; i < unsorted_cards.size(); ++i) {
     assert(unsorted_cards[i].value != CARD_VALUE_UNKNOWN);
@@ -172,54 +164,54 @@ PointCalculator::PointCalculator(const std::vector<Card>& unsorted_cards)
 }
 
 Points PointCalculator::GetPoints() {
-  // There is a total of 4 digit value
-  // The first digit corresponds to the major hand (9 for royal flush, 0 for
-  // high card) The last 3 hex digit is made up of the minor point - converted
-  // to dec (i.e. 0xEE = 238)
+  // a 32 bit value is composed of 8 4 bit values
+  // A poker hand is made up of 5 cards
+  // The first 5 digits will be the minor point
+  // THe 6th digit is the major point
 
   MinorPoint minor_point = RoyalFlush();
   if (minor_point != kFalse) {
-    return 9000;
+    return 0xA00000;
   }
 
   minor_point = FourOfAKindAndUpdate();
   if (minor_point != kFalse) {
-    return 8000 + minor_point;
+    return 0x900000 + minor_point;
   }
 
   minor_point = StraightFlushAndUpdate();
   if (minor_point != kFalse) {
-    return 7000 + minor_point;
+    return 0x800000 + minor_point;
   }
 
   minor_point = FullHouse();
   if (minor_point != kFalse) {
-    return 6000 + minor_point;
+    return 0x700000 + minor_point;
   }
 
   minor_point = Flush();
   if (minor_point != kFalse) {
-    return 5000 + minor_point;
+    return 0x600000 + minor_point;
   }
 
   minor_point = Straight();
   if (minor_point != kFalse) {
-    return 4000 + minor_point;
+    return 0x500000 + minor_point;
   }
 
   minor_point = ThreeOfAKind();
   if (minor_point != kFalse) {
-    return 300 + minor_point;
+    return 0x400000 + minor_point;
   }
 
   minor_point = TwoPair();
   if (minor_point != kFalse) {
-    return 2000 + minor_point;
+    return 0x300000 + minor_point;
   }
 
   minor_point = Pair();
   if (minor_point != kFalse) {
-    return 1000 + minor_point;
+    return 0x200000 + minor_point;
   }
 
   return HighCard();
@@ -270,14 +262,14 @@ PointCalculator::MinorPoint PointCalculator::RoyalFlush() const {
 
 PointCalculator::MinorPoint PointCalculator::FourOfAKindAndUpdate() {
   // Update Pair, Two Pair, and Three of Kind
-  pair_point_ = Pair();
-  if (pair_point_ == kFalse) {
-    three_of_kind_point_ = kFalse;
+  UpdatePair();
+  if (pair_ == CARD_VALUE_HIDDEN) {
+    three_of_kind_ = CARD_VALUE_HIDDEN;
     return kFalse;
   }
 
-  three_of_kind_point_ = ThreeOfAKind();
-  if (three_of_kind_point_ == kFalse) {
+  UpdateThreeOfKind();
+  if (three_of_kind_ == CARD_VALUE_HIDDEN) {
     return kFalse;
   }
 
@@ -285,13 +277,25 @@ PointCalculator::MinorPoint PointCalculator::FourOfAKindAndUpdate() {
   // all four of a kind possibilities because you may run into this AAA 2222
 
   // There shall be only 4 of a kind in the hand so order doesn't matter
+  CardValue four_value = CARD_VALUE_UNKNOWN;
   for (auto it = value_map_.begin(); it != value_map_.end(); ++it) {
     if (it->second == 4) {
-      return GetMinorPoint(it->first);
+      four_value = it->first;
+      break;
     }
   }
 
-  return kFalse;
+  if (four_value == CARD_VALUE_UNKNOWN) {
+    return kFalse;
+  }
+
+  // Get the next highest card that is not a four value
+  auto it = value_sorted_cards_.end();
+  it--;
+  while (it->value == four_value) {
+    it--;
+  }
+  return (four_value << 4) + GetMinorPoint(it->value);
 }
 
 PointCalculator::MinorPoint PointCalculator::StraightFlushAndUpdate() {
@@ -317,21 +321,20 @@ PointCalculator::MinorPoint PointCalculator::StraightFlushAndUpdate() {
 }
 
 PointCalculator::MinorPoint PointCalculator::FullHouse() const {
-  MinorPoint minorPoint = three_of_kind_point_;
-  if (minorPoint == kUnknown) {
-    minorPoint = ThreeOfAKind();
+  if (three_of_kind_ == kUnknown) {
+    // Technically should not be reached
+    assert(false);
   }
-  if (minorPoint == kFalse) {
+  if (three_of_kind_ == CARD_VALUE_HIDDEN) {
     return kFalse;
   }
 
   // Convert the minor point to a card
-  CardValue three_of_kind_value = MinorPointToCard(minorPoint);
   std::unordered_map<CardValue, Count> value_map_without_three(value_map_);
-  value_map_without_three.erase(three_of_kind_value);
+  value_map_without_three.erase(three_of_kind_);
 
   // Shift the minor point up by 4 (e.g. Aces full of kings ... would be 0xED)
-  minorPoint = minorPoint << 4;
+  MinorPoint minorPoint = GetMinorPoint(three_of_kind_) << 4;
 
   // Find the next pair
   if (HasPair(CARD_VALUE_ACE, value_map_without_three)) {
@@ -424,7 +427,8 @@ bool PointCalculator::HasFlushFromStraight(CardValue cardValue) const {
                          Card(CARD_VALUE_TWO, SUIT_UNKNOWN), CustomSort);
   }
 
-  // Scroll through between the lower and upper bound of your straight limit to see if there is a flush
+  // Scroll through between the lower and upper bound of your straight limit to
+  // see if there is a flush
   while (it != it_end) {
     switch (it->suit) {
       case SUIT_CLUB:
@@ -498,16 +502,23 @@ PointCalculator::MinorPoint PointCalculator::Flush() const {
     return kFalse;
   }
 
-  auto it = value_sorted_cards_.end();
-  while (it > value_sorted_cards_.begin()) {
-    it--;
-    if (it->suit == suit_lookup_value) {
-      return GetMinorPoint(it->value);
+  // get the next 5 higest cards in the suit
+  std::array<Card, 5> high_card_array{{CARD_VALUE_UNKNOWN, CARD_VALUE_UNKNOWN}};
+  std::vector<Card> sorted_cards;
+  for (size_t index = 0; index < value_sorted_cards_.size(); ++index) {
+    // Skip this case
+    if (value_sorted_cards_[index].suit != suit_lookup_value) {
+      continue;
     }
+    sorted_cards.push_back(value_sorted_cards_[index]);
   }
+  GetNextHighestCards(sorted_cards, &high_card_array);
 
-  std::cerr << "something is wrong with the logic above" << std::endl;
-  assert(false);
+  return (GetMinorPoint(high_card_array[0].value) << 16) +
+         (GetMinorPoint(high_card_array[1].value) << 12) +
+         (GetMinorPoint(high_card_array[2].value) << 8) +
+         (GetMinorPoint(high_card_array[3].value) << 4) +
+         (GetMinorPoint(high_card_array[4].value) << 0);
 }
 
 bool PointCalculator::RoyalStraight() const {
@@ -570,16 +581,163 @@ PointCalculator::MinorPoint PointCalculator::Straight() const {
 }
 
 PointCalculator::MinorPoint PointCalculator::ThreeOfAKind() const {
-  if (three_of_kind_point_ != kUnknown) {
-    return three_of_kind_point_;
+  if (three_of_kind_ == CARD_VALUE_UNKNOWN) {
+    std::cerr << "this should not happen" << std::endl;
+    assert(false);
+  }
+  if (three_of_kind_ == CARD_VALUE_HIDDEN) {
+    return kFalse;
   }
 
+  // get the next 2 higest cards excluding the three of a kind
+  std::array<Card, 2> high_card_array{{CARD_VALUE_UNKNOWN, CARD_VALUE_UNKNOWN}};
+  std::vector<Card> sorted_cards;
+  for (size_t index = 0; index < value_sorted_cards_.size(); ++index) {
+    // Skip this case
+    if (value_sorted_cards_[index].value == three_of_kind_) {
+      continue;
+    }
+    sorted_cards.push_back(value_sorted_cards_[index]);
+  }
+  GetNextHighestCards(sorted_cards, &high_card_array);
+
+  // Now shift the current three of a kind by 3 digits and put the first 2 cards
+  // in the other two digits
+  MinorPoint minor_point = GetMinorPoint(three_of_kind_);  // this is 4 bits
+  // 0x0E on a big endian system this is 0x0E0000 which is why this wont work on
+  // those systems
+  minor_point = (minor_point << 8) +
+                (GetMinorPoint(high_card_array[0].value) << 4) +
+                GetMinorPoint(high_card_array[1].value);
+  return minor_point;
+}
+
+PointCalculator::MinorPoint PointCalculator::TwoPair() const {
+  // Should return the top two pairs.
+  // a 2 pair value system should consist of the highest pair followed by the
+  // next highest. e.g. C 2
+  if (pair_ == CARD_VALUE_UNKNOWN) {
+    std::cerr << "this should not happen" << std::endl;
+    assert(false);
+  }
+
+  // Get the highest pair
+  if (pair_ == CARD_VALUE_HIDDEN) {
+    return kFalse;
+  }
+
+  // Remove the highest pair so we dont count it twice
+  std::unordered_map<CardValue, Count> modified_value_map(value_map_);
+  CardValue first_pair = pair_;
+  modified_value_map.erase(first_pair);
+
+  // fill in the first column
+  CardValue second_pair = CARD_VALUE_UNKNOWN;
+  if (HasPair(CARD_VALUE_ACE, modified_value_map)) {
+    second_pair = CARD_VALUE_ACE;
+  }
+  // The for loop does the following statement above... just in a generic way
+  for (CardValue value = CARD_VALUE_KING;
+       value != CARD_VALUE_ACE && second_pair == CARD_VALUE_UNKNOWN;
+       value = static_cast<CardValue>(static_cast<int>(value) - 1)) {
+    if (HasPair(value, modified_value_map)) {
+      second_pair = value;
+      break;
+    }
+  }
+
+  if (second_pair == CARD_VALUE_UNKNOWN) {
+    return kFalse;
+  }
+
+  // Now find the highest card that are not the two pairs
+  std::array<Card, 1> high_card_array;
+  std::vector<Card> next_highest_cards;
+  for (size_t index = 0; index < value_sorted_cards_.size(); ++index) {
+    // Skip this case
+    if (value_sorted_cards_[index].value == first_pair) {
+      continue;
+    }
+    // Skip this case
+    if (value_sorted_cards_[index].value == second_pair) {
+      continue;
+    }
+    next_highest_cards.push_back(value_sorted_cards_[index]);
+  }
+  GetNextHighestCards(next_highest_cards, &high_card_array);
+
+  // Move the hex value 2 digits over
+  return (GetMinorPoint(first_pair) << 8) + (GetMinorPoint(second_pair) << 4) +
+         GetMinorPoint(high_card_array[0].value);
+}
+
+PointCalculator::MinorPoint PointCalculator::Pair() const {
+  if (pair_ == CARD_VALUE_UNKNOWN) {
+    std::cerr << "this should not happen" << std::endl;
+    assert(false);
+  }
+
+  if (pair_ == CARD_VALUE_HIDDEN) {
+    return kFalse;
+  }
+
+  // Now find the next 3 highest cards
+  std::array<Card, 3> high_card_array;
+  std::vector<Card> next_highest_cards;
+  for (size_t index = 0; index < value_sorted_cards_.size(); ++index) {
+    // Skip this case
+    if (value_sorted_cards_[index].value == pair_) {
+      continue;
+    }
+    next_highest_cards.push_back(value_sorted_cards_[index]);
+  }
+  GetNextHighestCards(next_highest_cards, &high_card_array);
+
+  // Move the hex value 3 digits over
+  return (GetMinorPoint(pair_) << 12) +
+         (GetMinorPoint(high_card_array[0].value) << 8) +
+         (GetMinorPoint(high_card_array[1].value) << 4) +
+         GetMinorPoint(high_card_array[2].value);
+}
+
+PointCalculator::MinorPoint PointCalculator::HighCard() const {
+  std::array<Card, 5> high_card_array;
+  std::vector<Card> value_sorted_cards(value_sorted_cards_.begin(),
+                                       value_sorted_cards_.end());
+
+  GetNextHighestCards(value_sorted_cards, &high_card_array);
+  return (GetMinorPoint(high_card_array[0].value) << 16) +
+         (GetMinorPoint(high_card_array[1].value) << 12) +
+         (GetMinorPoint(high_card_array[2].value) << 8) +
+         (GetMinorPoint(high_card_array[3].value) << 4) +
+         GetMinorPoint(high_card_array[4].value);
+}
+
+void PointCalculator::UpdatePair() {
+  // Returns the highest pair found
+  if (HasPair(CARD_VALUE_ACE, value_map_)) {
+    pair_ = CARD_VALUE_ACE;
+    return;
+  }
+  // The for loop does the following statement above... just in a generic way
+  for (CardValue value = CARD_VALUE_KING; value != CARD_VALUE_ACE;
+       value = static_cast<CardValue>(static_cast<int>(value) - 1)) {
+    if (HasPair(value, value_map_)) {
+      pair_ = value;
+      return;
+    }
+  }
+  pair_ = CARD_VALUE_HIDDEN;
+}
+
+void PointCalculator::UpdateThreeOfKind() {
   // This returns the first three of a kind. However, if there are 2 three of
   // a kinds, then a full house should be used.
   auto it = value_map_.find(CARD_VALUE_ACE);
   if (it != value_map_.end()) {
     if (it->second >= 3) {
-      return GetMinorPoint(CARD_VALUE_ACE);
+      three_of_kind_ = CARD_VALUE_ACE;
+      return;
     }
   }
 
@@ -590,80 +748,12 @@ PointCalculator::MinorPoint PointCalculator::ThreeOfAKind() const {
       continue;
     }
     if (it->second >= 3) {
-      return GetMinorPoint(it->first);
+      three_of_kind_ = it->first;
+      return;
     }
   }
 
-  return kFalse;
-}
-
-PointCalculator::MinorPoint PointCalculator::TwoPair() const {
-  // Should return the top two pairs.
-  // a 2 pair value system should consist of the highest pair followed by the
-  // next highest. e.g. C 2
-  MinorPoint two_pair_value = 0;
-
-  if(pair_point_ == kUnknown) {
-    std::cerr << "this should not happen" << std::endl;
-    assert(false);
-  }
-
-  // Get the highest pair
-  MinorPoint highest_pair_value = pair_point_;
-  if (highest_pair_value == kFalse) {
-    return kFalse;
-  }
-
-  // Move the hex value to the next column
-  two_pair_value = highest_pair_value << 4;
-
-  // Remove the highest pair so we dont count it twice
-  std::unordered_map<CardValue, Count> modified_value_map(value_map_);
-  CardValue removed_pair = (highest_pair_value == GetMinorPoint(CARD_VALUE_ACE))
-                               ? CARD_VALUE_ACE
-                               : static_cast<CardValue>(highest_pair_value);
-  modified_value_map.erase(removed_pair);
-
-  // fill in the first column
-  if (HasPair(CARD_VALUE_ACE, modified_value_map)) {
-    two_pair_value = two_pair_value + GetMinorPoint(CARD_VALUE_ACE);
-    return two_pair_value;
-  }
-  // The for loop does the following statement above... just in a generic way
-  for (CardValue value = CARD_VALUE_KING; value != CARD_VALUE_ACE;
-       value = static_cast<CardValue>(static_cast<int>(value) - 1)) {
-    if (HasPair(value, modified_value_map)) {
-      two_pair_value = two_pair_value + GetMinorPoint(value);
-      return two_pair_value;
-    }
-  }
-
-  return kFalse;
-}
-
-PointCalculator::MinorPoint PointCalculator::Pair() const {
-  if (pair_point_ != kUnknown) {
-    return pair_point_;
-  }
-
-  // Returns the highest pair found
-  if (HasPair(CARD_VALUE_ACE, value_map_)) {
-    return GetMinorPoint(CARD_VALUE_ACE);
-  }
-  // The for loop does the following statement above... just in a generic way
-  for (CardValue value = CARD_VALUE_KING; value != CARD_VALUE_ACE;
-       value = static_cast<CardValue>(static_cast<int>(value) - 1)) {
-    if (HasPair(value, value_map_)) {
-      return GetMinorPoint(value);
-    }
-  }
-  return kFalse;
-}
-
-PointCalculator::MinorPoint PointCalculator::HighCard() const {
-  auto it = value_sorted_cards_.end();
-  it--;
-  return GetMinorPoint(it->value);
+  three_of_kind_ = CARD_VALUE_HIDDEN;
 }
 
 }  // namespace simulator

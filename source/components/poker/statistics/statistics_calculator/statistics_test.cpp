@@ -29,9 +29,9 @@ TEST_F(StatisticsTest, CalculateSingleProb) {
   EXPECT_EQ(p, 1.0 / 52.0);
 
   // Put aces in players hand
-  game_model.player_hands[PLAYERLOC_PLAYER_ZERO].first_card =
+  game_model.player_hands[PLAYERLOC_PLAYER_ZERO].FirstCard() =
       Card(CARD_VALUE_ACE, SUIT_HEART);
-  game_model.player_hands[PLAYERLOC_PLAYER_ZERO].second_card =
+  game_model.player_hands[PLAYERLOC_PLAYER_ZERO].SecondCard() =
       Card(CARD_VALUE_ACE, SUIT_DIAMOND);
   statistics_calculator_.UpdateGameModel(game_model);
   p = statistics_calculator_.CalculateProbability(
@@ -39,7 +39,7 @@ TEST_F(StatisticsTest, CalculateSingleProb) {
   EXPECT_EQ(p, 1.0 / 50.0);
 
   // Put Ace of club in player hand and expect 0%
-  game_model.player_hands[PLAYERLOC_PLAYER_ZERO].first_card =
+  game_model.player_hands[PLAYERLOC_PLAYER_ZERO].FirstCard() =
       Card(CARD_VALUE_ACE, SUIT_CLUB);
   statistics_calculator_.UpdateGameModel(game_model);
   p = statistics_calculator_.CalculateProbability(
@@ -72,9 +72,9 @@ TEST_F(StatisticsTest, CalculateFlush) {
   game_model.dealer_cards[DEALER_ONE] = Card(CARD_VALUE_ACE, SUIT_CLUB);
   game_model.dealer_cards[DEALER_TWO] = Card(CARD_VALUE_TWO, SUIT_HEART);
   game_model.dealer_cards[DEALER_THREE] = Card(CARD_VALUE_THREE, SUIT_HEART);
-  game_model.player_hands[PLAYERLOC_PLAYER_ZERO].first_card =
+  game_model.player_hands[PLAYERLOC_PLAYER_ZERO].FirstCard() =
       Card(CARD_VALUE_FOUR, SUIT_HEART);
-  game_model.player_hands[PLAYERLOC_PLAYER_ZERO].second_card =
+  game_model.player_hands[PLAYERLOC_PLAYER_ZERO].SecondCard() =
       Card(CARD_VALUE_FIVE, SUIT_HEART);
   statistics_calculator_.UpdateGameModel(game_model);
 
@@ -91,9 +91,9 @@ TEST_F(StatisticsTest, CalculateStrait) {
   game_model.dealer_cards[DEALER_ONE] = Card(CARD_VALUE_ACE, SUIT_CLUB);
   game_model.dealer_cards[DEALER_TWO] = Card(CARD_VALUE_TWO, SUIT_HEART);
   game_model.dealer_cards[DEALER_THREE] = Card(CARD_VALUE_THREE, SUIT_HEART);
-  game_model.player_hands[PLAYERLOC_PLAYER_ZERO].first_card =
+  game_model.player_hands[PLAYERLOC_PLAYER_ZERO].FirstCard() =
       Card(CARD_VALUE_FOUR, SUIT_HEART);
-  game_model.player_hands[PLAYERLOC_PLAYER_ZERO].second_card =
+  game_model.player_hands[PLAYERLOC_PLAYER_ZERO].SecondCard() =
       Card(CARD_VALUE_FIVE, SUIT_HEART);
   statistics_calculator_.UpdateGameModel(game_model);
 

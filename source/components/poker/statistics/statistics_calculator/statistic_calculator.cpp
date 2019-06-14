@@ -36,8 +36,8 @@ void StatisticCalculator::UpdateGameModel(const GameModel& game_model) {
   // Store all player hands into set
   for (size_t i = 0; i < game_model.player_hands.size(); ++i) {
     const PlayerHand& player_hand = game_model.player_hands[i];
-    AddCardToSet(player_hand.first_card);
-    AddCardToSet(player_hand.second_card);
+    AddCardToSet(player_hand.FirstCard());
+    AddCardToSet(player_hand.SecondCard());
   }
   // Add all dealer cards to set
   for (size_t i = DEALER_ONE; i < DEALER_MAX_SIZE; ++i) {
