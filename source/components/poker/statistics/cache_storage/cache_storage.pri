@@ -4,11 +4,12 @@ included_modules += $$PWD
 HEADERS += $${WORKSPACE}/components/poker/statistics/cache_storage/cache_dispatcher.h
 HEADERS += $${WORKSPACE}/components/poker/statistics/cache_storage/cache_worker.h
 HEADERS += $${WORKSPACE}/components/poker/statistics/cache_storage/preflop_similarities.h
-
 SOURCES += $${WORKSPACE}/components/poker/statistics/cache_storage/cache_dispatcher.cpp
-HEADERS += $${WORKSPACE}/components/poker/statistics/cache_storage/cache_worker.cpp
+SOURCES += $${WORKSPACE}/components/poker/statistics/cache_storage/cache_worker.cpp
+SOURCES += $${WORKSPACE}/components/poker/statistics/cache_storage/proto/poker_statistics.pb.cc
 
 include($${WORKSPACE}/external_libraries/libchrome_output/libchrome_output.pri)
+include($${WORKSPACE}/external_libraries/protobuf_output/protobuf_output.pri)
 include($${WORKSPACE}/components/poker/statistics/brute_force_generator/brute_force_generator.pri)
 include($${WORKSPACE}/components/poker/simulator/defs/defs.pri)
 include($${WORKSPACE}/libraries/session_thread/session_thread.pri)

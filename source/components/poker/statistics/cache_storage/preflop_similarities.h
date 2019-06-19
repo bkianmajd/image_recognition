@@ -37,7 +37,7 @@ std::vector<PlayerHand> GetDifferentSuitSimalrities(CardValue card_value1,
                              Card(card_value2, SUIT_HEART));
   similar_hands.emplace_back(Card(card_value1, SUIT_CLUB),
                              Card(card_value2, SUIT_DIAMOND));
-  similar_hands.emplace_back(Card(card_value1, SUIT_HEART),
+  similar_hands.emplace_back(Card(card_value1, SUIT_CLUB),
                              Card(card_value2, SUIT_SPADE));
 
   // First card is spade

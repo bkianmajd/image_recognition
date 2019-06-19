@@ -11,7 +11,6 @@ INCLUDEPATH += $${WORKSPACE}/external_libraries/googletest/include
 SOURCES += $${WORKSPACE}/components/poker/statistics/cache_storage/cache_storage_runner.cpp
 
 
-
-
 include($${WORKSPACE}/components/poker/statistics/cache_storage/cache_storage.pri)
-
+include($${WORKSPACE}/libraries/protobuf_loader/protobuf_loader.pri)
+include($${WORKSPACE}/helpers/helpers.pri)

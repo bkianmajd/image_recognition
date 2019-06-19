@@ -7,6 +7,7 @@
 #include "components/poker/simulator/defs/game_moderator.h"
 #include "components/poker/statistics/brute_force_generator/hand_generator.h"
 #include "components/poker/statistics/brute_force_generator/table_generator.h"
+#include "components/poker/statistics/defs/defs.h"
 #include "helpers/time_analyzer.h"
 #include "libraries/protobuf_loader/cache_manager.h"
 
@@ -22,12 +23,7 @@ namespace {
 constexpr bool kDebug = true;
 constexpr bool kReadOnly = true;
 const std::string kCacheDirectory =
-    "components/poker/statistics/cache_storage/proto";
-
-struct HandStatistic {
-  double losing_probability;
-  double tie_probability;
-};
+    "components/poker/statistics/cache_storage/binary_data";
 
 std::vector<Table> GenerateTableCombinations(
     const std::vector<Card>& table_cards, TableGenerator* table_generator) {
@@ -56,8 +52,8 @@ std::vector<Table> GenerateTableCombinations(
   return single_table_combo;
 }
 
-double CalculateLosingProbability(const PlayerHand& player_hand,
-                                  const std::vector<Card>& table_cards) {
+HandStatistic CalculateLosingProbability(const PlayerHand& player_hand,
+                                         const std::vector<Card>& table_cards) {
   // The oponent cannot have any of these cards as they're already played
   std::vector<Card> opponent_card_exclusions;
   opponent_card_exclusions.assign(table_cards.begin(), table_cards.end());
@@ -70,10 +66,9 @@ double CalculateLosingProbability(const PlayerHand& player_hand,
       hand_generator.GenerateCombinations();
 
   // Setup the counter
-  int total_count = 0;
-  int losing_count = 0;
-
-  int opponent_hand_progression = 0;
+  uint64_t total_count = 0;
+  uint64_t losing_count = 0;
+  uint64_t tieing_count = 0;
 
   // Go through each combination
   for (const PlayerHand& opponent_hand : opponent_possibilities) {
@@ -89,27 +84,26 @@ double CalculateLosingProbability(const PlayerHand& player_hand,
     std::vector<Table> table_combos = GenerateTableCombinations(
         table_cards, &table_generator);  // this takes a long time
 
-    // debug statement here to look at the progression of the for loops
-    if (kDebug) {
-      std::cout << "Opponent hand: " << opponent_hand_progression++
-                << " out of " << opponent_possibilities.size() << " Table size "
-                << table_combos.size() << std::endl;
-    }
-
     // Now find winner
     for (const Table& table : table_combos) {
-      TIME_ANALYZE(
-          simulator::GameResult game_result =
-              simulator::ModeratePlayerWon(player_hand, opponent_hand, table))
+      simulator::GameResult game_result =
+          simulator::ModeratePlayerWon(player_hand, opponent_hand, table);
       if (game_result == simulator::GAME_RESULT_LOST) {
         losing_count++;
       }
       if (game_result != simulator::GAME_RESULT_TIE) {
-        total_count++;
+        tieing_count++;
       }
+      total_count++;
     }
   }
-  return static_cast<double>(losing_count) / static_cast<double>(total_count);
+
+  HandStatistic hand_statistic;
+  hand_statistic.losing_probability =
+      static_cast<double>(losing_count) / static_cast<double>(total_count);
+  hand_statistic.tie_probability =
+      static_cast<double>(tieing_count) / static_cast<double>(total_count);
+  return hand_statistic;
 }
 
 }  // namespace
@@ -120,11 +114,11 @@ class HandCalculator {
   HandCalculator()  // add read only flag to cache manager
       : cache_manager_(
             helpers::CreateDirectoryFinderFromWorkspace(kCacheDirectory),
-            kReadOnly),
-        initialized_(false) {}
+            kReadOnly) {}
 
-  double GetWinningProbability(const PlayerHand& player_hand,
-                               const Table& table, int opponents) {
+  HandStatistic CalculateHandProbability(const PlayerHand& player_hand,
+                                         const Table& table, int opponents) {
+    HandStatistic hand_statistic;
     // move table into a vector
     std::vector<Card> table_cards;
     for (const Card& card : table.cards_) {
@@ -139,72 +133,52 @@ class HandCalculator {
     }
 
     // reset state
-    double losingProbability = 0;
+    hand_statistic.losing_probability = 0;
+    hand_statistic.tie_probability = 0;
 
     switch (table_cards.size()) {
       case 0:
-        losingProbability = GetLosingProbPreFlop(player_hand);
+        hand_statistic = GetHandStatisticPreFlop(player_hand);
         break;
       case 3:
-        losingProbability = GetLosingProbPostFlop(player_hand, table_cards);
-        break;
+        // fall-through
       case 4:
-        losingProbability =
-            CalculateLosingProbability(player_hand, table_cards);
+        // fall-through
         break;
       case 5:
-        losingProbability =
-            CalculateLosingProbability(player_hand, table_cards);
+        hand_statistic = CalculateLosingProbability(player_hand, table_cards);
         break;
       default:
         std::cerr << "table cards is an incorrect size" << std::endl;
-        return 0;
+        assert(false);
     }
 
-    return 1 - (losingProbability * opponents);
+    // Assume tie probability stays the same despite # of opponents
+    // losing probability increases
+    hand_statistic.losing_probability =
+        hand_statistic.losing_probability * static_cast<double>(opponents);
+    return hand_statistic;
   }
 
  private:
-  double GetLosingProbPreFlop(const PlayerHand& player_hand) {
+  HandStatistic GetHandStatisticPreFlop(const PlayerHand& player_hand) {
     // access the cache manager for this
     poker::PreFlopStatistic* pre_flop_proto = cache_manager_.Get();
-    auto map = pre_flop_proto->losing_probability_map();
+    auto& map = pre_flop_proto->losing_probability_map();
     auto it = map.find(player_hand.UniqueId());
 
-    if(it == map.end()) {
+    if (map.size() == 0 || it == map.end()) {
       // This should not happen, map should be full of all combinations
       assert(true);
     }
-    poker::Statistic statistic = it->second;
-    base::Optional<double> result =
-        cache_manager_->GetLosingProbability(player_hand);
-    if (result.has_value()) {
-      return result.value();
-    }
-    double losing_probability =
-        CalculateLosingProbability(player_hand, std::vector<Card>());
-    cache_manager_->StoreLosingProbability(player_hand, losing_probability);
-    return losing_probability;
-  }
-
-  double GetLosingProbPostFlop(const PlayerHand& player_hand,
-                               const std::vector<Card>& table_cards) {
-    std::vector<Card> player_cards{player_hand.FirstCard(),
-                                   player_hand.SecondCard()};
-    base::Optional<double> result =
-        cache_manager_->GetLosingProbability(player_cards, table_cards);
-    if (result.has_value()) {
-      return result.value();
-    }
-    double losing_probability =
-        CalculateLosingProbability(player_hand, std::vector<Card>());
-    cache_manager_->StoreLosingProbability(player_cards, table_cards,
-                                           losing_probability);
-    return losing_probability;
+    const poker::Statistic& statistic = it->second;
+    HandStatistic hand_statistic;
+    hand_statistic.tie_probability = statistic.tie_probability();
+    hand_statistic.losing_probability = statistic.losing_probability();
+    return hand_statistic;
   }
 
   proto::CacheManager<poker::PreFlopStatistic> cache_manager_;
-  bool initialized_;
 };
 
 }  // namespace statistics

@@ -34,6 +34,20 @@ TEST_F(PointCalculatorTest, ConstructDestruct) {
   PointCalculator pointCalculator(unsorted_cards_);
 }
 
+TEST_F(PointCalculatorTest, SimpleTest) {
+  Points high_card;
+  size_t i = 0;
+  unsorted_cards_[i++] = Card(CARD_VALUE_ACE, SUIT_SPADE);
+  unsorted_cards_[i++] = Card(CARD_VALUE_NINE, SUIT_SPADE);
+  unsorted_cards_[i++] = Card(CARD_VALUE_THREE, SUIT_CLUB);
+  unsorted_cards_[i++] = Card(CARD_VALUE_SEVEN, SUIT_DIAMOND);
+  unsorted_cards_[i++] = Card(CARD_VALUE_TEN, SUIT_HEART);
+  unsorted_cards_[i++] = Card(CARD_VALUE_JACK, SUIT_CLUB);
+  unsorted_cards_[i++] = Card(CARD_VALUE_SEVEN, SUIT_DIAMOND);
+  PointCalculator pointCalculator(unsorted_cards_);
+  high_card = pointCalculator.GetPoints();
+}
+
 TEST_F(PointCalculatorTest, PointTest) {
   Points flush;
   Points straigh;

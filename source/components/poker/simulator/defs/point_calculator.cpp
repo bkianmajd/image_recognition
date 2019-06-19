@@ -158,9 +158,6 @@ PointCalculator::PointCalculator(const std::array<Card, 7>& unsorted_cards)
     assert(unsorted_cards[i].suit != SUIT_UNKNOWN);
     assert(unsorted_cards[i].suit != SUIT_HIDDEN);
   }
-
-  // The caller should pass at least 5 cards
-  assert(unsorted_cards.size() >= 5);
 }
 
 Points PointCalculator::GetPoints() {
