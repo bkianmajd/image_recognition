@@ -6,7 +6,10 @@ namespace statistics {
 CacheDispatcher::CacheDispatcher(const PlayerHand& player_hand)
     : player_hand_(player_hand),
       next_available_index_(0),
-      is_worker_active_({false}) {
+      is_worker_active_({false}),
+      losing_count_(0),
+      tie_count_(0),
+      total_count_(0) {
   std::cout << "Cache dispatcher constructed: " << player_hand << std::endl;
 }
 
@@ -16,7 +19,7 @@ HandStatistic CacheDispatcher::Run() {
   base::RunLoop run_loop;
   closure_ = run_loop.QuitClosure();
 
-  // create the 1228 oponnent hand combos
+  // create the 1228 oponnent hand combos and reset the counter
   UpdateMembers();
 
   // run an array of threads
@@ -90,6 +93,11 @@ void CacheDispatcher::UpdateMembers() {
   exclusions.push_back(player_hand_.FirstCard());
   exclusions.push_back(player_hand_.SecondCard());
 
+  // Zero all the fields
+  losing_count_ = 0;
+  tie_count_ = 0;
+  total_count_ = 0;
+
   // Generate all possibilities of the opponents hand
   HandGenerator hand_generator(exclusions);
   opponent_hands_ = hand_generator.GenerateCombinations();
@@ -129,8 +137,8 @@ void CacheDispatcher::CreateWorkerThreads(
 }
 
 void CacheDispatcher::CloseWorkerAndMaybeEnd(size_t worker_index) {
-  is_worker_active_[worker_index] = false;
   worker_threads_[worker_index].EndSessionAndJoin();
+  is_worker_active_[worker_index] = false;
 
   // Check to see if all workers are inactive
   for (bool active : is_worker_active_) {

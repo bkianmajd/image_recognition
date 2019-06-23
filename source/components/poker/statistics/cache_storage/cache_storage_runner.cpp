@@ -32,9 +32,9 @@ int main(int argc, char* argv[]) {
 
     // ----- Debug1 ----
 //    player_hand.FirstCard() =
-//        poker::Card(poker::CardValue::CARD_VALUE_ACE, poker::Suit::SUIT_HEART);
+//        poker::Card(poker::CardValue::CARD_VALUE_ACE, poker::Suit::SUIT_SPADE);
 //    player_hand.SecondCard() =
-//        poker::Card(poker::CardValue::CARD_VALUE_TEN, poker::Suit::SUIT_HEART);
+//        poker::Card(poker::CardValue::CARD_VALUE_NINE, poker::Suit::SUIT_SPADE);
     // ----- override ----
 
     auto it = map->find(player_hand.UniqueId());
