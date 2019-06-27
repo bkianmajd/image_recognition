@@ -81,8 +81,8 @@ HandStatistic CalculateLosingProbability(const PlayerHand& player_hand,
 
     // Generate all the combinations for the table given the first three cards
     TableGenerator table_generator(remainding_table_exclusions);
-    std::vector<Table> table_combos = GenerateTableCombinations(
-        table_cards, &table_generator);  // this takes a long time
+    std::vector<Table> table_combos =
+        GenerateTableCombinations(table_cards, &table_generator);
 
     // Now find winner
     for (const Table& table : table_combos) {
@@ -91,7 +91,7 @@ HandStatistic CalculateLosingProbability(const PlayerHand& player_hand,
       if (game_result == simulator::GAME_RESULT_LOST) {
         losing_count++;
       }
-      if (game_result != simulator::GAME_RESULT_TIE) {
+      if (game_result == simulator::GAME_RESULT_TIE) {
         tieing_count++;
       }
       total_count++;
@@ -144,7 +144,6 @@ class HandCalculator {
         // fall-through
       case 4:
         // fall-through
-        break;
       case 5:
         hand_statistic = CalculateLosingProbability(player_hand, table_cards);
         break;

@@ -424,5 +424,30 @@ TEST_F(PointCalculatorTest, HighCardTest) {
   }
 }
 
+TEST_F(PointCalculatorTest, ConstructorTest) {
+  PlayerHand player_hand;
+  Table table;
+  player_hand.FirstCard() = Card(CARD_VALUE_ACE, SUIT_CLUB);
+  player_hand.SecondCard() = Card(CARD_VALUE_ACE, SUIT_HEART);
+  table.cards_[0] = Card(CARD_VALUE_TWO, SUIT_SPADE);
+  table.cards_[1] = Card(CARD_VALUE_TWO, SUIT_CLUB);
+  table.cards_[2] = Card(CARD_VALUE_FOUR, SUIT_CLUB);
+  table.cards_[3] = Card(CARD_VALUE_QUEEN, SUIT_CLUB);
+  table.cards_[4] = Card(CARD_VALUE_THREE, SUIT_CLUB);
+  PointCalculator pointCalculator(player_hand, table);
+
+  size_t i = 0;
+  unsorted_cards_[i++] = Card(CARD_VALUE_ACE, SUIT_CLUB);
+  unsorted_cards_[i++] = Card(CARD_VALUE_ACE, SUIT_HEART);
+  unsorted_cards_[i++] = Card(CARD_VALUE_TWO, SUIT_SPADE);
+  unsorted_cards_[i++] = Card(CARD_VALUE_TWO, SUIT_CLUB);
+  unsorted_cards_[i++] = Card(CARD_VALUE_FOUR, SUIT_CLUB);
+  unsorted_cards_[i++] = Card(CARD_VALUE_QUEEN, SUIT_CLUB);
+  unsorted_cards_[i++] = Card(CARD_VALUE_THREE, SUIT_CLUB);
+  PointCalculator pointCalculator2(unsorted_cards_);
+
+  EXPECT_EQ(pointCalculator.GetPoints(), pointCalculator2.GetPoints());
+}
+
 }  // namespace simulator
 }  // namespace poker

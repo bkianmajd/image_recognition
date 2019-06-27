@@ -3,9 +3,7 @@
 /// File uses a point system to determine who wins.
 namespace poker {
 namespace simulator {
-namespace {
-
-}  // namespace
+namespace {}  // namespace
 
 using Points = int;
 
@@ -13,11 +11,10 @@ using Points = int;
 GameResult ModeratePlayerWon(const PlayerHand& player_hand,
                              const PlayerHand& opponent_hand,
                              const Table& table) {
-  CardCombo player(player_hand, table);
-  CardCombo opponent(opponent_hand, table);
-// avoid a copy by passing player_hand and table into point calculator directly
-  PointCalculator player_calculator(player.cards_);
-  PointCalculator opponent_calculator(opponent.cards_);
+  // avoid a copy by passing player_hand and table into point calculator
+  // directly
+  PointCalculator player_calculator(player_hand, table);
+  PointCalculator opponent_calculator(opponent_hand, table);
   Points player_points = player_calculator.GetPoints();
   Points opponent_points = opponent_calculator.GetPoints();
   if (player_points < opponent_points) {

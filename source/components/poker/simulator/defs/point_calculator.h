@@ -13,10 +13,12 @@ namespace simulator {
 
 using Points = int;
 
-/// Only works on little endian systems due to the way we're bit shifting minor points
+/// Only works on little endian systems due to the way we're bit shifting minor
+/// points
 class PointCalculator {
  public:
   PointCalculator(const std::array<Card, 7>& unsorted_cards);
+  PointCalculator(const PlayerHand& player_hand, const Table& table);
 
   Points GetPoints();
 
@@ -66,7 +68,8 @@ class PointCalculator {
   // Counts the number of values for a particular value
   const std::unordered_map<CardValue, Count> value_map_;
 
-  // Caching the following values for speed. It either equals kUnknown/Unknown, kFalse/Hidden for doesn't exit.
+  // Caching the following values for speed. It either equals kUnknown/Unknown,
+  // kFalse/Hidden for doesn't exit.
   MinorPoint flush_point_;
   MinorPoint straight_point_;
   CardValue three_of_kind_;

@@ -30,6 +30,21 @@ std::array<Card, 7> SortCardsByValue(
   return retVec;
 }
 
+std::array<Card, 7> SortCardsByValue(const PlayerHand& player_hand,
+                                     const Table& table) {
+  std::array<Card, 7> retVec;
+  for (size_t i = 0; i < 5; ++i) {
+    retVec[i] = table.cards_[i];
+  }
+  retVec[5] = player_hand.FirstCard();
+  retVec[6] = player_hand.SecondCard();
+
+  // Sorts smallest to largest, exception is ace - which gets stored as the
+  // largest value
+  std::sort(retVec.begin(), retVec.end(), CustomSort);
+  return retVec;
+}
+
 std::unordered_map<CardValue, int> PopulateValueMap(
     const std::array<Card, 7>& cards) {
   // count the number of cards
@@ -42,6 +57,38 @@ std::unordered_map<CardValue, int> PopulateValueMap(
       int count = value_map[cards[i].value];
       value_map[cards[i].value] = count + 1;
     }
+  }
+
+  return value_map;
+}
+
+std::unordered_map<CardValue, int> PopulateValueMap(
+    const PlayerHand& player_hand, const Table& table) {
+  // count the number of cards
+  std::unordered_map<CardValue, int> value_map(7);
+  for (size_t i = 0; i < table.cards_.size(); ++i) {
+    auto it = value_map.find(table.cards_[i].value);
+    if (it == value_map.end()) {
+      value_map[table.cards_[i].value] = 1;
+    } else {
+      it->second = it->second + 1;
+    }
+  }
+
+  {
+    auto it = value_map.find(player_hand.FirstCard().value);
+    if (it == value_map.end()) {
+      value_map[player_hand.FirstCard().value] = 1;
+    } else {
+      it->second = it->second + 1;
+    }
+  }
+
+  auto it = value_map.find(player_hand.SecondCard().value);
+  if (it == value_map.end()) {
+    value_map[player_hand.SecondCard().value] = 1;
+  } else {
+    it->second = it->second + 1;
   }
 
   return value_map;
@@ -159,6 +206,15 @@ PointCalculator::PointCalculator(const std::array<Card, 7>& unsorted_cards)
     assert(unsorted_cards[i].suit != SUIT_HIDDEN);
   }
 }
+
+PointCalculator::PointCalculator(const PlayerHand& player_hand,
+                                 const Table& table)
+    : value_sorted_cards_(SortCardsByValue(player_hand, table)),
+      value_map_(PopulateValueMap(player_hand, table)),
+      flush_point_(kUnknown),
+      straight_point_(kUnknown),
+      three_of_kind_(CARD_VALUE_UNKNOWN),
+      pair_(CARD_VALUE_UNKNOWN) {}
 
 Points PointCalculator::GetPoints() {
   // a 32 bit value is composed of 8 4 bit values
