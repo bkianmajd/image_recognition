@@ -36,6 +36,7 @@ class WorkflowSession {
 
   // Interactors
   SessionThread<PokerGameControllerInterface> game_controller_session_;
+  // Poker DecierInterface
   std::unique_ptr<WorkflowDebuggerInterface> workflow_debugger_;
 };
 

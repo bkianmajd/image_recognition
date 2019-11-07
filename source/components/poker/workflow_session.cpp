@@ -62,7 +62,8 @@ void WorkflowSession::OnGameModelUpdate(const GameModel& game_model) {
 }
 
 void WorkflowSession::OnPokerDecision() {
-  std::cout << "poker decision needs to be made" << std::endl;
+  // Poker decision needs to be made
+
 }
 
 void WorkflowSession::OnError(const image::Image& error_image,

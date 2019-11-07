@@ -23,6 +23,20 @@ struct GameModel {
   std::array<Card, DEALER_MAX_SIZE> dealer_cards;
 };
 
+inline int NumberOfActiveOponents(const GameModel& game_model) {
+  int numOfOponents = 0;
+  for (int i = 0; i < PLAYERLOC_MAXSIZE; ++i) {
+    if (i == 0) {
+      continue;
+    }
+    if (game_model.player_hands[i].FirstCard().suit == SUIT_UNKNOWN) {
+      continue;
+    }
+    numOfOponents++;
+  }
+  return numOfOponents;
+}
+
 }  // namespace poker
 
 #endif  // GAME_MODEL_DEF_H_
