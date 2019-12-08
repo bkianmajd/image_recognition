@@ -17,7 +17,7 @@ class IpcServer {
 
   // Returns true if server protocol was succesfully established, returns false
   // if there is a critical error
-  bool CheckForImage(std::vector<char>* bytes);
+  bool CheckForImage(int* client_identifier, std::vector<char>* bytes);
 
  private:
   void SendAcknowledgement();

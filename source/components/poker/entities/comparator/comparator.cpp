@@ -16,10 +16,10 @@ bool CheckForNewHand(const GameModel& last_game_model,
   }
 
   // Ignore this check if the last game model is hidden (most likely observing)
-  if (game_model.player_hands[PLAYERLOC_PLAYER_ZERO].FirstCard().value ==
-      CARD_VALUE_HIDDEN) {
-    return false;
-  }
+  // if (game_model.player_hands[PLAYERLOC_PLAYER_ZERO].FirstCard().value ==
+  //    CARD_VALUE_HIDDEN) {
+  //  return false;
+  //}
 
   // Check to see if the first and second card are different
   if (game_model.player_hands[PLAYERLOC_PLAYER_ZERO].FirstCard() ==

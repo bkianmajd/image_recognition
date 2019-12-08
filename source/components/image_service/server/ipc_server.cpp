@@ -9,7 +9,8 @@ void IpcServer::AsyncInit(const com_layer::ConnectionInfo& connection_info) {
 
 bool IpcServer::IsInit() { return server_.IsOpen(); }
 
-bool IpcServer::CheckForImage(std::vector<char>* bytes) {
+bool IpcServer::CheckForImage(int* client_identifier,
+                              std::vector<char>* bytes) {
   if (!server_.IsOpen()) {
     return false;
   }

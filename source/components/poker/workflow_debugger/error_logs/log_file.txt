@@ -1,0 +1,230 @@
+[0] congruency test failed: congruency test failed: counter over threshold: 2
+
+[1] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+
+[2] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+congruency test failed: counter over threshold: 4
+
+[3] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+congruency test failed: counter over threshold: 4
+congruency test failed: counter over threshold: 5
+
+[4] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+congruency test failed: counter over threshold: 4
+congruency test failed: counter over threshold: 5
+congruency test failed: counter over threshold: 6
+
+[5] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+congruency test failed: counter over threshold: 4
+congruency test failed: counter over threshold: 5
+congruency test failed: counter over threshold: 6
+congruency test failed: counter over threshold: 7
+
+[6] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+congruency test failed: counter over threshold: 4
+congruency test failed: counter over threshold: 5
+congruency test failed: counter over threshold: 6
+congruency test failed: counter over threshold: 7
+congruency test failed: counter over threshold: 8
+
+[7] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+congruency test failed: counter over threshold: 4
+congruency test failed: counter over threshold: 5
+congruency test failed: counter over threshold: 6
+congruency test failed: counter over threshold: 7
+congruency test failed: counter over threshold: 8
+congruency test failed: counter over threshold: 9
+
+[8] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+congruency test failed: counter over threshold: 4
+congruency test failed: counter over threshold: 5
+congruency test failed: counter over threshold: 6
+congruency test failed: counter over threshold: 7
+congruency test failed: counter over threshold: 8
+congruency test failed: counter over threshold: 9
+congruency test failed: counter over threshold: 10
+
+[9] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+congruency test failed: counter over threshold: 4
+congruency test failed: counter over threshold: 5
+congruency test failed: counter over threshold: 6
+congruency test failed: counter over threshold: 7
+congruency test failed: counter over threshold: 8
+congruency test failed: counter over threshold: 9
+congruency test failed: counter over threshold: 10
+congruency test failed: counter over threshold: 11
+
+[10] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+congruency test failed: counter over threshold: 4
+congruency test failed: counter over threshold: 5
+congruency test failed: counter over threshold: 6
+congruency test failed: counter over threshold: 7
+congruency test failed: counter over threshold: 8
+congruency test failed: counter over threshold: 9
+congruency test failed: counter over threshold: 10
+congruency test failed: counter over threshold: 11
+congruency test failed: counter over threshold: 12
+
+[11] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+congruency test failed: counter over threshold: 4
+congruency test failed: counter over threshold: 5
+congruency test failed: counter over threshold: 6
+congruency test failed: counter over threshold: 7
+congruency test failed: counter over threshold: 8
+congruency test failed: counter over threshold: 9
+congruency test failed: counter over threshold: 10
+congruency test failed: counter over threshold: 11
+congruency test failed: counter over threshold: 12
+congruency test failed: counter over threshold: 13
+
+[12] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+congruency test failed: counter over threshold: 4
+congruency test failed: counter over threshold: 5
+congruency test failed: counter over threshold: 6
+congruency test failed: counter over threshold: 7
+congruency test failed: counter over threshold: 8
+congruency test failed: counter over threshold: 9
+congruency test failed: counter over threshold: 10
+congruency test failed: counter over threshold: 11
+congruency test failed: counter over threshold: 12
+congruency test failed: counter over threshold: 13
+congruency test failed: counter over threshold: 14
+
+[13] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+congruency test failed: counter over threshold: 4
+congruency test failed: counter over threshold: 5
+congruency test failed: counter over threshold: 6
+congruency test failed: counter over threshold: 7
+congruency test failed: counter over threshold: 8
+congruency test failed: counter over threshold: 9
+congruency test failed: counter over threshold: 10
+congruency test failed: counter over threshold: 11
+congruency test failed: counter over threshold: 12
+congruency test failed: counter over threshold: 13
+congruency test failed: counter over threshold: 14
+congruency test failed: counter over threshold: 15
+
+[14] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+congruency test failed: counter over threshold: 4
+congruency test failed: counter over threshold: 5
+congruency test failed: counter over threshold: 6
+congruency test failed: counter over threshold: 7
+congruency test failed: counter over threshold: 8
+congruency test failed: counter over threshold: 9
+congruency test failed: counter over threshold: 10
+congruency test failed: counter over threshold: 11
+congruency test failed: counter over threshold: 12
+congruency test failed: counter over threshold: 13
+congruency test failed: counter over threshold: 14
+congruency test failed: counter over threshold: 15
+congruency test failed: counter over threshold: 16
+
+[15] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+congruency test failed: counter over threshold: 4
+congruency test failed: counter over threshold: 5
+congruency test failed: counter over threshold: 6
+congruency test failed: counter over threshold: 7
+congruency test failed: counter over threshold: 8
+congruency test failed: counter over threshold: 9
+congruency test failed: counter over threshold: 10
+congruency test failed: counter over threshold: 11
+congruency test failed: counter over threshold: 12
+congruency test failed: counter over threshold: 13
+congruency test failed: counter over threshold: 14
+congruency test failed: counter over threshold: 15
+congruency test failed: counter over threshold: 16
+congruency test failed: counter over threshold: 17
+
+[16] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+congruency test failed: counter over threshold: 4
+congruency test failed: counter over threshold: 5
+congruency test failed: counter over threshold: 6
+congruency test failed: counter over threshold: 7
+congruency test failed: counter over threshold: 8
+congruency test failed: counter over threshold: 9
+congruency test failed: counter over threshold: 10
+congruency test failed: counter over threshold: 11
+congruency test failed: counter over threshold: 12
+congruency test failed: counter over threshold: 13
+congruency test failed: counter over threshold: 14
+congruency test failed: counter over threshold: 15
+congruency test failed: counter over threshold: 16
+congruency test failed: counter over threshold: 17
+congruency test failed: counter over threshold: 18
+
+[17] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+congruency test failed: counter over threshold: 4
+congruency test failed: counter over threshold: 5
+congruency test failed: counter over threshold: 6
+congruency test failed: counter over threshold: 7
+congruency test failed: counter over threshold: 8
+congruency test failed: counter over threshold: 9
+congruency test failed: counter over threshold: 10
+congruency test failed: counter over threshold: 11
+congruency test failed: counter over threshold: 12
+congruency test failed: counter over threshold: 13
+congruency test failed: counter over threshold: 14
+congruency test failed: counter over threshold: 15
+congruency test failed: counter over threshold: 16
+congruency test failed: counter over threshold: 17
+congruency test failed: counter over threshold: 18
+congruency test failed: counter over threshold: 19
+
+[18] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+congruency test failed: counter over threshold: 4
+congruency test failed: counter over threshold: 5
+congruency test failed: counter over threshold: 6
+congruency test failed: counter over threshold: 7
+congruency test failed: counter over threshold: 8
+congruency test failed: counter over threshold: 9
+congruency test failed: counter over threshold: 10
+congruency test failed: counter over threshold: 11
+congruency test failed: counter over threshold: 12
+congruency test failed: counter over threshold: 13
+congruency test failed: counter over threshold: 14
+congruency test failed: counter over threshold: 15
+congruency test failed: counter over threshold: 16
+congruency test failed: counter over threshold: 17
+congruency test failed: counter over threshold: 18
+congruency test failed: counter over threshold: 19
+congruency test failed: counter over threshold: 20
+
+[19] congruency test failed: congruency test failed: counter over threshold: 2
+congruency test failed: counter over threshold: 3
+congruency test failed: counter over threshold: 4
+congruency test failed: counter over threshold: 5
+congruency test failed: counter over threshold: 6
+congruency test failed: counter over threshold: 7
+congruency test failed: counter over threshold: 8
+congruency test failed: counter over threshold: 9
+congruency test failed: counter over threshold: 10
+congruency test failed: counter over threshold: 11
+congruency test failed: counter over threshold: 12
+congruency test failed: counter over threshold: 13
+congruency test failed: counter over threshold: 14
+congruency test failed: counter over threshold: 15
+congruency test failed: counter over threshold: 16
+congruency test failed: counter over threshold: 17
+congruency test failed: counter over threshold: 18
+congruency test failed: counter over threshold: 19
+congruency test failed: counter over threshold: 20
+congruency test failed: counter over threshold: 21
+

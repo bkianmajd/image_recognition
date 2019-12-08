@@ -1,7 +1,7 @@
 #ifndef POKER_DECIDER_INTERFACE_H_
 #define POKER_DECIDER_INTERFACE_H_
 
-#include "components/poker/entities/game_model_def.h"
+#include "components/poker/entities/workflow_model_def.h"
 
 namespace poker {
 
@@ -19,13 +19,36 @@ struct Decision {
   double ammount = 0;
 };
 
+inline std::ostream& operator<<(std::ostream& os, const Decision& decision) {
+  switch (decision.decisionType) {
+    case DecisionType::DEC_UNKNOWN:
+      os << "Unknown";
+      break;
+    case DecisionType::DEC_FOLD:
+      os << "Fold";
+      break;
+    case DecisionType::DEC_CHECK_FOLD:
+      os << "Check Fold";
+      break;
+    case DecisionType::DEC_CHECK:
+      os << "Check";
+      break;
+    case DecisionType::DEC_CALL:
+      os << "Call";
+      break;
+    case DecisionType::DEC_RAISE:
+      os << "Raise " << decision.ammount;
+      break;
+  }
+  return os;
+}
+
 // High level API to decide what to do each hand
 class PokerDeciderInterface {
  public:
   virtual ~PokerDeciderInterface() {}
 
-  virtual Decision Deicide(const GameModel& gameModel,
-                           const GameStatus& gameStatus) = 0;
+  virtual Decision Deicide(const WorkflowModel& workflow_model) = 0;
 };
 
 }  // namespace poker

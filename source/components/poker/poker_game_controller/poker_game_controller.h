@@ -25,8 +25,7 @@ class PokerGameController : public PokerGameControllerInterface {
       base::Callback<void(const GameModel&)> status_change_callback,
       base::Callback<void()> decision_callback,
       base::Callback<void(const image::Image&, const std::string& error_str)>
-          error_callback,
-      scoped_refptr<base::SingleThreadTaskRunner> callback_task_runner);
+          error_callback);
 
   ~PokerGameController() override = default;
 
@@ -57,7 +56,6 @@ class PokerGameController : public PokerGameControllerInterface {
   const base::Callback<void()> decision_callback_;
   const base::Callback<void(const image::Image&, const std::string& error_str)>
       error_callback_;
-  scoped_refptr<base::SingleThreadTaskRunner> callback_task_runner_;
 };
 
 }  // namespace poker

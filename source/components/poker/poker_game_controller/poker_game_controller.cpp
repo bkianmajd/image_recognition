@@ -25,18 +25,14 @@ PokerGameController::PokerGameController(
     base::Callback<void(const GameModel&)> status_change_callback,
     base::Callback<void()> decision_callback,
     base::Callback<void(const image::Image&, const std::string& error_str)>
-        error_callback,
-    scoped_refptr<base::SingleThreadTaskRunner> callback_task_runner)
+        error_callback)
     : last_game_model_(InitialGameModel()),
       game_model_(InitialGameModel()),
       landmark_finder_(kDefualtChairs),
       new_hand_callback_(new_hand_callback),
       status_change_callback_(status_change_callback),
       decision_callback_(decision_callback),
-      error_callback_(error_callback),
-      callback_task_runner_(callback_task_runner) {
-  assert(callback_task_runner != nullptr);
-}
+      error_callback_(error_callback) {}
 
 void PokerGameController::UpdateBigImage(
     const std::vector<char>& big_image_raw_data) {
@@ -45,9 +41,7 @@ void PokerGameController::UpdateBigImage(
   UpdateModel();
 
   if (!sanity_check_.Check(last_game_model_, &game_model_)) {
-    callback_task_runner_->PostTask(
-        FROM_HERE, base::Bind(error_callback_, big_image_raw_data,
-                              sanity_check_.ErrorStr()));
+    error_callback_.Run(big_image_raw_data, sanity_check_.ErrorStr());
   }
 
   // Post tasks based on inferring from the game model
@@ -76,20 +70,17 @@ void PokerGameController::UpdateModel() {
 
 void PokerGameController::CompareModelandNotify() {
   if (CheckForNewHand(last_game_model_, game_model_)) {
-    callback_task_runner_->PostTask(
-        FROM_HERE, base::Bind(new_hand_callback_, game_model_));
+    new_hand_callback_.Run(game_model_);
     return;
   }
 
   if (CheckModelDifferent()) {
-    callback_task_runner_->PostTask(
-        FROM_HERE, base::Bind(status_change_callback_, game_model_));
-
+    status_change_callback_.Run(game_model_);
     return;
   }
 
   if (landmark_finder_.FindDecisionEvent()) {
-    callback_task_runner_->PostTask(FROM_HERE, decision_callback_);
+    decision_callback_.Run();
     return;
   }
 }

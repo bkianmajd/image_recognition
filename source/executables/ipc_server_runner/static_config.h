@@ -1,3 +1,5 @@
+#include <chrono>
+
 namespace ipc_server {
 
 constexpr int kPort = 8080;

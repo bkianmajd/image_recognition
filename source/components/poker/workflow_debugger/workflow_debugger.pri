@@ -9,5 +9,4 @@ SOURCES += $${WORKSPACE}/components/poker/workflow_debugger/workflow_debugger.cp
 
 include($${WORKSPACE}/components/poker/entities/entities.pri)
 include($${WORKSPACE}/helpers/helpers.pri)
-include($${WORKSPACE}/helpers/helpers.pri)
 }

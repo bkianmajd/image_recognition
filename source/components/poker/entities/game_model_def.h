@@ -23,9 +23,10 @@ struct GameModel {
   std::array<Card, DEALER_MAX_SIZE> dealer_cards;
 };
 
+namespace model {
 inline int NumberOfActiveOponents(const GameModel& game_model) {
   int numOfOponents = 0;
-  for (int i = 0; i < PLAYERLOC_MAXSIZE; ++i) {
+  for (size_t i = 0; i < PLAYERLOC_MAXSIZE; ++i) {
     if (i == 0) {
       continue;
     }
@@ -37,6 +38,7 @@ inline int NumberOfActiveOponents(const GameModel& game_model) {
   return numOfOponents;
 }
 
+}  // namespace model
 }  // namespace poker
 
 #endif  // GAME_MODEL_DEF_H_

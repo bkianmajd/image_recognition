@@ -21,6 +21,9 @@ class WorkflowDebuggerMock : public WorkflowDebuggerInterface {
     (void)game_model;
   }
   void PrintDecision() override {}
+  void PrintStatusChange(const WorkflowModel& game_model) override {
+    (void)game_model;
+  }
 };
 
 }  // namespace poker

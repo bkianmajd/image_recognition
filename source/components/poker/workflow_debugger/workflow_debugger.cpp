@@ -14,11 +14,12 @@ const std::string kLogFile = "log_file.txt";
 
 }  // namespace
 
-WorkflowDebugger::WorkflowDebugger()
+WorkflowDebugger::WorkflowDebugger(DebugType debug_type)
     : status_change_counter_(0),
       error_identifier_(0),
       error_log_directory_(
-          helpers::CreateDirectoryFinderFromWorkspace(kSessionDirectory)) {
+          helpers::CreateDirectoryFinderFromWorkspace(kSessionDirectory)),
+      debug_type_(debug_type) {
   // Reset the text file, do not append
   ResetLogFile();
 }
@@ -69,6 +70,9 @@ void WorkflowDebugger::PrintNewHand(const GameModel& game_model) {
 }
 
 void WorkflowDebugger::PrintStatusChange(const GameModel& game_model) {
+  if (debug_type_ != PRINT_GAME_MODEL) {
+    return;
+  }
   status_change_counter_++;
   std::cout << "Game model update " << status_change_counter_++ << std::endl;
 
@@ -83,6 +87,29 @@ void WorkflowDebugger::PrintStatusChange(const GameModel& game_model) {
   // Print out player cards
   for (size_t i = PLAYERLOC_PLAYER_ZERO; i < PLAYERLOC_PLAYER_SIX; ++i) {
     std::cout << "P[" << i << "] " << game_model.player_hands[i];
+  }
+  std::cout << std::endl;
+}
+
+void WorkflowDebugger::PrintStatusChange(const WorkflowModel& model) {
+  if (debug_type_ != PRINT_WORKFLOW_MODEL) {
+    return;
+  }
+
+  std::cout << "Number of opponents/original opponents: "
+            << model.number_of_active_opponents << "/"
+            << model.number_of_original_opponents << std::endl;
+  PrintDealerCards(model.dealer_cards);
+  std::cout << "P: " << model.player_hand << std::endl;
+}
+
+void WorkflowDebugger::PrintDealerCards(
+    const std::array<Card, DEALER_MAX_SIZE>& dealer_cards) const {
+  // Print out the dealer cards
+  std::cout << "D: ";
+  for (size_t i = DEALER_ONE; i < DEALER_MAX_SIZE; ++i) {
+    std::cout << dealer_cards.at(i);
+    std::cout << " ";
   }
   std::cout << std::endl;
 }

@@ -72,6 +72,14 @@ class SessionThread {
 
   T* get() const { return session_.get(); }
 
+  template <typename Func, typename... Args>
+  void PostTask(Func f, Args&&... args) {
+    task_runner_->PostTask(
+        FROM_HERE,
+        base::Bind(std::forward<Func>(f), base::Unretained(session_.get()),
+                   std::forward<Args>(args)...));
+  }
+
  private:
   void Session() {
     base::MessageLoop message_loop;
