@@ -3,13 +3,13 @@
 
 #include <vector>
 
-#include "libraries/image_recognition/image_recognition_api.h"
 #include "components/poker/entities/card_def.h"
 #include "gtest/gtest_prod.h"
 #include "helpers/directory_finder.h"
-#include "libraries/screenshot_creator/screenshot_creator.h"
 #include "libraries/image_comparer/comparer.h"
 #include "libraries/image_pipeline/pipeline.h"
+#include "libraries/image_recognition/image_recognition_api.h"
+#include "libraries/screenshot_creator/screenshot_creator.h"
 
 namespace poker {
 class CardReaderTest;

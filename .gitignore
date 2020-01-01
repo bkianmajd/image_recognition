@@ -7,3 +7,4 @@ builds/*
 *.user.4.8-pre1
 *.autosave
 libchrome_output.a
+*/error_logs/*
