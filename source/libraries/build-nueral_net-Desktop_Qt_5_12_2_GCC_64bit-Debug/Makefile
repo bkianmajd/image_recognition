@@ -55,11 +55,19 @@ OBJECTS_DIR   = ./
 SOURCES       = ../../google_test/main.cpp \
 		../nueral_net/nueral_net_test.cpp \
 		../nueral_net/nueral_net.cpp \
-		../nueral_net/common/sigmoid.cpp 
+		../nueral_net/common/sigmoid.cpp \
+		../../helpers/directory_finder.cpp \
+		../../helpers/compare.cpp \
+		../../helpers/time_analyzer.cpp \
+		../../helpers/file_manager.cpp 
 OBJECTS       = main.o \
 		nueral_net_test.o \
 		nueral_net.o \
-		sigmoid.o
+		sigmoid.o \
+		directory_finder.o \
+		compare.o \
+		time_analyzer.o \
+		file_manager.o
 DIST          = /home/print/Qt/5.12.2/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/print/Qt/5.12.2/gcc_64/mkspecs/common/unix.conf \
 		/home/print/Qt/5.12.2/gcc_64/mkspecs/common/linux.conf \
@@ -217,6 +225,8 @@ DIST          = /home/print/Qt/5.12.2/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/print/Qt/5.12.2/gcc_64/mkspecs/features/default_pre.prf \
 		../../external_libraries/googletest_output/googletest_output.pri \
 		../../external_libraries/eigen_output/eigen_output.pri \
+		../nueral_net/defs/defs.pri \
+		../../helpers/helpers.pri \
 		../nueral_net/nueral_net.pri \
 		/home/print/Qt/5.12.2/gcc_64/mkspecs/features/resolve_config.prf \
 		/home/print/Qt/5.12.2/gcc_64/mkspecs/features/default_post.prf \
@@ -233,10 +243,22 @@ DIST          = /home/print/Qt/5.12.2/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/print/Qt/5.12.2/gcc_64/mkspecs/features/yacc.prf \
 		/home/print/Qt/5.12.2/gcc_64/mkspecs/features/lex.prf \
 		../nueral_net/nueral_net.pro ../nueral_net/nueral_net.h \
-		../nueral_net/common/sigmoid.h ../../google_test/main.cpp \
+		../nueral_net/common/sigmoid.h \
+		../nueral_net/common/theta_creator.h \
+		../nueral_net/common/layer.h \
+		../nueral_net/common/data_point_solver.h \
+		../nueral_net/defs/nueral_net_defs.h \
+		../../helpers/directory_finder.h \
+		../../helpers/compare.h \
+		../../helpers/time_analyzer.h \
+		../../helpers/file_manager.h ../../google_test/main.cpp \
 		../nueral_net/nueral_net_test.cpp \
 		../nueral_net/nueral_net.cpp \
-		../nueral_net/common/sigmoid.cpp
+		../nueral_net/common/sigmoid.cpp \
+		../../helpers/directory_finder.cpp \
+		../../helpers/compare.cpp \
+		../../helpers/time_analyzer.cpp \
+		../../helpers/file_manager.cpp
 QMAKE_TARGET  = nueral_net
 DESTDIR       = 
 TARGET        = nueral_net
@@ -405,6 +427,8 @@ Makefile: ../nueral_net/nueral_net.pro /home/print/Qt/5.12.2/gcc_64/mkspecs/linu
 		/home/print/Qt/5.12.2/gcc_64/mkspecs/features/default_pre.prf \
 		../../external_libraries/googletest_output/googletest_output.pri \
 		../../external_libraries/eigen_output/eigen_output.pri \
+		../nueral_net/defs/defs.pri \
+		../../helpers/helpers.pri \
 		../nueral_net/nueral_net.pri \
 		/home/print/Qt/5.12.2/gcc_64/mkspecs/features/resolve_config.prf \
 		/home/print/Qt/5.12.2/gcc_64/mkspecs/features/default_post.prf \
@@ -580,6 +604,8 @@ Makefile: ../nueral_net/nueral_net.pro /home/print/Qt/5.12.2/gcc_64/mkspecs/linu
 /home/print/Qt/5.12.2/gcc_64/mkspecs/features/default_pre.prf:
 ../../external_libraries/googletest_output/googletest_output.pri:
 ../../external_libraries/eigen_output/eigen_output.pri:
+../nueral_net/defs/defs.pri:
+../../helpers/helpers.pri:
 ../nueral_net/nueral_net.pri:
 /home/print/Qt/5.12.2/gcc_64/mkspecs/features/resolve_config.prf:
 /home/print/Qt/5.12.2/gcc_64/mkspecs/features/default_post.prf:
@@ -612,8 +638,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/print/Qt/5.12.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../nueral_net/nueral_net.h ../nueral_net/common/sigmoid.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../google_test/main.cpp ../nueral_net/nueral_net_test.cpp ../nueral_net/nueral_net.cpp ../nueral_net/common/sigmoid.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../nueral_net/nueral_net.h ../nueral_net/common/sigmoid.h ../nueral_net/common/theta_creator.h ../nueral_net/common/layer.h ../nueral_net/common/data_point_solver.h ../nueral_net/defs/nueral_net_defs.h ../../helpers/directory_finder.h ../../helpers/compare.h ../../helpers/time_analyzer.h ../../helpers/file_manager.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../google_test/main.cpp ../nueral_net/nueral_net_test.cpp ../nueral_net/nueral_net.cpp ../nueral_net/common/sigmoid.cpp ../../helpers/directory_finder.cpp ../../helpers/compare.cpp ../../helpers/time_analyzer.cpp ../../helpers/file_manager.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -738,6 +764,7 @@ main.o: ../../google_test/main.cpp /home/print/Qt/5.12.2/gcc_64/include/QtCore/Q
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../google_test/main.cpp
 
 nueral_net_test.o: ../nueral_net/nueral_net_test.cpp ../nueral_net/nueral_net.h \
+		../nueral_net/common/layer.h \
 		../nueral_net/common/sigmoid.h \
 		../../external_libraries/eigen_output/build/include/eigen3/Eigen/Dense \
 		../../external_libraries/eigen_output/build/include/eigen3/Eigen/Core \
@@ -971,6 +998,9 @@ nueral_net_test.o: ../nueral_net/nueral_net_test.cpp ../nueral_net/nueral_net.h 
 		../../external_libraries/eigen_output/build/include/eigen3/Eigen/src/Eigenvalues/RealSchur_LAPACKE.h \
 		../../external_libraries/eigen_output/build/include/eigen3/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h \
 		../../external_libraries/eigen_output/build/include/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h \
+		../nueral_net/common/theta_creator.h \
+		../nueral_net/defs/nueral_net_defs.h \
+		../nueral_net/common/data_point_solver.h \
 		../../external_libraries/googletest/include/gtest/gtest.h \
 		../../external_libraries/googletest/include/gtest/internal/gtest-internal.h \
 		../../external_libraries/googletest/include/gtest/internal/gtest-port.h \
@@ -992,10 +1022,65 @@ nueral_net_test.o: ../nueral_net/nueral_net_test.cpp ../nueral_net/nueral_net.h 
 		../../external_libraries/googletest/include/gtest/gtest_prod.h \
 		../../external_libraries/googletest/include/gtest/gtest-test-part.h \
 		../../external_libraries/googletest/include/gtest/gtest-typed-test.h \
-		../../external_libraries/googletest/include/gtest/gtest_pred_impl.h
+		../../external_libraries/googletest/include/gtest/gtest_pred_impl.h \
+		../../helpers/directory_finder.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/QCoreApplication \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qglobal.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qconfig.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qlogging.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qflags.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qatomic.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qmutex.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstring.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qchar.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstringview.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qobject.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qlist.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qiterator.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qpair.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qregexp.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qeventloop.h \
+		../../helpers/file_manager.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o nueral_net_test.o ../nueral_net/nueral_net_test.cpp
 
 nueral_net.o: ../nueral_net/nueral_net.cpp ../nueral_net/nueral_net.h \
+		../nueral_net/common/layer.h \
 		../nueral_net/common/sigmoid.h \
 		../../external_libraries/eigen_output/build/include/eigen3/Eigen/Dense \
 		../../external_libraries/eigen_output/build/include/eigen3/Eigen/Core \
@@ -1228,11 +1313,13 @@ nueral_net.o: ../nueral_net/nueral_net.cpp ../nueral_net/nueral_net.h \
 		../../external_libraries/eigen_output/build/include/eigen3/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h \
 		../../external_libraries/eigen_output/build/include/eigen3/Eigen/src/Eigenvalues/RealSchur_LAPACKE.h \
 		../../external_libraries/eigen_output/build/include/eigen3/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h \
-		../../external_libraries/eigen_output/build/include/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h
+		../../external_libraries/eigen_output/build/include/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h \
+		../nueral_net/common/theta_creator.h \
+		../nueral_net/defs/nueral_net_defs.h \
+		../nueral_net/common/data_point_solver.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o nueral_net.o ../nueral_net/nueral_net.cpp
 
-sigmoid.o: ../nueral_net/common/sigmoid.cpp ../nueral_net/nueral_net.h \
-		../nueral_net/common/sigmoid.h \
+sigmoid.o: ../nueral_net/common/sigmoid.cpp ../nueral_net/common/sigmoid.h \
 		../../external_libraries/eigen_output/build/include/eigen3/Eigen/Dense \
 		../../external_libraries/eigen_output/build/include/eigen3/Eigen/Core \
 		../../external_libraries/eigen_output/build/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h \
@@ -1466,6 +1553,148 @@ sigmoid.o: ../nueral_net/common/sigmoid.cpp ../nueral_net/nueral_net.h \
 		../../external_libraries/eigen_output/build/include/eigen3/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h \
 		../../external_libraries/eigen_output/build/include/eigen3/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sigmoid.o ../nueral_net/common/sigmoid.cpp
+
+directory_finder.o: ../../helpers/directory_finder.cpp ../../helpers/directory_finder.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/QCoreApplication \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qglobal.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qconfig.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qlogging.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qflags.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qatomic.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qmutex.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstring.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qchar.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstringview.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qobject.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qlist.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qiterator.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qpair.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qregexp.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qeventloop.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/QDirIterator \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qdiriterator.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qdir.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qfileinfo.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qfile.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qfiledevice.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qhash.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/QString
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o directory_finder.o ../../helpers/directory_finder.cpp
+
+compare.o: ../../helpers/compare.cpp ../../helpers/compare.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o compare.o ../../helpers/compare.cpp
+
+time_analyzer.o: ../../helpers/time_analyzer.cpp ../../helpers/time_analyzer.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o time_analyzer.o ../../helpers/time_analyzer.cpp
+
+file_manager.o: ../../helpers/file_manager.cpp ../../helpers/file_manager.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/QDebug \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qdebug.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qalgorithms.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qglobal.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qconfig.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qtcore-config.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qsysinfo.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qlogging.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qflags.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qatomic.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qmutex.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qnumeric.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qversiontagging.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qhash.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qchar.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qiterator.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qlist.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qrefcount.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qarraydata.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstring.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qbytearray.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qnamespace.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstringliteral.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstringview.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qpair.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstringlist.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qregexp.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qmap.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qtextstream.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qiodevice.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qobject.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qcoreevent.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qmetatype.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qobject_impl.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qlocale.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qvariant.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qshareddata.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qvector.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qpoint.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qset.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../helpers/directory_finder.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/QCoreApplication \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/print/Qt/5.12.2/gcc_64/include/QtCore/qeventloop.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o file_manager.o ../../helpers/file_manager.cpp
 
 ####### Install
 

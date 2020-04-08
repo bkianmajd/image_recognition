@@ -29,19 +29,19 @@ class Theta {
 };
 
 
-void RandomizeThetas(std::vector<Theta>* thetas) {
+inline void RandomizeThetas(std::vector<Theta>* thetas) {
   constexpr float range = 0.12f;
   for (size_t i = 0; i < thetas->size(); ++i) {
     Eigen::MatrixX<float>& matrix = thetas->at(i).GetMutable();
-    for (int row = 0; matrix.rows(); ++row) {
-      for (int col = 0; matrix.cols(); ++col) {
+    for (int row = 0; row < matrix.rows(); ++row) {
+      for (int col = 0; col < matrix.cols(); ++col) {
         matrix(row, col) = RandomFloat(-range, range);
       }
     }
   }
 }
 
-std::vector<Theta> CreateThetas(const NueralNetDef& nueral_net_def) {
+inline std::vector<Theta> CreateThetas(const NueralNetDef& nueral_net_def) {
   std::vector<Theta> thetas;
   // Solve for the theta to get you to the next hidden layer row size
   // i.e. Theta * X = Hidden Layer

@@ -14,4 +14,5 @@ SOURCES += $${WORKSPACE}/libraries/nueral_net/common/sigmoid.cpp
 
 include($${WORKSPACE}/libraries/nueral_net/defs/defs.pri)
 include($${WORKSPACE}/external_libraries/eigen_output/eigen_output.pri)
+include($${WORKSPACE}/helpers/helpers.pri)
 }

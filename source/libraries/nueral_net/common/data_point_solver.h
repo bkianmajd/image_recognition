@@ -16,14 +16,14 @@ namespace ml {
 using ThetaGradient = Eigen::MatrixX<float>;
 
 struct SingleDataPointResult {
-  float cost_without_regularization;
+  float cost_without_regularization = 0;
   std::vector<ThetaGradient> gradients_without_regularization;
 };
 
 class DataPointSolver {
  public:
-  DataPointSolver(Layer input_layer, const std::vector<Theta>& thetas,
-                  Layer output_layer)
+  DataPointSolver(const Layer& input_layer, const std::vector<Theta>& thetas,
+                  const Layer& output_layer)
       : num_layers_(thetas.size() + 1),
         input_layer_(input_layer),
         thetas_(thetas),
@@ -59,7 +59,7 @@ class DataPointSolver {
           (-1.0f * output_layer_.At(i) * logf(estimated_output_layer.At(i))) -
           ((1.0f - output_layer_.At(i)) *
            logf(1.0f - estimated_output_layer.At(i)));
-      assert(cost > 0);
+      assert(cost >= 0);
       total_cost += cost;
     }
     return total_cost;

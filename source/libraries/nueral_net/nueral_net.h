@@ -5,12 +5,14 @@
 #include <iostream>
 #include <vector>
 
+#include "libraries/nueral_net/common/layer.h"
 #include "libraries/nueral_net/common/sigmoid.h"
 #include "libraries/nueral_net/common/theta_creator.h"
-#include "libraries/nueral_net/common/layer.h"
 
 // Put this in the cpp file of layer
+#include <gtest/gtest_prod.h>
 #include "eigen3/Eigen/Dense"
+#include "libraries/nueral_net/common/data_point_solver.h"
 
 namespace ml {
 
@@ -31,30 +33,151 @@ class NueralNetTrainer {
       : nueral_net_def_(nueral_net_def) {
     assert(nueral_net_def_.hidden_layers.size() > 0);
     thetas_ = CreateThetas(nueral_net_def);
+
+    // TODO: Assert the EnumType max value is equal to the (output size - 1)
   }
 
   void AddDataSet(const InputLayer& input_layer, EnumType classifier) {
     assert(input_layer.size() == nueral_net_def_.input_size);
-    input_layers_.push_back(input_layer);
-    output_layers_.push_back(classifier);
+    // Convert input layer to a Layer
+    input_layers_.emplace_back(input_layer);
+
+    // Convert the clasifier to a layer
+    output_layers_.push_back(Convert(classifier));
   }
 
   NueralNetResult Train() {
-    NueralNetResult result;
-    result.nueralNetDef = nueral_net_def_;
+    NueralNetResult nueral_net_result;
+    nueral_net_result.nueralNetDef = nueral_net_def_;
 
-    // Sum the regularization term to the average cost without
-    // regularization to get the final result
-    float regularized_cost = CalculateCostRegularizationTerm() +
-                             CalculateAverageCostWithoutRegularization();
+    int m_data_points = input_layers_.size();
+    if (m_data_points == 0) {
+      return nueral_net_result;
+    }
 
-    // Get the gradient
-    std::vector<Gradient> CalculateGradient();
+    std::pair<Cost, Gradient> cost_and_gradient = SolveCostFunction();
 
-    return NueralNetResult();
+    std::cout << "Cost: " << cost_and_gradient.first << std::endl;
+
+    // Solve for the new theta using gradient desent..expect the cost to reduce
+    // Gradient desent: New = Old - Gradient*Old
+    // Rasterize solve this with a tripple for loop
+    float slope = 0;
+    for (size_t layerIndex = 0; layerIndex < thetas_.size(); ++layerIndex) {
+      const ThetaGradient& thetaGraidnet = cost_and_gradient.second[layerIndex];
+      for (int i = 0; i < thetaGraidnet.rows(); ++i)
+        for (int j = 0; j < thetaGraidnet.cols(); ++j) {
+          slope = thetaGraidnet(i, j) * thetaGraidnet(i, j);
+        }
+    }
+    // Now find the step - initial step is 1  / (1 - slope)
+    slope = -1 * slope;
+    float step = 1.0f / (1.0f - slope);
+
+    // Solve for the next theta:
+    // New theta = old_theta - step * gradient
+    for (size_t layerIndex = 0; layerIndex < thetas_.size(); ++layerIndex) {
+      Theta& theta = thetas_[layerIndex];
+      const ThetaGradient& thetaGraidnet = cost_and_gradient.second[layerIndex];
+      theta.GetMutable() = theta.Get() - step * thetaGraidnet;
+    }
+
+    return nueral_net_result;
   }
 
  private:
+  FRIEND_TEST(NueralNetTest, TestNueralNet);
+  using Cost = float;
+  using Gradient = std::vector<ThetaGradient>;
+
+  // Converts the classifier to an output layer of all zeros, but one 1
+  Layer Convert(EnumType classifier) const {
+    std::vector<float> output_layer(nueral_net_def_.output_size, 0.0);
+
+    // Convert the clasifier to an integer. It is assumed clasifiers always
+    // start at 0, and are contigious
+    size_t index = static_cast<size_t>(classifier);
+    assert(index < nueral_net_def_.output_size);
+
+    output_layer[index] = 1.0;
+    return Layer{output_layer};
+  }
+
+  std::pair<Cost, Gradient> SolveCostFunction() const {
+    // Solve for the nueral net result - zero the data
+    SingleDataPointResult aggregate_result;
+    DataPointSolver solver(input_layers_[0], thetas_, output_layers_[0]);
+    aggregate_result = solver.Solve();
+
+    int m_data_points = input_layers_.size();
+    for (int i = 1; i < m_data_points; ++i) {
+      DataPointSolver solver(input_layers_[i], thetas_, output_layers_[i]);
+      SingleDataPointResult result = solver.Solve();
+      // sum the total costs without the regularization term
+      aggregate_result.cost_without_regularization =
+          aggregate_result.cost_without_regularization +
+          result.cost_without_regularization;
+
+      // sum the total gradients, which are vectors of matricies
+      for (size_t g_index = 0;
+           g_index < aggregate_result.gradients_without_regularization.size();
+           ++g_index) {
+        aggregate_result.gradients_without_regularization[g_index] =
+            aggregate_result.gradients_without_regularization[g_index] +
+            result.gradients_without_regularization[g_index];
+      }
+    }
+
+    // divide the sum/aggregate over the total size (m_data_points) but not
+    // for the gradient yet
+    aggregate_result.cost_without_regularization =
+        aggregate_result.cost_without_regularization / m_data_points;
+
+    // Add the reguliarization term - these results now have regularization
+    aggregate_result.cost_without_regularization =
+        aggregate_result.cost_without_regularization +
+        CalculateCostRegularizationTerm();
+
+    // The gradient regularization term is term is updated by passing a
+    // pointer to the variable without reguarlizatoin
+    UpdateGradientWithRegularization(
+        &aggregate_result.gradients_without_regularization);
+
+    // Divide the total gradients by m to take the average
+    for (size_t g_index = 0;
+         g_index < aggregate_result.gradients_without_regularization.size();
+         ++g_index) {
+      aggregate_result.gradients_without_regularization[g_index] =
+          aggregate_result.gradients_without_regularization[g_index] /
+          m_data_points;
+    }
+
+    return std::pair<Cost, Gradient>{
+        aggregate_result.cost_without_regularization,
+        aggregate_result.gradients_without_regularization};
+  }
+
+  //
+  void UpdateGradientWithRegularization(
+      std::vector<ThetaGradient>* gradients) const {
+    int m_data_set_size = input_layers_.size();
+    const float lambda_regularization_coefficient = 1;
+
+    // Each gradient should be the same size as theta
+    // Multiply lambda to theta and add that to the gradient
+    for (size_t g_index = 0; g_index < gradients->size(); ++g_index) {
+      for (int i = 0; i < gradients->at(g_index).rows(); ++i) {
+        // Skip the first column (j starts at 1)
+        for (int j = 1; j < gradients->at(g_index).cols(); ++j) {
+          auto gradient_term =
+              lambda_regularization_coefficient * thetas_[g_index].Get()(i, j);
+          gradients->at(g_index)(i, j) =
+              gradient_term + gradients->at(g_index)(i, j);
+        }
+      }
+    }
+  }
+
   float CalculateCostRegularizationTerm() const {
     // Now find the cost with regularization of theta values
     constexpr float lambda_regularization_coefficient = 1;
@@ -62,64 +185,23 @@ class NueralNetTrainer {
     // associated with the bias
     constexpr int skip_col = 0;
 
+    // We are summing each individual value of theta except for the bias
     int m_data_set_size = input_layers_.size();
     float total_theta_cost = 0;
-    for (int i = 0; i < thetas_.size(); ++i) {
+    for (size_t i = 0; i < thetas_.size(); ++i) {
       const Eigen::MatrixX<float>& matrix = thetas_.at(i).Get();
       for (int row = 0; row < matrix.rows(); ++row) {
         for (int col = 0; col < matrix.cols(); ++col) {
           if (col == skip_col) {
             continue;
           }
-          total_theta_cost += matrix(row, col);
+          total_theta_cost += matrix(row, col) * matrix(row, col);
         }
       }
     }
     float theta_regulate = lambda_regularization_coefficient *
                            total_theta_cost / (2 * m_data_set_size);
     return theta_regulate;
-  }
-
-  float CalculateAverageCostWithoutRegularization() const {
-    int m_data_set_size = input_layers_.size();
-    float total_cost = 0;
-    for (int i = 0; i < m_data_set_size; ++i) {
-      // Forward propogate to calculated the output layer
-      Layer& inputLayer = input_layers_[i];
-      Layer estimated_output_layer = ForwardPropogation(inputLayer);
-
-      // Apply clasification to get the actual output layer
-      EnumType outputClasifier = output_layers_[i];
-      Layer actual_output_layer =
-          GetActualOutputLayerFromClasifier(outputClasifier);
-
-      // Now calculate the cost between the estimated output vs the actual
-      // output layer
-      total_cost += CalculateCostForSingleDataSet(actual_output_layer,
-                                                  estimated_output_layer);
-    }
-
-    // Average the total cost
-    float average_cost_without_regularization = total_cost / m_data_set_size;
-    return average_cost_without_regularization;
-  }
-
-  float CalculateCostForSingleDataSet(
-      const Layer& actual_output_layer,
-      const Layer& estimated_output_layer) const {
-    assert(actual_output_layer.Size() == estimated_output_layer.Size());
-    assert(actual_output_layer.Size() == nueral_net_def_.output_size);
-
-    float total_cost = 0;
-    for (int i = 0; i < nueral_net_def_.output_size; ++i) {
-      float cost = (-1 * actual_output_layer.At(i) *
-                    log10f(estimated_output_layer.At(i))) -
-                   ((1.0f - actual_output_layer.At(i)) *
-                    log10f(1.0f - estimated_output_layer.At(i)));
-      assert(cost > 0);
-      total_cost += cost;
-    }
-    return total_cost;
   }
 
   // Here we assume the EnumType starts at zero.
@@ -134,54 +216,10 @@ class NueralNetTrainer {
     return Layer(output_layer);
   }
 
-  Layer ForwardPropogation(const Layer& inputLayer) const {
-    if (input_layers_.empty()) {
-      std::cerr << "Should technically never be called" << std::endl;
-      return Layer();
-    }
-
-    Layer layer = inputLayer.ForwardPropogate(thetas_[0]);
-    layer.ApplySigmoid();
-
-    // Proceed to find the rest of the layers
-    for (size_t i = 1; i < nueral_net_def_.hidden_layers.size(); ++i) {
-      layer = layer.ForwardPropogate(thetas_[i]);
-
-      // Use the sigmoid to calculate the new activation function
-      layer = layer.ApplySigmoid();
-    }
-
-    return layer;
-  }
-
-  // The zeroth index is the input layer
-  std::vector<Gradient> CalculateGradient(
-      const std::vector<Layer>& layers_without_sigmoid,
-      const std::vector<Layer>& layers_with_sigmoid) const {
-    // Create the gradients
-    std::vector<Gradient> gradients;
-    gradients.resize(thetas_.size());
-
-    if (gradients.size() == 0) {
-      return gradients;
-    }
-
-    // Calculate the cost
-    Eigen::VectorX<float> last_cost;
-
-    // Run backward propogation
-    for (int i = gradients.size() - 1; i >= 0; --i) {
-      // Calculate the gradient, ends at 0 which is the gradient of the input layer
-      gradients[i].Solve(last_cost, layers_without_sigmoid[i].GetWithBias());
-
-      last_cost = thetas_[i] * last_cost*SigmoidGradient(layers_without_sigmoid)
-    }
-  }
-
   const NueralNetDef nueral_net_def_;
 
-  std::vector<InputLayer> input_layers_;
-  std::vector<EnumType> output_layers_;
+  std::vector<Layer> input_layers_;
+  std::vector<Layer> output_layers_;
   std::vector<Theta> thetas_;
 };
 
